@@ -3,36 +3,25 @@
 //
 #include <iostream>
 #include "table.h"
+#include <ctime>
 
 int main() {
+
     Table table = Table();
 
-    table.insert(11);
-    table.insert(12);
-    table.insert(8723);
-    table.insert(34);
-    table.insert(54);
-    table.insert(4176);
-    table.insert(43122);
-    table.insert(343);
-    table.insert(4457);
-    table.insert(875);
-    table.insert(31454);
-    table.insert(476);
-    table.insert(122);
-    table.insert(43);
-    table.insert(4757);
-    table.insert(475);
+    clock_t begin = clock();
 
-    table.print();
-
-    /*table.remove(1);
-
-    for (int i : table) {
-        std::cout << i << std:endl;
+    for (int i = 0; i < 10000000; i++) {
+        table.Insert(i);
     }
 
-    std::cout << "Contains 2? - " << table.contains(2) << std::endl;
-*/
+    clock_t end = clock();
+    double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
+
+
+
+    std::cout << "Contains 43? - " << table.Contains(53) << std::endl;
+    std::cout << "Elapsed: " << elapsed_secs << std::endl;
+
     return 0;
 }
