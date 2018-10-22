@@ -9,17 +9,22 @@
 
 class Table {
 private:
-    std::array<std::array<int, 4>, 8> table;
-    std::array<int, 8> index;
+    static const int ROWS{1000};
+    static const int COLS{1000};
+    std::array<std::array<int, COLS>, ROWS> table_;
 
 public:
-    void insert(int element);
+    void Insert(int element);
 
-    bool remove(int element);
+    bool Remove(int element);
 
-    bool contains(int element);
+    bool Contains(int element);
 
-    void print();
+    void Print();
+
+    int getRowHash(int element);
+
+    int getColHash(int element);
 };
 
 #endif //CUCKOO_TABLE_H
