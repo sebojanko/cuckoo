@@ -11,7 +11,7 @@ class Table {
 private:
     static const int ROWS{1000};
     static const int COLS{1000};
-    std::array<std::array<int, COLS>, ROWS> table_;
+    int table_[ROWS][COLS]{};
 
 public:
     void Insert(int element);
