@@ -5,6 +5,14 @@
 #include "table.h"
 #include <ctime>
 
+
+//TODO: samo jedan hash po itemu --> Sebo
+//TODO: pogledati ASP hash tablicu --> Sebo
+//TODO: istraziti fingerprintanje --> Sebo
+//TODO: klasa hash i random izbori --> David
+//TODO: klasa prima enum i vrati hash --> David
+//TODO: cuckoo klasa --> Luka
+//TODO: research data, FASTA --> Luka
 int main() {
 
     Table table = Table();
@@ -20,7 +28,7 @@ int main() {
 
 
 
-    std::cout << "Contains 43? - " << table.Contains(53) << std::endl;
+    std::cout << "Contains 43? - " << table.Contains(43) << std::endl;
     std::cout << "Elapsed: " << elapsed_secs << std::endl;
 
     return 0;
