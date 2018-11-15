@@ -8,11 +8,11 @@ class FastADocument {
     public:
         FastADocument(std::string filename);
         ~FastADocument();
-        std::string getNextSequence();
-        std::string getFileName() { return filename; }
+        std::string GetNextSequence();
+        std::string GetFileName() { return filename_; }
     private:
-        std::string filename;
-        std::ifstream *input;
+        std::string filename_;
+        std::ifstream *input_;
 };
 
 #endif // FASTADOCUMENT_H

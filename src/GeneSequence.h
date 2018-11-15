@@ -7,10 +7,10 @@ class GeneSequence {
     public:
         GeneSequence();
         ~GeneSequence();
-        void appendSequence(std::string sequence);
+        void AppendSequence(std::string sequence);
 
     private:
-        std::string sequence;
+        std::string sequence_;
 };
 
 #endif // GENESEQUENCE_H

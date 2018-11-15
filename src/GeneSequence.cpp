@@ -1,5 +1,5 @@
 #include "GeneSequence.h"
 
-void GeneSequence::appendSequence(std::string s) {
-    sequence += s;
+void GeneSequence::AppendSequence(std::string s) {
+    sequence_ += s;
 }

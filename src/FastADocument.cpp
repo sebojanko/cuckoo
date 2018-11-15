@@ -1,24 +1,24 @@
 #include "FastADocument.h"
 
-FastADocument::FastADocument(std::string filename) : filename(filename) {
-    input = new std::ifstream();
-    input->open(filename);
+FastADocument::FastADocument(std::string filename) : filename_(filename) {
+    input_ = new std::ifstream();
+    input_->open(filename);
 }
 
 FastADocument::~FastADocument() {
-    input->close();
-    delete input;
+    input_->close();
+    delete input_;
 }
 
-std::string FastADocument::getNextSequence() {
-    if (input->is_open()) {
+std::string FastADocument::GetNextSequence() {
+    if (input_->is_open()) {
         char c;
         std::string line;
-        while ((c = input->peek()) != EOF) {
+        while ((c = input_->peek()) != EOF) {
             if (c == '>') {
-                getline(*input, line);
+                getline(*input_, line);
             }
-            getline(*input, line);
+            getline(*input_, line);
         }
     }
 
