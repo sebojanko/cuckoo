@@ -4,6 +4,7 @@
 #include <iostream>
 #include "table.h"
 #include "Bucket.h"
+#include "FastADocument.h"
 #include <ctime>
 
 
@@ -28,14 +29,16 @@ int main() {
     clock_t end = clock();
     double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
 
-
     Bucket buck("bokic");
     buck.Push("kaksi");
+    FastADocument file("/home/mark/workspace/gits/cuckoo/ecoli.fa");
 
     buck.print(); 
 
     //std::cout << "Contains 43? - " << table.Contains(43) << std::endl;
     //std::cout << "Elapsed: " << elapsed_secs << std::endl;
 
+    //std::cout << file.GetFileName() << std::endl;
+    //std::cout << file.GetNextSequence() << std::endl;
     return 0;
 }
