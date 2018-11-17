@@ -3,6 +3,7 @@
 //
 #include <iostream>
 #include "table.h"
+#include "Bucket.h"
 #include <ctime>
 
 
@@ -20,6 +21,7 @@ int main() {
     clock_t begin = clock();
 
     for (int i = 0; i < 10000000; i++) {
+        break;
         table.Insert(i);
     }
 
@@ -27,9 +29,13 @@ int main() {
     double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
 
 
+    Bucket buck("bokic");
+    buck.Push("kaksi");
 
-    std::cout << "Contains 43? - " << table.Contains(43) << std::endl;
-    std::cout << "Elapsed: " << elapsed_secs << std::endl;
+    buck.print(); 
+
+    //std::cout << "Contains 43? - " << table.Contains(43) << std::endl;
+    //std::cout << "Elapsed: " << elapsed_secs << std::endl;
 
     return 0;
 }
