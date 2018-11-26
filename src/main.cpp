@@ -5,6 +5,7 @@
 #include "table.h"
 #include "Bucket.h"
 #include "FastADocument.h"
+#include "hash.h"
 #include <ctime>
 
 
@@ -31,12 +32,30 @@ int main() {
 
     Bucket buck("bokic");
     buck.Push("kaksi");
-    FastADocument file("/home/mark/workspace/gits/cuckoo/ecoli.fa");
+    //FastADocument file("/home/sebo/Documents/MojiProjekti/Cpp/cuckoo/ecoli.fa");
+    //std::cout << file.GetNextSequence() << std::endl;
 
-    buck.print(); 
+    buck.print();
+    // demo
+    Hasher hasher(8);
 
-    //std::cout << "Contains 43? - " << table.Contains(43) << std::endl;
-    //std::cout << "Elapsed: " << elapsed_secs << std::endl;
+    std::string s1("abc"), s2("abd");
+
+    // lol
+    std::cout << std::setw(22) << s1
+              << std::setw(22) << s2
+              << std::endl;
+    std::cout << std::setw(22) << hasher(s1)
+              << std::setw(22) << hasher(s2)
+              << std::endl;
+    std::cout << std::setw(22) << hasher.hash(s1)
+              << std::setw(22) << hasher.hash(s2)
+              << std::endl;
+    std::cout << std::setw(22) << hasher.fingerprint(s1)
+              << std::setw(22) << hasher.fingerprint(s2)
+              << std::endl;
+
+
 
     //std::cout << file.GetFileName() << std::endl;
     //std::cout << file.GetNextSequence() << std::endl;

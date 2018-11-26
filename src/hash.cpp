@@ -35,25 +35,3 @@ std::size_t Hasher::fingerprint(int item) {
 }
 
 
-int main() {
-    // demo
-    Hasher hasher(8);
-
-    std::string s1("abc"), s2("abd");
-
-    // lol
-    std::cout << std::setw(22) << s1 
-              << std::setw(22) << s2 
-              << std::endl;
-    std::cout << std::setw(22) << hasher(s1) 
-              << std::setw(22) << hasher(s2) 
-              << std::endl;
-    std::cout << std::setw(22) << hasher.hash(s1) 
-              << std::setw(22) << hasher.hash(s2) 
-              << std::endl;
-    std::cout << std::setw(22) << hasher.fingerprint(s1) 
-              << std::setw(22) << hasher.fingerprint(s2) 
-              << std::endl;
-}
-
-

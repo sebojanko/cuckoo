@@ -1,12 +1,13 @@
-//
-// Created by sebo on 11/24/18.
-//
+#define CATCH_CONFIG_MAIN  // This tells Catch to provide a main() - only do this in one cpp file
+#include "catch.hpp"
 
-#define BOOST_TEST_MODULE Simple testcases
-#include <boost/test/unit_test.hpp>
-
-BOOST_AUTO_TEST_CASE(simple_test) {
-    BOOST_CHECK_EQUAL(2+2, 4);
+unsigned int Factorial( unsigned int number ) {
+    return number <= 1 ? number : Factorial(number-1)*number;
 }
 
-//https://www.jetbrains.com/help/clion/boost-test-support.html
+TEST_CASE( "Factorials are computed", "[factorial]" ) {
+REQUIRE( Factorial(1) == 1 );
+REQUIRE( Factorial(2) == 2 );
+REQUIRE( Factorial(3) == 6 );
+REQUIRE( Factorial(10) == 3628800 );
+}
