@@ -1,11 +1,21 @@
 #include "Bucket.h"
 
+
+Bucket::Bucket() {
+    entries_ = (Entry*) malloc(sizeof(Entry));
+    entries_->value = "";
+    entries_->next  = NULL;
+    
+}
+
+
 Bucket::Bucket(std::string value) {
     entries_ = (Entry*) malloc(sizeof(Entry));
     entries_->value = value;
     entries_->next  = NULL;
     ++size_;
 }
+
 
 Bucket::~Bucket() {
     Entry* prev = entries_;

@@ -11,6 +11,7 @@ class Bucket {
             struct Entry* next;
         };
 
+        Bucket();
         Bucket(std::string);
         ~Bucket();
         Bucket* Push(std::string);
