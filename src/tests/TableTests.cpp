@@ -1,23 +1,27 @@
 #include <iostream>
 #include <assert.h>
-#include "../table.h"
+#include "../Table.h"
+#include "../Hash.h"
 
 void test_Table__InsertedOneElement__FindsOneElement() {
-    Table t = Table();
+    Hasher hasher(8);
+    Table t = Table(&hasher);
     t.Insert(1);
     assert(t.Contains(1));
     std::cout << "PASS test_Table__InsertedOneElement__FindsOneElement" << std::endl;
 }
 
 void test_Table__InsertedOneElement__SearchForAnother() {
-    Table t = Table();
+    Hasher hasher(8);
+    Table t = Table(&hasher);
     t.Insert(1);
     assert(!t.Contains(2));
     std::cout << "PASS test_Table__InsertedOneElement__SearchForAnother" << std::endl;
 }
 
 void test_Table__InsertedTwoElements__FindsBoth() {
-    Table t = Table();
+    Hasher hasher(8);
+    Table t = Table(&hasher);
     t.Insert(1);
     t.Insert(2);
     assert(t.Contains(1));
@@ -26,7 +30,8 @@ void test_Table__InsertedTwoElements__FindsBoth() {
 }
 
 void test_Table__InsertedOneElement__DeletesOneElement() {
-    Table t = Table();
+    Hasher hasher(8);
+    Table t = Table(&hasher);
     t.Insert(1);
     assert(t.Remove(1));
     assert(!t.Contains(1));
@@ -34,7 +39,8 @@ void test_Table__InsertedOneElement__DeletesOneElement() {
 }
 
 void test_Table__InsertedOneElement__UnsuccessfulDeletionOfNonExistingElement() {
-    Table t = Table();
+    Hasher hasher(8);
+    Table t = Table(&hasher);
     t.Insert(1);
     assert(!t.Remove(2));
     assert(t.Contains(1));
@@ -42,7 +48,8 @@ void test_Table__InsertedOneElement__UnsuccessfulDeletionOfNonExistingElement() 
 }
 
 void test_Table__InsertedTwoElements__DeletesBoth() {
-    Table t = Table();
+    Hasher hasher(8);
+    Table t = Table(&hasher);
     t.Insert(1);
     t.Insert(2);
     assert(t.Remove(1));

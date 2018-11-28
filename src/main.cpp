@@ -2,23 +2,21 @@
 // Created by sebo on 10/22/18.
 //
 #include <iostream>
-#include "table.h"
+#include "Table.h"
 #include "Bucket.h"
 #include "FastADocument.h"
-#include "hash.h"
+#include "Hash.h"
 #include <ctime>
 
 
-//TODO: samo jedan hash po itemu --> Sebo
-//TODO: pogledati ASP hash tablicu --> Sebo
-//TODO: istraziti fingerprintanje --> Sebo
 //TODO: klasa hash i random izbori --> David
 //TODO: klasa prima enum i vrati hash --> David
 //TODO: cuckoo klasa --> Luka
 //TODO: research data, FASTA --> Luka
 int main() {
 
-    Table table = Table();
+    Hasher hasher(8);
+    Table table = Table(&hasher);
 
     clock_t begin = clock();
 
@@ -37,7 +35,6 @@ int main() {
 
     buck.print();
     // demo
-    Hasher hasher(8);
 
     std::string s1("abc"), s2("abd");
 

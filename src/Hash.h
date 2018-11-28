@@ -8,7 +8,7 @@
 
 class Hasher {
 private:
-    int bits_per_item;
+    int bits_per_item_;
 
 public:
     Hasher(int bits_per_item);

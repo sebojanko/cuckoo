@@ -16,6 +16,13 @@ Bucket::Bucket(std::string value) {
     ++size_;
 }
 
+Bucket::Bucket(int value) {
+    entries_ = (Entry*) malloc(sizeof(Entry));
+    entries_->value = value;
+    entries_->next  = NULL;
+    ++size_;
+}
+
 
 Bucket::~Bucket() {
     Entry* prev = entries_;

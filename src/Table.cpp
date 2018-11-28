@@ -3,7 +3,12 @@
 //
 
 #include <iostream>
-#include "table.h"
+#include "Table.h"
+
+Table::Table(Hasher *hasher) {
+    hasher_ = hasher;
+    table_ = {};
+}
 
 void Table::Insert(int element) {
     int colHash = getColHash(element);
@@ -27,7 +32,7 @@ bool Table::Remove(int element) {
         return true;
     }
     return false;
-};
+}
 
 void Table::Print() {
     for (int i = 0; i < ROWS; i++) {
@@ -38,12 +43,6 @@ void Table::Print() {
     }
 };
 
-int Table::getRowHash(int element) {
-    int hash = static_cast<int>(std::hash<float>{}(element) / 100000000000000000);
-    return hash;
-}
-
-int Table::getColHash(int element) {
-    int hash = static_cast<int>(std::hash<float>{}(element) / 100000000000000000);
-    return hash;
+int Table::getHash(int element) {
+    return hasher_->hash(element);
 }
