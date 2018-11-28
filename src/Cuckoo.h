@@ -14,11 +14,11 @@ private:
 public:
     Cuckoo();
 
-    void Insert(int element);
+    void Insert(std::string element);
 
-    bool Remove(int element);
+    bool Remove(std::string element);
 
-    bool Contains(int element);
+    bool Contains(std::string element);
 
     void Print();
 

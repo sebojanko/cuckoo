@@ -10,15 +10,15 @@ Cuckoo::Cuckoo() {
 	table_ = Table(&hasher);
 }
 
-void Cuckoo::Insert(int element) {
+void Cuckoo::Insert(std::string element) {
 	table_.Insert(element);
 }
 
-bool Cuckoo::Remove(int element) {
+bool Cuckoo::Remove(std::string element) {
 	return table_.Remove(element);
 }
 
-bool Cuckoo::Contains(int element) {
+bool Cuckoo::Contains(std::string element) {
 	return table_.Contains(element);
 }
 
