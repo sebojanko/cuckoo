@@ -50,7 +50,7 @@ bool Bucket::Remove(std::string s) {
 }
 
 std::string Bucket::Get(int index) {
-    if (index < 0 || index > 10) {
+    if (index < 0 || index > size_) {
         return "";
     }
     return entries_[index];
