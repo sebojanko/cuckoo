@@ -18,27 +18,33 @@ int main() {
     Hasher hasher(8);
     Table table = Table(&hasher);
 
-    clock_t begin = clock();
+    //clock_t begin = clock();
 
-    for (int i = 0; i < 10000000; i++) {
-        break;
-        table.Insert(i);
+    for (int i = 0; i < 10; i++) {
+        table.Insert(std::to_string(i));
     }
 
-    clock_t end = clock();
-    double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
+    //clock_t end = clock();
+    //double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
 
-    Bucket buck("bokic");
-    buck.Push("kaksi");
     //FastADocument file("/home/sebo/Documents/MojiProjekti/Cpp/cuckoo/ecoli.fa");
     //std::cout << file.GetNextSequence() << std::endl;
 
-    buck.print();
     // demo
 
-    std::string s1("abc"), s2("abd");
+    std::cout << "The table: \n";
+    //table.Print();
+    if (table.Contains(std::to_string(1))) {
+        std::cout << "I contain 1" << std::endl;
+    }
+    if (table.Contains("50000")) {
+        std::cout << "I contain 50000" << std::endl;
+    }
+
+    //std::string s1("abc"), s2("abd");
 
     // lol
+    /*
     std::cout << std::setw(22) << s1
               << std::setw(22) << s2
               << std::endl;
@@ -52,6 +58,7 @@ int main() {
               << std::setw(22) << hasher.fingerprint(s2)
               << std::endl;
 
+    */
 
 
     //std::cout << file.GetFileName() << std::endl;

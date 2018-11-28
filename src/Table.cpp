@@ -10,39 +10,39 @@ Table::Table(Hasher *hasher) {
     table_ = {};
 }
 
-void Table::Insert(int element) {
-    int colHash = getColHash(element);
-    int rowHash = getRowHash(element);
-    table_[rowHash][colHash] = element;
+void Table::Insert(std::string element) {
+    size_t h = getHash(element);
+    if (table_.find(h) != table_.end()) {
+        table_[h].Push(element);
+    } else {
+        table_[h] = Bucket();
+        table_[h].Push(element);
+    }
 }
 
-bool Table::Contains(int element) {
-    int colHash = getColHash(element);
-    int rowHash = getRowHash(element);
-
-    return table_[rowHash][colHash] == element;
+bool Table::Contains(std::string element) {
+    size_t h = getHash(element);
+    if (table_.find(h) != table_.end()) {
+        return table_[h].Contains(element);
+    }
+    return false;
 }
 
-bool Table::Remove(int element) {
-    if (Contains(element)) {
-        int colHash = getColHash(element);
-        int rowHash = getRowHash(element);
-
-        table_[rowHash][colHash] = 0;
-        return true;
+bool Table::Remove(std::string element) {
+    size_t h = getHash(element);
+    if (table_.find(h) != table_.end()) {
+        return table_[h].Remove(element);
     }
     return false;
 }
 
 void Table::Print() {
-    for (int i = 0; i < ROWS; i++) {
-        for (int j = 0; j < COLS; j++) {
-            std::cout << table_[i][j] << "\t";
-        }
+    for (auto v : table_) {
+        v.second.print();
         std::cout << std::endl;
     }
 };
 
-int Table::getHash(int element) {
+int Table::getHash(std::string element) {
     return hasher_->hash(element);
 }

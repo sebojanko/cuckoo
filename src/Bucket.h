@@ -6,22 +6,20 @@
 
 class Bucket {
     public:
-        struct Entry {
-            std::string value;
-            struct Entry* next;
-        };
-
         Bucket();
         Bucket(std::string);
         ~Bucket();
-        Bucket* Push(std::string);
-        Entry* Get(int);
+        bool Push(std::string);
+        bool Push(int);
+        bool Remove(std::string);
+        bool Contains(std::string);
+        std::string Get(int);
         int GetSize() { return size_; };
         void print();
 
     private:
         int size_ = 0;
-        Entry* entries_;
+        std::string entries_[10] = {""};
 
 };
 #endif

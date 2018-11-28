@@ -1,62 +1,62 @@
 #include "Bucket.h"
 
-
 Bucket::Bucket() {
-    entries_ = (Entry*) malloc(sizeof(Entry));
-    entries_->value = "";
-    entries_->next  = NULL;
-    
 }
 
 
 Bucket::Bucket(std::string value) {
-    entries_ = (Entry*) malloc(sizeof(Entry));
-    entries_->value = value;
-    entries_->next  = NULL;
+    entries_[0] = value;
     ++size_;
 }
-
-Bucket::Bucket(int value) {
-    entries_ = (Entry*) malloc(sizeof(Entry));
-    entries_->value = value;
-    entries_->next  = NULL;
-    ++size_;
-}
-
 
 Bucket::~Bucket() {
-    Entry* prev = entries_;
-    Entry* curr = entries_;
-    do {
-        curr = curr->next;
-        delete prev;
-        prev = curr;
-    } while(curr);
+
 }
 
+bool Bucket::Push(std::string value) {
+    if (size_ == 10) {
+        std::cout << "Bucket full!";
+        return false;
+    }
 
-Bucket* Bucket::Push(std::string value) {
-    Entry* new_entry = (Entry*) malloc(sizeof(Entry));
-    new_entry->value = value;
-    new_entry->next  = entries_;
-
-    entries_ = new_entry;
-    ++size_;
-    return this;
+    for (int i=0; i < 10; ++i) {
+        if (!entries_[i].compare("")) {
+            entries_[i] = value;
+            ++size_;
+            return true;
+        }
+    }
+    return false;
 }
 
-Bucket::Entry* Bucket::Get(int index) {
-    Entry* curr = entries_;
-    for (int i=0; curr && i < index; curr=curr->next, i++);
-    return curr;
+bool Bucket::Contains(std::string s) {
+    for (int i = 0; i < 10; ++i) {
+        if (!entries_[i].compare(s)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Bucket::Remove(std::string s) {
+    for (int i = 0; i < 10; ++i) {
+        if (!entries_[i].compare(s)) {
+            entries_[i] = "";
+            --size_;
+            return true;
+        }
+    }
+    return false;
+}
+
+std::string Bucket::Get(int index) {
+    return entries_[index];
 }
 
 //for debugging purposes
 void Bucket::print() {
-    Entry* curr = entries_;
-    while (curr) {
-        std::cout << curr->value << " ";
-        curr = curr->next;
+    for (auto v : entries_) {
+        std::cout << v << " ";
     }
     std::cout << std::endl;
 }
