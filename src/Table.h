@@ -15,10 +15,10 @@ private:
     Hasher *hasher_;
     // TODO trebat ce ipak ovdje ubaciti 2D polje izgleda
     //std::map<std::string, Bucket*> table_;
-    std::map<int, Bucket*> table_;
-    //static const int ROWS{1000};
-    //static const int COLS{1000};
-    //int table_[ROWS][COLS]{};
+    //std::map<int, Bucket*> table_;
+    static const int ROWS{1000};
+    static const int COLS{1000};
+    int table_[ROWS][COLS]{};
     int getHash(int element);
 
 public:

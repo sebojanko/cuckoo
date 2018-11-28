@@ -7,26 +7,26 @@
 
 Table::Table(Hasher *hasher) {
     hasher_ = hasher;
-    table_ = {};
+    //table_ = {};
 }
 
 void Table::Insert(int element) {
-    int colHash = getColHash(element);
-    int rowHash = getRowHash(element);
+    int colHash = 0;
+    int rowHash = 0;
     table_[rowHash][colHash] = element;
 }
 
 bool Table::Contains(int element) {
-    int colHash = getColHash(element);
-    int rowHash = getRowHash(element);
+    int colHash = 0;
+    int rowHash = 0;
 
     return table_[rowHash][colHash] == element;
 }
 
 bool Table::Remove(int element) {
     if (Contains(element)) {
-        int colHash = getColHash(element);
-        int rowHash = getRowHash(element);
+        int colHash = 0;
+        int rowHash = 0;
 
         table_[rowHash][colHash] = 0;
         return true;
