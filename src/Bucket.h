@@ -16,6 +16,7 @@ class Bucket {
         std::string Get(int);
         int GetSize() { return size_; };
         void print();
+        std::string operator[](int i) const;
 
     private:
         int size_ = 0;

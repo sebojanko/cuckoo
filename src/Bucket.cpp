@@ -56,6 +56,10 @@ std::string Bucket::Get(int index) {
     return entries_[index];
 }
 
+std::string Bucket::operator[](int i) const {
+    return entries_[i];
+}
+
 //for debugging purposes
 void Bucket::print() {
     for (auto v : entries_) {
