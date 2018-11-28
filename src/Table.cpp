@@ -7,9 +7,10 @@
 
 Table::Table(Hasher *hasher) {
     hasher_ = hasher;
-    table_ = {};
+    //table_ = {};
 }
 
+<<<<<<< HEAD
 void Table::Insert(std::string element) {
     size_t h = getHash(element);
     if (table_.find(h) != table_.end()) {
