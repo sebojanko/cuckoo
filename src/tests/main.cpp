@@ -17,5 +17,11 @@ int main() {
 	test_Bucket__InsertedTwoElements__FailsToRetrieveThird();
 	test_Bucket__InsertedTwoElements__FailsToRetrieveMinusFirst();
 
+    test_Bucket__InsertedOneElement__RetrievesFirstWithOverloadedOperator();
+    test_Bucket__InsertedFiveElements__RetrievesLastWithOverloadedOperator();
+    test_Bucket__InsertedFiveElements__RetrievesThirdWithOverloadedOperator();
+    test_Bucket__InsertedTwoElements__FailsToRetrieveThirdWithOverloadedOperator();
+    test_Bucket__InsertedTwoElements__FailsToRetrieveMinusFirstWithOverloadedOperator();
+
     return 0;
 }
