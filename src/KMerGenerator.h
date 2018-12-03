@@ -14,7 +14,7 @@ private:
 
 public:
     std::string GenerateRandomKMer(int length);
-    std::string ExtractRandomKMer(int length);
+    std::string ExtractRandomKMer(std::string filename, int length);
 
 
 };

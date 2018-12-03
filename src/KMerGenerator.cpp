@@ -1,6 +1,7 @@
 #include <iostream>
 #include <random>
 #include "KMerGenerator.h"
+#include "FastADocument.h"
 
 
 
@@ -14,11 +15,16 @@ std::string KMerGenerator::GenerateRandomKMer(int length) {
         out += BASES[dist(mt)];
     }
 
-    std::cout << out << std::endl;
     return out;
-
 }
 
-std::string KMerGenerator::ExtractRandomKMer(int length) {
-	return "";
+std::string KMerGenerator::ExtractRandomKMer(std::string filename, int length) {	
+	FastADocument fad(filename);
+	std::string sequence = fad.GetNextSequence();
+	std::random_device rd;
+    std::mt19937 mt(rd());
+    std::uniform_int_distribution<int> dist(0, sequence.length()-length);
+	
+	return sequence.substr(dist(mt), length);
+
 }
