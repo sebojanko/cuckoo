@@ -1,7 +1,7 @@
 #include <iostream>
 #include <random>
 #include "KMerGenerator.h"
-#include "FastADocument.h"
+#include "../FastADocument.h"
 
 
 

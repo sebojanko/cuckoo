@@ -1,6 +1,6 @@
 #include <iostream>
 #include <assert.h>
-#include "../KMerGenerator.h"
+#include "../KMerGenerator/KMerGenerator.h"
 
 std::string filename = "/home/sebo/Documents/MojiProjekti/Cpp/cuckoo/ecoli.fa";
 
