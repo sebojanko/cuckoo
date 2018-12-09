@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <openssl/md5.h>
+#include <openssl/sha.h>
 
 
 Hasher::Hasher(int bits_per_item) {
@@ -20,6 +21,12 @@ std::size_t Hasher::hash(std::string item) {
         unsigned char md[MD5_DIGEST_LENGTH];
         unsigned char *charData= (unsigned char*) item.c_str();
         MD5(charData, item.length(), (unsigned char*)&md);
+        return stringToUint32(md);
+    }
+    if (this->hash_function_ == Hash::SHA1) {
+        unsigned char md[SHA_DIGEST_LENGTH];
+        unsigned char *charData= (unsigned char*) item.c_str();
+        SHA1(charData, item.length(), (unsigned char*)&md);
         return stringToUint32(md);
     }
     return std::hash<std::string>{}(item);
@@ -68,7 +75,6 @@ uint64_t stringToUint64(unsigned char *data) {
 }
 
 
-/*
 int main() {
 
     std::string item("abc");
@@ -76,11 +82,13 @@ int main() {
     int hashLen;
     //md = MD5Hash(item, &hashLen);
     unsigned char *charData= (unsigned char*) item.c_str();
-    MD5(charData, item.length(), (unsigned char*)&md);
-    for(int i = 0; i < MD5_DIGEST_LENGTH; i++) {
+    SHA1(charData, item.length(), (unsigned char*)&md);
+    for(int i = 0; i < SHA_DIGEST_LENGTH; i++) {
         printf("%02x",md[i]);
     } printf("\n");
 
+    Hasher hasher(8, Hash::SHA1);
+    std::cout << hasher.hash("abc") << std::endl;
+
     return 0;
 }
-*/
