@@ -9,11 +9,29 @@
 #include <ctime>
 
 
-//TODO: klasa hash i random izbori --> David
-//TODO: klasa prima enum i vrati hash --> David
-//TODO: cuckoo klasa --> Luka
-//TODO: research data, FASTA --> Luka
-int main() {
+std::string getInputFilenameArg(int argc, const char* argv[]) {
+  if (argc < 2) {
+        std::cout << "Missing input FASTA file argument." << std::endl;
+        exit(-1);
+    }
+  return argv[1];
+}
+
+std::string getTestKMerDataFilenameArg(int argc, const char* argv[]) {
+  if (argc != 3) {
+        std::cout << "Missing test KMer file argument." << std::endl;
+        exit(-1);
+    }
+  return argv[2];
+}
+
+
+int main(int argc, const char* argv[]) {
+    std::string inputFASTAFilename{getInputFilenameArg(argc, argv)};
+    std::string testKMerDataFilename{getTestKMerDataFilenameArg(argc, argv)};
+
+    std::cout << inputFASTAFilename << std::endl;
+    std::cout << testKMerDataFilename << std::endl;
 
     Hasher hasher(8);
     Table table = Table(&hasher);
@@ -27,7 +45,7 @@ int main() {
     //clock_t end = clock();
     //double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
 
-    //FastADocument file("/home/sebo/Documents/MojiProjekti/Cpp/cuckoo/ecoli.fa");
+    FastADocument file(inputFASTAFilename);
     //std::cout << file.GetNextSequence() << std::endl;
 
     // demo
