@@ -31,8 +31,8 @@ int main(int argc, const char* argv[]) {
         return -1;
     }
     
-    auto len = atoi(argv[1]);
-    auto noOfKMersToWrite = atoi(argv[2]);
+    int len = atoi(argv[1]);
+    int noOfKMersToWrite = atoi(argv[2]);
     std::string outFilename = argv[3];
     std::string typeOfGeneration = argv[4];
 
