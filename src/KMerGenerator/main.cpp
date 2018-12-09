@@ -21,19 +21,22 @@ void writeToFile(std::string data, std::string filename) {
  *  - "gen" if we want to generate random kmers, "ext" to extract from file
  *  - filename of file to extract kmers from,
  *      needed only if the previous argument is "ext"
- *
  */
 
-// TODO add check if arg exists
 
 int main(int argc, const char* argv[]) {
-    KMerGenerator kmg = KMerGenerator();
+    if (argc != 5) {
+        std::cout << "Arguments missing!" << std::endl;
+        std::cout << "Usage: ./kmergen <len> <iterations> <outputFile> <type> [inputFile]\n<type> is 'gen' or 'ext'\n";
+        return -1;
+    }
     
     auto len = atoi(argv[1]);
     auto noOfKMersToWrite = atoi(argv[2]);
     std::string outFilename = argv[3];
     std::string typeOfGeneration = argv[4];
 
+    KMerGenerator kmg = KMerGenerator();
     std::string output = "";
 
     if (typeOfGeneration == "gen") {
