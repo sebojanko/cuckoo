@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <openssl/evp.h>
+#include <openssl/md5.h>
 
 
 Hasher::Hasher(int bits_per_item) {
@@ -19,7 +20,9 @@ std::size_t Hasher::hash(std::string item) {
     if (this->hash_function_ == Hash::MD5) {
         unsigned char *md;
         int hashLen;
-        md = MD5Hash(item, &hashLen);
+        //md = MD5Hash(item, &hashLen);
+        unsigned char *charData= (unsigned char*) item.c_str();
+        MD5(charData, item.length(), (unsigned char*)&md);
         return stringToUint32(md);
     }
     return std::hash<std::string>{}(item);
@@ -51,6 +54,7 @@ std::size_t Hasher::fingerprint(int item) {
     return fp;
 }
 
+/*
 unsigned char *MD5Hash(unsigned char *data, size_t dataLen, int *hashLen) {
     unsigned char *md = NULL;
     EVP_MD_CTX *ctx = NULL;
@@ -88,6 +92,7 @@ std::string MD5Hash(std::string data) {
     int hashLen;
     return std::string((char*)MD5Hash(data, &hashLen));
 }
+*/
 
 uint32_t stringToUint32(unsigned char *data) {
     uint32_t fingerprint = 0;
