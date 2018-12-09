@@ -35,8 +35,6 @@ public:
 };
 
 
-unsigned char *MD5Hash(std::string, int *hashLen);
-//unsigned char *MD5Hash(unsigned char *data, size_t dataLen);
 uint32_t stringToUint32(unsigned char *data);
 uint64_t stringToUint64(unsigned char *data);
 
