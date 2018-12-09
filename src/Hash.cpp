@@ -16,7 +16,7 @@ Hasher::Hasher(int bits_per_item, Hash hash_function) {
     this->hash_function_ = hash_function;
 }
 
-std::size_t Hasher::hash(std::string item) {
+std::uint32_t Hasher::hash(std::string item) {
     if (this->hash_function_ == Hash::MD5) {
         unsigned char md[MD5_DIGEST_LENGTH];
         unsigned char *charData= (unsigned char*) item.c_str();
@@ -32,26 +32,11 @@ std::size_t Hasher::hash(std::string item) {
     return std::hash<std::string>{}(item);
 }
 
-std::size_t Hasher::hash(int item) {
-    return std::hash<int>{}(item);
-}
-
-std::size_t Hasher::operator()(std::string item) {
+std::uint32_t Hasher::operator()(std::string item) {
     return std::hash<std::string>{}(item);
 }
 
-std::size_t Hasher::operator()(int item) {
-    return std::hash<int>{}(item);
-}
-
-std::size_t Hasher::fingerprint(std::string item) {
-    uint32_t fp = hash(item);
-    fp = fp & ((1ULL << bits_per_item_) - 1);
-    fp += (fp == 0);
-    return fp;
-}
-
-std::size_t Hasher::fingerprint(int item) {
+std::uint16_t Hasher::fingerprint(std::string item) {
     uint32_t fp = hash(item);
     fp = fp & ((1ULL << bits_per_item_) - 1);
     fp += (fp == 0);
@@ -72,23 +57,4 @@ uint64_t stringToUint64(unsigned char *data) {
         fingerprint |= (unsigned char) data[i] << (56 - i * 8);
     }
     return fingerprint;
-}
-
-
-int main() {
-
-    std::string item("abc");
-    unsigned char md[MD5_DIGEST_LENGTH];
-    int hashLen;
-    //md = MD5Hash(item, &hashLen);
-    unsigned char *charData= (unsigned char*) item.c_str();
-    SHA1(charData, item.length(), (unsigned char*)&md);
-    for(int i = 0; i < SHA_DIGEST_LENGTH; i++) {
-        printf("%02x",md[i]);
-    } printf("\n");
-
-    Hasher hasher(8, Hash::SHA1);
-    std::cout << hasher.hash("abc") << std::endl;
-
-    return 0;
 }
