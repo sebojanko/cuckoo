@@ -75,7 +75,6 @@ uint64_t stringToUint64(unsigned char *data) {
 }
 
 
-/*
 int main() {
 
     std::string item("abc");
@@ -93,4 +92,3 @@ int main() {
 
     return 0;
 }
-*/
