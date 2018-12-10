@@ -1,5 +1,6 @@
 #include "TableTests.cpp"
 #include "BucketTests.cpp"
+#include "KMerGeneratorTests.cpp"
 
 int main() {
     test_Table__InsertedOneElement__FindsOneElement();
@@ -22,6 +23,17 @@ int main() {
     test_Bucket__InsertedFiveElements__RetrievesThirdWithOverloadedOperator();
     test_Bucket__InsertedTwoElements__FailsToRetrieveThirdWithOverloadedOperator();
     test_Bucket__InsertedTwoElements__FailsToRetrieveMinusFirstWithOverloadedOperator();
+
+    
+    test_KMerGenerator__GenerateRandom10Mer__ReturnsStringOfLength10();
+    test_KMerGenerator__GenerateRandom1Mer__ReturnsStringOfLength1();
+    test_KMerGenerator__GenerateRandom100Mer__ReturnsStringOfLength100();
+    test_KMerGenerator__GenerateRandom500Mer__ReturnsStringOfLength500();
+
+    test_KMerGenerator__ExtractRandomKMer__ReturnsStringOfLength10();
+    test_KMerGenerator__ExtractRandomKMer__ReturnsStringOfLength1();
+    test_KMerGenerator__ExtractRandomKMer__ReturnsStringOfLength100();
+    test_KMerGenerator__ExtractRandomKMer__ReturnsStringOfLength500();
 
     return 0;
 }
