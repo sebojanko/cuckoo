@@ -20,23 +20,16 @@ public:
     Hasher(int bits_per_item);
     Hasher(int bits_per_item, Hash hash_function);
 
-    std::size_t hash(std::string item);
-    std::size_t hash(int item);
+    uint32_t hash(std::string item);
 
     // same as hash
-    std::size_t operator()(std::string item);
-    std::size_t operator()(int item);
+    uint32_t operator()(std::string item);
 
-    size_t fingerprint(std::string item);
-    size_t fingerprint(int item);
+    uint16_t fingerprint(std::string item);
 
-//    static uint32_t MurmurHash2(const void * key, int len, unsigned int seed);
-//    static uint32_t MurmurHash2(std::string &key, unsigned int seed);
 };
 
 
-unsigned char *MD5Hash(std::string, int *hashLen);
-//unsigned char *MD5Hash(unsigned char *data, size_t dataLen);
 uint32_t stringToUint32(unsigned char *data);
 uint64_t stringToUint64(unsigned char *data);
 
