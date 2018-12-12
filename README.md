@@ -6,6 +6,12 @@ Implementation of the cuckoo filter
 
 Run `make` in the root folder then run `cuckoo`
 
-### Running tests
+### Running unit tests
 
 Run `make test` in the root folder then run `test`
+
+
+### Running performance analysis
+
+Run `make gen` to compile the KMer Generator.
+Use the Generator to create input files of either random k-mers or k-mers extracted from a file.
