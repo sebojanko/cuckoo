@@ -26,5 +26,4 @@ std::string KMerGenerator::ExtractRandomKMer(std::string filename, int length) {
     std::uniform_int_distribution<int> dist(0, sequence.length()-length);
 	
 	return sequence.substr(dist(mt), length);
-
 }

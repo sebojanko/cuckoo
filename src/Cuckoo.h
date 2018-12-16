@@ -16,6 +16,8 @@ public:
 
     void Insert(std::string element);
 
+    void Insert(int element);
+
     bool Remove(std::string element);
 
     bool Contains(std::string element);

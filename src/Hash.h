@@ -21,6 +21,7 @@ public:
     Hasher(int bits_per_item, Hash hash_function);
 
     uint32_t hash(std::string item);
+    uint32_t hash(int item);
 
     // same as hash
     uint32_t operator()(std::string item);

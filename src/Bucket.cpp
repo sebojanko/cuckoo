@@ -29,6 +29,20 @@ bool Bucket::Push(std::string value) {
     return false;
 }
 
+bool Bucket::Push(int value) {
+    if (size_ == 10) {
+        std::cout << "Bucket full!";
+        return false;
+    }
+
+    for (int i=0; i < 10; ++i) {
+        entries_[i] = value;
+        ++size_;
+        return true;
+    }
+    return false;
+}
+
 bool Bucket::Contains(std::string s) {
     for (int i = 0; i < 10; ++i) {
         if (!entries_[i].compare(s)) {

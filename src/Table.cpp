@@ -20,6 +20,16 @@ void Table::Insert(std::string element) {
     }
 }
 
+void Table::Insert(int element) {
+    size_t h = getHash(element);
+    if (table_.find(h) != table_.end()) {
+        table_[h].Push(element);
+    } else {
+        table_[h] = Bucket();
+        table_[h].Push(element);
+    }
+}
+
 bool Table::Contains(std::string element) {
     size_t h = getHash(element);
     if (table_.find(h) != table_.end()) {
@@ -44,5 +54,9 @@ void Table::Print() {
 };
 
 int Table::getHash(std::string element) {
+    return hasher_->hash(element);
+}
+
+int Table::getHash(int element) {
     return hasher_->hash(element);
 }

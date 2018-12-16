@@ -21,10 +21,14 @@ private:
     //int table_[ROWS][COLS]{};
     int getHash(std::string element);
 
+    int getHash(int element);
+
 public:
     Table(Hasher *hasher);
 
     void Insert(std::string element);
+
+    void Insert(int element);
 
     bool Remove(std::string element);
 

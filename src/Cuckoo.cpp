@@ -14,6 +14,10 @@ void Cuckoo::Insert(std::string element) {
 	table_.Insert(element);
 }
 
+void Cuckoo::Insert(int element) {
+	table_.Insert(element);
+}
+
 bool Cuckoo::Remove(std::string element) {
 	return table_.Remove(element);
 }

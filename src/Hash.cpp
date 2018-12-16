@@ -16,6 +16,11 @@ Hasher::Hasher(int bits_per_item, Hash hash_function) {
     this->hash_function_ = hash_function;
 }
 
+std::uint32_t Hasher::hash(int item) {
+    // TODO dodat ostale hasheve
+    return std::hash<int>{}(item);
+    
+}
 std::uint32_t Hasher::hash(std::string item) {
     if (this->hash_function_ == Hash::MD5) {
         unsigned char md[MD5_DIGEST_LENGTH];
