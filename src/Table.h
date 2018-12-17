@@ -23,6 +23,7 @@ private:
     int bucket_size;
     int getHash(std::string element);
     int getFingerprint(std::string element);
+    int getFingerprint(size_t element);
 
     int getHash(int element);
 
@@ -36,6 +37,8 @@ public:
     bool Remove(std::string element);
 
     bool Contains(std::string element);
+
+    bool Contains(int element);
 
     void Print();
 

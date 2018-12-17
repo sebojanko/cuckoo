@@ -23,40 +23,27 @@ void Table::Insert(std::string element) {
     int iter = 0;
     int h = getHash(element);
     while (iter++ < 500) {
-        if (table_[h].size() < 8) {
-            table_[getHash(element)].push_front(getFingerprint(element));
-            return;
-        } else {
-            //magic
-        }
+        table_[getHash(element)].push_front(getFingerprint(h));
+        return;
     }
 }
 
 void Table::Insert(int element) {
-    size_t h = getHash(element);
-    if (table_.find(h) != table_.end()) {
-        table_[h].Push(element);
-    } else {
-        table_[h] = Bucket();
-        table_[h].Push(element);
-    }
+   // TODO
 }
 
 bool Table::Contains(std::string element) {
     size_t h = getHash(element);
-    return std::find(table_[h].begin(), table_[h].end(), getFingerprint(element)) != table_[h].end();
+    return std::find(table_[h].begin(), table_[h].end(), getFingerprint(h)) != table_[h].end();
 }
+
 bool Table::Contains(int element) {
-    size_t h = getHash(element);
-    if (table_.find(h) != table_.end()) {
-        return table_[h].Contains(element);
-    }
-    return false;
+    // TODO
 }
 
 bool Table::Remove(std::string element) {
     size_t h = getHash(element);
-    table_[h].erase(std::find(table_[h].begin(), table_[h].end(), getFingerprint(element)));
+    table_[h].erase(std::find(table_[h].begin(), table_[h].end(), getFingerprint(h)));
     // trebam vidjeti kaj vraca
     return true;
 }
@@ -69,6 +56,9 @@ void Table::Print() {
 };
 
 int Table::getFingerprint(std::string element) {
+    return hasher_->fingerprint(element);
+}
+int Table::getFingerprint(size_t element) {
     return hasher_->fingerprint(element);
 }
 int Table::getHash(std::string element) {

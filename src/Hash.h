@@ -27,6 +27,7 @@ public:
     uint32_t operator()(std::string item);
 
     uint16_t fingerprint(std::string item);
+    uint16_t fingerprint(size_t item);
 
 };
 

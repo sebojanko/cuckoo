@@ -62,6 +62,12 @@ std::uint16_t Hasher::fingerprint(std::string item) {
     return fp;
 }
 
+std::uint16_t Hasher::fingerprint(size_t hash) {
+    hash = hash & ((1ULL << bits_per_item_) - 1);
+    hash += (hash == 0);
+    return hash;
+}
+
 uint32_t stringToUint32(unsigned char *data) {
     uint32_t fingerprint = 0;
     for (int i = 0; i < 4; i++) {
