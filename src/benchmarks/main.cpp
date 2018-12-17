@@ -20,10 +20,16 @@ std::string getKMerDataFilenameArg(int argc, const char* argv[]) {
 }
 
 void insertElems(Cuckoo *c, int no_of_elems) {
+    std::vector<std::string> elems_list{};
+
+    for (int i = 0; i < NO_OF_ELEMS_TO_INSERT; ++i)
+    {
+        elems_list.push_back(std::to_string(i));
+    }
     std::cout << "Inserting " << no_of_elems << " elems" << std::endl;
     clock_t begin = clock();
     for (int i = 0; i < no_of_elems; i++) {
-        c->Insert(std::to_string(i));
+        c->Insert(elems_list.at(i));
     }
     clock_t end = clock();
     double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
@@ -31,12 +37,18 @@ void insertElems(Cuckoo *c, int no_of_elems) {
 }
 
 void checkExistingElems(Cuckoo *c, int no_of_elems) {
+    std::vector<std::string> elems_list{};
+
+    for (int i = 0; i < NO_OF_ELEMS_TO_INSERT; ++i)
+    {
+        elems_list.push_back(std::to_string(i));
+    }
     std::cout << "Checking " << no_of_elems << " inserted elements:" << std::endl;
     int found{};
     int not_found{};
     clock_t begin = clock();
     for (int i = 0; i < no_of_elems; i++) {
-        if (c->Contains(std::to_string(i))) {
+        if (c->Contains(elems_list.at(i))) {
             found++;
         } else {
             not_found++;
@@ -47,17 +59,24 @@ void checkExistingElems(Cuckoo *c, int no_of_elems) {
     double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
     std::cout << "Time to check existing " << no_of_elems << " elems: " << elapsed_secs << std::endl;
     std::cout << "Found - " << found << std::endl;
-    std::cout << "Not found - " << not_found << std::endl << std::endl;
+    std::cout << "Not found - " << not_found << std::endl;
+    std::cout << "Found percentage - " << float(not_found)/found*100 << "%" << std::endl << std::endl;
 }
 
 void checkNonExistingElems(Cuckoo *c, int no_of_elems) {
+    std::vector<std::string> elems_list{};
     int start = 1'000'000;
+
+    for (int i = start; i < NO_OF_ELEMS_TO_INSERT+start; ++i)
+    {
+        elems_list.push_back(std::to_string(i));
+    }
     std::cout << "Checking " << no_of_elems << " not inserted elements:" << std::endl;
     int found{};
     int not_found{};
     clock_t begin = clock();
     for (int i = start; i < start + no_of_elems; i++) {
-        if (c->Contains(std::to_string(i))) {
+        if (c->Contains(elems_list.at(i-start))) {
             found++;
         } else {
             not_found++;
@@ -69,6 +88,7 @@ void checkNonExistingElems(Cuckoo *c, int no_of_elems) {
     std::cout << "Time to check non existing " << no_of_elems << " elems: " << elapsed_secs << std::endl;
     std::cout << "Found - " << found << std::endl;
     std::cout << "Not found - " << not_found << std::endl;
+    std::cout << "False positives percentage - " << float(found)/not_found*100. << "%" << std::endl;
 }
 
 int main(int argc, const char* argv[]) {
