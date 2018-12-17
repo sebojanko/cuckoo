@@ -16,16 +16,35 @@ Hasher::Hasher(int bits_per_item, Hash hash_function) {
     this->hash_function_ = hash_function;
 }
 
+std::uint32_t Hasher::hash(int item) {
+    std::string item_str = std::to_string(item);
+    if (this->hash_function_ == Hash::MD5) {
+        unsigned char md[MD5_DIGEST_LENGTH];
+        unsigned char *charData= (unsigned char*) item_str.c_str();
+        MD5(charData, item_str.length(), (unsigned char*)&md);
+        return stringToUint32(md);
+    }
+    if (this->hash_function_ == Hash::SHA1) {
+        unsigned char md[SHA_DIGEST_LENGTH];
+        unsigned char *charData= (unsigned char*) item_str.c_str();
+        SHA1(charData, item_str.length(), (unsigned char*)&md);
+        return stringToUint32(md);
+    }
+    // TODO dodat ostale hasheve
+    return std::hash<int>{}(item);
+    
+}
+
 std::uint32_t Hasher::hash(std::string item) {
     if (this->hash_function_ == Hash::MD5) {
         unsigned char md[MD5_DIGEST_LENGTH];
-        unsigned char *charData= (unsigned char*) item.c_str();
+        unsigned char *charData = (unsigned char*) item.c_str();
         MD5(charData, item.length(), (unsigned char*)&md);
         return stringToUint32(md);
     }
     if (this->hash_function_ == Hash::SHA1) {
         unsigned char md[SHA_DIGEST_LENGTH];
-        unsigned char *charData= (unsigned char*) item.c_str();
+        unsigned char *charData = (unsigned char*) item.c_str();
         SHA1(charData, item.length(), (unsigned char*)&md);
         return stringToUint32(md);
     }

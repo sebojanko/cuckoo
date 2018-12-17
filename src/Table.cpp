@@ -32,9 +32,26 @@ void Table::Insert(std::string element) {
     }
 }
 
+void Table::Insert(int element) {
+    size_t h = getHash(element);
+    if (table_.find(h) != table_.end()) {
+        table_[h].Push(element);
+    } else {
+        table_[h] = Bucket();
+        table_[h].Push(element);
+    }
+}
+
 bool Table::Contains(std::string element) {
     size_t h = getHash(element);
     return std::find(table_[h].begin(), table_[h].end(), getFingerprint(element)) != table_[h].end();
+}
+bool Table::Contains(int element) {
+    size_t h = getHash(element);
+    if (table_.find(h) != table_.end()) {
+        return table_[h].Contains(element);
+    }
+    return false;
 }
 
 bool Table::Remove(std::string element) {
@@ -55,5 +72,9 @@ int Table::getFingerprint(std::string element) {
     return hasher_->fingerprint(element);
 }
 int Table::getHash(std::string element) {
+    return hasher_->hash(element);
+}
+
+int Table::getHash(int element) {
     return hasher_->hash(element);
 }

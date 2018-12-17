@@ -13,6 +13,7 @@ class Bucket {
         bool Push(int);
         bool Remove(std::string);
         bool Contains(std::string);
+        bool Contains(int);
         std::string Get(int);
         int GetSize() { return size_; };
         void print();

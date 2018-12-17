@@ -13,12 +13,17 @@ private:
 
 public:
     Cuckoo();
+    Cuckoo(Hash h);
 
     void Insert(std::string element);
+
+    void Insert(int element);
 
     bool Remove(std::string element);
 
     bool Contains(std::string element);
+    
+    bool Contains(int element);
 
     void Print();
 
