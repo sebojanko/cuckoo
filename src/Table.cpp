@@ -45,10 +45,10 @@ bool Table::Remove(std::string element) {
 }
 
 void Table::Print() {
-    for (auto [k, v] : table_) {
+    /*for (auto [k, v] : table_) {
         print(v);
         std::cout << std::endl;
-    }
+    }*/
 };
 
 int Table::getFingerprint(std::string element) {
