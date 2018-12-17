@@ -13,6 +13,7 @@ private:
 
 public:
     Cuckoo();
+    Cuckoo(Hash h);
 
     void Insert(std::string element);
 

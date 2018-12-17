@@ -10,6 +10,11 @@ Cuckoo::Cuckoo() {
 	table_ = Table(&hasher);
 }
 
+Cuckoo::Cuckoo(Hash h) {
+	Hasher hasher(8, h);
+	table_ = Table(&hasher);
+}
+
 void Cuckoo::Insert(std::string element) {
 	table_.Insert(element);
 }
