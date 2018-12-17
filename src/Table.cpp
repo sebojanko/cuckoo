@@ -39,14 +39,14 @@ bool Table::Contains(std::string element) {
 
 bool Table::Remove(std::string element) {
     size_t h = getHash(element);
-    table_[h].erase(std::find(table_[h].begin(), table_[h].end(), element));
+    table_[h].erase(std::find(table_[h].begin(), table_[h].end(), getFingerprint(element)));
     // trebam vidjeti kaj vraca
     return true;
 }
 
 void Table::Print() {
-    for (auto [k, v] : table_) {
-        print(v);
+    for (auto val : table_) {
+        print(val.second);
         std::cout << std::endl;
     }
 };
