@@ -26,6 +26,10 @@ bool Cuckoo::Contains(std::string element) {
 	return table_.Contains(element);
 }
 
+bool Cuckoo::Contains(int element) {
+	return table_.Contains(element);
+}
+
 void Cuckoo::Print() {
 	table_.Print();
 }

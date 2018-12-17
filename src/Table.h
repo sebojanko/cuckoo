@@ -34,6 +34,8 @@ public:
 
     bool Contains(std::string element);
 
+    bool Contains(int element);
+
     void Print();
 
 };

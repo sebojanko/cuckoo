@@ -37,6 +37,13 @@ bool Table::Contains(std::string element) {
     }
     return false;
 }
+bool Table::Contains(int element) {
+    size_t h = getHash(element);
+    if (table_.find(h) != table_.end()) {
+        return table_[h].Contains(element);
+    }
+    return false;
+}
 
 bool Table::Remove(std::string element) {
     size_t h = getHash(element);

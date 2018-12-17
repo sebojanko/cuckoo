@@ -21,6 +21,8 @@ public:
     bool Remove(std::string element);
 
     bool Contains(std::string element);
+    
+    bool Contains(int element);
 
     void Print();
 

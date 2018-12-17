@@ -36,7 +36,7 @@ bool Bucket::Push(int value) {
     }
 
     for (int i=0; i < 10; ++i) {
-        entries_[i] = value;
+        entries_[i] = std::to_string(value);
         ++size_;
         return true;
     }
@@ -47,6 +47,17 @@ bool Bucket::Contains(std::string s) {
     for (int i = 0; i < 10; ++i) {
         if (!entries_[i].compare(s)) {
             return true;
+        }
+    }
+    return false;
+}
+
+bool Bucket::Contains(int s) {
+    for (int i = 0; i < 10; ++i) {
+        if (!entries_[i].empty() && int(entries_[i][0]) != 0) {
+            if (atoi(entries_[i].c_str()) == s) {
+                return true;
+            }
         }
     }
     return false;
