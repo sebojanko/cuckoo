@@ -1,8 +1,19 @@
 #include "TableTests.cpp"
 #include "BucketTests.cpp"
 #include "KMerGeneratorTests.cpp"
+#include "SimpleEncoderTests.cpp"
 
 int main() {
+    test_SimpleEncoder__EncodeSingleChar();
+    test_SimpleEncoder__EncodeKMer();
+    test_SimpleEncoder__EncodeBigValue();
+    test_SimpleEncoder__EncodeMaxValue();
+    test_SimpleEncoder__DecodeSingleChar();
+    test_SimpleEncoder__DecodeKMer();
+    test_SimpleEncoder__DecodeBigValue();
+    test_SimpleEncoder__DecodeMaxValue();
+    test_SimpleEncoder__EncodeDecode();
+
     test_Table__InsertedOneElement__FindsOneElement();
     test_Table__InsertedOneElement__SearchForAnother();
     test_Table__InsertedTwoElements__FindsBoth();
