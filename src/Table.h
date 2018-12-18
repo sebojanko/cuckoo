@@ -6,7 +6,7 @@
 #define CUCKOO_TABLE_H
 
 #include <array>
-#include <map>
+#include <unordered_map>
 #include <list>
 #include <algorithm>
 #include "Hash.h"
@@ -16,7 +16,7 @@ private:
     Hasher *hasher_;
     // TODO trebat ce ipak ovdje ubaciti 2D polje izgleda
     //std::map<std::string, Bucket*> table_;
-    std::map<int, std::list<int>> table_;
+    std::unordered_map<int, std::list<int>> table_;
     //static const int ROWS{1000};
     //static const int COLS{1000};
     //int table_[ROWS][COLS]{};

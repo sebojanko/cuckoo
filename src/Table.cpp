@@ -23,7 +23,7 @@ void Table::Insert(std::string element) {
     int iter = 0;
     int h = getHash(element);
     while (iter++ < 500) {
-        table_[getHash(element)].push_front(getFingerprint(h));
+        table_[h].push_front(getFingerprint(h));
         return;
     }
 }
