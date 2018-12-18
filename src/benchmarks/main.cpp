@@ -99,8 +99,24 @@ int main(int argc, const char* argv[]) {
     Cuckoo c = Cuckoo();
     Cuckoo c2 = Cuckoo(Hash::MD5);
     Cuckoo c3 = Cuckoo(Hash::SHA1);
+    Cuckoo c4 = Cuckoo(Hash::TIMS);
+    Cuckoo c5 = Cuckoo(Hash::IDENTITY);
 
 
+    std::cout << "IDENTITY (no hash)" << std::endl;
+    insertElems(&c5, NO_OF_ELEMS_TO_INSERT);    
+    checkExistingElems(&c5, NO_OF_EXISTING_ELEMS_TO_CHECK);
+    checkNonExistingElems(&c5, NO_OF_NON_EXISTING_ELEMS_TO_CHECK);
+    
+    std::cout << std::string(20, '-') << std::endl;
+ 
+    std::cout << "Two independent multiply shift (TIMS)" << std::endl;
+    insertElems(&c4, NO_OF_ELEMS_TO_INSERT);    
+    checkExistingElems(&c4, NO_OF_EXISTING_ELEMS_TO_CHECK);
+    checkNonExistingElems(&c4, NO_OF_NON_EXISTING_ELEMS_TO_CHECK);
+    
+    std::cout << std::string(20, '-') << std::endl;
+ 
     std::cout << "MD5 hash" << std::endl;
     insertElems(&c2, NO_OF_ELEMS_TO_INSERT);    
     checkExistingElems(&c2, NO_OF_EXISTING_ELEMS_TO_CHECK);

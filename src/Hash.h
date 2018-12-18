@@ -8,7 +8,10 @@
 #include <openssl/evp.h>
 
 
-enum class Hash { DEFAULT, BOB_HASH, MURMUR_HASH, MD5, SHA1 };
+// TIMS - Two independent multiply shift, Martin Dietzfelbinger,
+// "Universal hashing and k-wise independent random
+// variables via integer arithmetic without primes".
+enum class Hash { STL, MD5, SHA1, TIMS, IDENTITY };// BOB_HASH, MURMUR_HASH};
 
 
 class Hasher {
@@ -34,6 +37,8 @@ public:
 
 uint32_t stringToUint32(unsigned char *data);
 uint64_t stringToUint64(unsigned char *data);
+
+uint64_t twoIndependentMultiplyShift(uint64_t item);
 
 #endif
 
