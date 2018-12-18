@@ -31,8 +31,7 @@ std::uint32_t Hasher::hash(int item) {
         return stringToUint32(md);
     }
     // TODO dodat ostale hasheve
-    return std::hash<int>{}(item);
-    
+    return std::hash<int>{}(item);  
 }
 
 std::uint32_t Hasher::hash(std::string item) {
