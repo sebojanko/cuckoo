@@ -2,6 +2,7 @@
 #include <assert.h>
 #include "../SimpleEncoder.h"
 
+// created by David on 18/12/18
 
 void test_SimpleEncoder__EncodeSingleChar() {
     SimpleEncoder enc;

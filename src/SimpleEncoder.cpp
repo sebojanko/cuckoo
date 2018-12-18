@@ -1,6 +1,7 @@
 #include "SimpleEncoder.h"
 #include <bitset>
 
+// created by David on 18/12/18
 
 SimpleEncoder::SimpleEncoder() {
     this->bits_per_char_ = 3;

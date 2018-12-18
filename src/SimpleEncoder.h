@@ -1,10 +1,11 @@
-#ifndef HASH_H
-#define HASH_H
+#ifndef SIMPLEENCODER_H
+#define SIMPLEENCODER_H
 
 #include <iostream>
 #include <iomanip>
 #include <bitset>
 
+// created by David on 18/12/18
 
 class SimpleEncoder {
 private:
