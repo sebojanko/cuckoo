@@ -9,6 +9,7 @@
 
 Hasher::Hasher(int bits_per_item) {
     this->bits_per_item_ = bits_per_item;
+    this->hash_function_ = Hash::STL;
 }
 
 Hasher::Hasher(int bits_per_item, Hash hash_function) {
@@ -17,18 +18,25 @@ Hasher::Hasher(int bits_per_item, Hash hash_function) {
 }
 
 std::uint32_t Hasher::hash(int item) {
-    std::string item_str = std::to_string(item);
+    if (this->hash_function_ == Hash::TIMS) {
+        return twoIndependentMultiplyShift(item);
+    }
     if (this->hash_function_ == Hash::MD5) {
+        std::string item_str = std::to_string(item);
         unsigned char md[MD5_DIGEST_LENGTH];
         unsigned char *charData= (unsigned char*) item_str.c_str();
         MD5(charData, item_str.length(), (unsigned char*)&md);
         return stringToUint32(md);
     }
     if (this->hash_function_ == Hash::SHA1) {
+        std::string item_str = std::to_string(item);
         unsigned char md[SHA_DIGEST_LENGTH];
         unsigned char *charData= (unsigned char*) item_str.c_str();
         SHA1(charData, item_str.length(), (unsigned char*)&md);
         return stringToUint32(md);
+    }
+    if (this->hash_function_ == Hash::IDENTITY) {
+        return item;
     }
     // TODO dodat ostale hasheve
     return std::hash<int>{}(item);  
@@ -82,3 +90,17 @@ uint64_t stringToUint64(unsigned char *data) {
     }
     return fingerprint;
 }
+
+uint64_t twoIndependentMultiplyShift(uint64_t item) {
+    unsigned __int128 multiply, add;
+    std::random_device random;
+    for (auto v : {&multiply, &add}) {
+        *v = random();
+        for (int i = 1; i <= 4; ++i) {
+            *v = *v << 32;
+            *v |= random();
+        }
+    }
+
+    return (add + multiply * static_cast<decltype(multiply)>(item)) >> 64;
+};
