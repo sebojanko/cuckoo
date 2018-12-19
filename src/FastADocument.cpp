@@ -15,19 +15,20 @@ std::string FastADocument::GetNextSequence() {
     if (input_->is_open()) {
         char c;
         std::string line;
-        bool flag = false;
         while ((c = input_->peek()) != EOF) {
             if (c == '>') {
-                if (flag) {
-                    break;
-                }
-
                 std::string comment;
                 getline(*input_, comment);
-                flag = true;
             } else {
-                getline(*input_, line);
-                ret += line;
+                while (input_->get(c)) {
+                    if (c == 'A' || c == 'C' || c == 'G' || c == 'T' || c == '>') {
+                        if (c == '>') {
+                            input_->unget();
+                            break;
+                        }
+                        ret += c;
+                    }
+                }
             }
         }
     }

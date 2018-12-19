@@ -28,8 +28,8 @@ void insertElems(Cuckoo *c, int no_of_elems) {
     }
     std::cout << "Inserting " << no_of_elems << " elems" << std::endl;
     clock_t begin = clock();
-    for (int i = 0; i < no_of_elems; i++) {
-        c->Insert(elems_list.at(i));
+    for (auto it = elems_list.begin(); it != elems_list.end(); it++) {
+        c->Insert(*it);
     }
     clock_t end = clock();
     double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
