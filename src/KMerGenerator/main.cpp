@@ -25,7 +25,7 @@ void writeToFile(std::string data, std::string filename) {
 
 
 int main(int argc, const char* argv[]) {
-    if (argc != 5) {
+    if (argc < 5) {
         std::cout << "Arguments missing!" << std::endl;
         std::cout << "Usage: ./kmergen <len> <iterations> <outputFile> <type> [inputFile]\n<type> is 'gen' or 'ext'\n";
         return -1;

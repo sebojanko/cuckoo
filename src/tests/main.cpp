@@ -19,6 +19,7 @@ int main() {
     test_Table__InsertedTwoElements__FindsBoth();
 
     test_Table__InsertedOneElement__DeletesOneElement();
+    // TODO this test doesn't pass
     test_Table__InsertedOneElement__UnsuccessfulDeletionOfNonExistingElement();
     test_Table__InsertedTwoElements__DeletesBoth();
 
