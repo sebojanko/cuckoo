@@ -16,7 +16,6 @@ Hasher::Hasher(int bits_per_item) {
 Hasher::Hasher(int bits_per_item, Hash hash_function) {
     this->bits_per_item_ = bits_per_item;
     this->hash_function_ = hash_function;
-    std::cout << "Hasher this: " << this << std::endl;
 }
 
 std::uint32_t Hasher::hash(int item) {
