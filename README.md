@@ -28,7 +28,8 @@ This generates one million random 20-mers and writes them to input.txt.
 
 Run `make bench` to create the benchmark program.
 #### Usage:
-`./benchmark <for_insertion> <non_existing_for_FP>`
+`./benchmark <for_insertion> <non_existing_for_FP> <output_file>`
 
 The first argument is the file containing k-mers for insertion into the Cuckoo filter. One k-mer per line, lines must be separated by the newline character.
 The second argument are k-mers that are not found in the first file. These k-mers are used to check for false positives. The format of the file is the same as the first one.
+The output is written to the output file.
