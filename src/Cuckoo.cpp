@@ -16,13 +16,11 @@ Cuckoo::Cuckoo() {
 // Ako se ove linije zamjene sa zakomentiranima, onda izgleda da
 // dobro radi.
 Cuckoo::Cuckoo(Hash h) {
-//	Hasher *hasher = new Hasher(8, h);
-  Hasher hasher(8, h);
-  std::cout << static_cast<std::underlying_type<Hash>::type>(h) << std::endl;
-  std::cout << "Hasher ref: " << &hasher 
-            << "  Cuckoo this: " << this << std::endl;
-//	table_ = Table(hasher);
-	table_ = Table(&hasher);
+    Hasher *hasher = new Hasher(8, h);
+    std::cout << static_cast<std::underlying_type<Hash>::type>(h) << std::endl;
+    std::cout << "Hasher ref: " << &hasher 
+              << "  Cuckoo this: " << this << std::endl;
+    table_ = Table(hasher);
 
 }
 
