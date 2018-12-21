@@ -7,11 +7,6 @@
 #include "../SimpleEncoder.h"
 #include <ctime>
 
-#define NO_OF_ELEMS_TO_INSERT 1'000'000
-#define NO_OF_EXISTING_ELEMS_TO_CHECK 500'000
-#define NO_OF_NON_EXISTING_ELEMS_TO_CHECK 500'000
-
-
 
 std::string getKMerDataInputArg(int argc, const char* argv[]) {
   if (argc < 2) {
@@ -38,8 +33,8 @@ std::string getOutputArg(int argc, const char* argv[]) {
 }
 
 
-void insertElems(Cuckoo *c, int no_of_elems, std::vector<std::string> elems_list) {
-    std::cout << "Inserting " << no_of_elems << " elems" << std::endl;
+void insertElems(Cuckoo *c, std::vector<std::string> elems_list, std::ofstream& out) {
+    out << "Inserting " << elems_list.size() << " elems" << std::endl;
 
     clock_t begin = clock();
     for (auto it = elems_list.begin(); it != elems_list.end(); it++) {
@@ -48,11 +43,11 @@ void insertElems(Cuckoo *c, int no_of_elems, std::vector<std::string> elems_list
     clock_t end = clock();
     double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
     
-    std::cout << "Time to insert " << no_of_elems << " elems: " << elapsed_secs << std::endl << std::endl;
+    out << "Time to insert " << elems_list.size() << " elems: " << elapsed_secs << std::endl << std::endl;
 }
 
-void checkExistingElems(Cuckoo *c, int no_of_elems, std::vector<std::string> elems_list) {
-    std::cout << "Checking " << no_of_elems << " inserted elements:" << std::endl;
+void checkExistingElems(Cuckoo *c, std::vector<std::string> elems_list, std::ofstream& out) {
+    out << "Checking " << elems_list.size() << " inserted elements:" << std::endl;
     int found{};
     int not_found{};
 
@@ -67,14 +62,14 @@ void checkExistingElems(Cuckoo *c, int no_of_elems, std::vector<std::string> ele
     clock_t end = clock();
     double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
     
-    std::cout << "Time to check existing " << no_of_elems << " elems: " << elapsed_secs << std::endl;
-    std::cout << "Found - " << found << std::endl;
-    std::cout << "Not found - " << not_found << std::endl;
-    std::cout << "Found percentage - " << float(not_found)/found*100 << "%" << std::endl << std::endl;
+    out << "Time to check existing " << elems_list.size() << " elems: " << elapsed_secs << std::endl;
+    out << "Found - " << found << std::endl;
+    out << "Not found - " << not_found << std::endl;
+    out << "Found percentage - " << float(not_found)/found*100 << "%" << std::endl << std::endl;
 }
 
-void checkNonExistingElems(Cuckoo *c, int no_of_elems, std::vector<std::string> elems_list) {
-    std::cout << "Checking " << no_of_elems << " not inserted elements:" << std::endl;
+void checkNonExistingElems(Cuckoo *c, std::vector<std::string> elems_list, std::ofstream& out) {
+    out << "Checking " << elems_list.size() << " not inserted elements:" << std::endl;
     
     int found{};
     int not_found{};
@@ -90,10 +85,10 @@ void checkNonExistingElems(Cuckoo *c, int no_of_elems, std::vector<std::string> 
     clock_t end = clock();
     double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
     
-    std::cout << "Time to check non existing " << no_of_elems << " elems: " << elapsed_secs << std::endl;
-    std::cout << "Found - " << found << std::endl;
-    std::cout << "Not found - " << not_found << std::endl;
-    std::cout << "False positives percentage - " << float(found)/not_found*100. << "%" << std::endl;
+    out << "Time to check non existing " << elems_list.size() << " elems: " << elapsed_secs << std::endl;
+    out << "Found - " << found << std::endl;
+    out << "Not found - " << not_found << std::endl;
+    out << "False positives percentage - " << float(found)/not_found*100. << "%" << std::endl;
 }
 
 int main(int argc, const char* argv[]) {
@@ -107,7 +102,7 @@ int main(int argc, const char* argv[]) {
     std::string outputFilename{getOutputArg(argc, argv)};
     std::ifstream infile(kMerInputFilename);
     std::ifstream nonex_file(kMerNonExFilename);
-    std::ofstream out(outFilename);
+    std::ofstream out(outputFilename);
     std::string line;
 
     while (std::getline(infile, line)) {
@@ -125,38 +120,38 @@ int main(int argc, const char* argv[]) {
     Cuckoo c5 = Cuckoo(Hash::IDENTITY);
 
 
-    std::cout << "IDENTITY (no hash)" << std::endl;
-    insertElems(&c5, NO_OF_ELEMS_TO_INSERT, input_vector);
-    checkExistingElems(&c5, NO_OF_EXISTING_ELEMS_TO_CHECK, input_vector);
-    checkNonExistingElems(&c5, NO_OF_NON_EXISTING_ELEMS_TO_CHECK, nonex_vector);
+    out << "IDENTITY (no hash)" << std::endl;
+    insertElems(&c5, input_vector, out);
+    checkExistingElems(&c5, input_vector, out);
+    checkNonExistingElems(&c5, nonex_vector, out);
     
-    std::cout << std::string(20, '-') << std::endl;
+    out << std::string(20, '-') << std::endl;
  
-    std::cout << "Two independent multiply shift (TIMS)" << std::endl;
-    insertElems(&c4, NO_OF_ELEMS_TO_INSERT, input_vector);
-    checkExistingElems(&c4, NO_OF_EXISTING_ELEMS_TO_CHECK, input_vector);
-    checkNonExistingElems(&c4, NO_OF_NON_EXISTING_ELEMS_TO_CHECK, nonex_vector);
+    out << "Two independent multiply shift (TIMS)" << std::endl;
+    insertElems(&c4, input_vector, out);
+    checkExistingElems(&c4, input_vector, out);
+    checkNonExistingElems(&c4, nonex_vector, out);
     
-    std::cout << std::string(20, '-') << std::endl;
+    out << std::string(20, '-') << std::endl;
  
-    std::cout << "MD5 hash" << std::endl;
-    insertElems(&c2, NO_OF_ELEMS_TO_INSERT, input_vector);
-    checkExistingElems(&c2, NO_OF_EXISTING_ELEMS_TO_CHECK, input_vector);
-    checkNonExistingElems(&c2, NO_OF_NON_EXISTING_ELEMS_TO_CHECK, nonex_vector);
+    out << "MD5 hash" << std::endl;
+    insertElems(&c2, input_vector, out);
+    checkExistingElems(&c2, input_vector, out);
+    checkNonExistingElems(&c2, nonex_vector, out);
     
-    std::cout << std::string(20, '-') << std::endl;
+    out << std::string(20, '-') << std::endl;
     
-    std::cout << "std::hash" << std::endl;
-    insertElems(&c, NO_OF_ELEMS_TO_INSERT, input_vector);
-    checkExistingElems(&c, NO_OF_EXISTING_ELEMS_TO_CHECK, input_vector);
-    checkNonExistingElems(&c, NO_OF_NON_EXISTING_ELEMS_TO_CHECK, nonex_vector);
+    out << "std::hash" << std::endl;
+    insertElems(&c, input_vector, out);
+    checkExistingElems(&c, input_vector, out);
+    checkNonExistingElems(&c, nonex_vector, out);
     
-    std::cout << std::string(20, '-') << std::endl;
+    out << std::string(20, '-') << std::endl;
 
-    std::cout << "SHA1 hash" << std::endl;
-    insertElems(&c3, NO_OF_ELEMS_TO_INSERT, input_vector);
-    checkExistingElems(&c3, NO_OF_EXISTING_ELEMS_TO_CHECK, input_vector);
-    checkNonExistingElems(&c3, NO_OF_NON_EXISTING_ELEMS_TO_CHECK, nonex_vector);
+    out << "SHA1 hash" << std::endl;
+    insertElems(&c3, input_vector, out);
+    checkExistingElems(&c3, input_vector, out);
+    checkNonExistingElems(&c3, nonex_vector, out);
 
     return 0;
 }

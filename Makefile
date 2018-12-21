@@ -13,7 +13,7 @@ test: src/tests/main.cpp src/Table.cpp src/Bucket.cpp src/Hash.cpp src/FastADocu
 gen: src/KMerGenerator/main.cpp src/FastADocument.cpp src/KMerGenerator/KMerGenerator.cpp
 	$(CXX) $^ -o kmergen $(CXXFLAGS)
 
-bench: src/benchmarks/main.cpp src/Cuckoo.cpp src/Bucket.cpp src/FastADocument.cpp src/GeneSequence.cpp src/Hash.cpp src/Table.cpp src/SimpleEncoder.cpp
+bench: src/benchmarks/our_impl_benchmark.cpp src/Cuckoo.cpp src/Bucket.cpp src/FastADocument.cpp src/GeneSequence.cpp src/Hash.cpp src/Table.cpp src/SimpleEncoder.cpp
 	$(CXX) -O3 $^ -o benchmark $(CXXFLAGS)
 
 clean:
