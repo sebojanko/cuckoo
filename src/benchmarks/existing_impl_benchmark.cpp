@@ -33,8 +33,17 @@ std::string getKMerDataNonExistingArg(int argc, const char* argv[]) {
   return argv[2];
 }
 
-void insertElems(CuckooFilter<int, 16> *c, int no_of_elems, std::vector<int> elems_list) {
-    std::cout << "Inserting " << no_of_elems << " elems" << std::endl;
+std::string getOutputArg(int argc, const char* argv[]) {
+  if (argc < 4) {
+        std::cout << "Missing output file argument." << std::endl;
+        exit(-1);
+    }
+  return argv[3];
+}
+
+
+void insertElems(CuckooFilter<uint64_t, 8> *c, std::vector<uint64_t> elems_list, std::ofstream& out) {
+    out << "Inserting " << elems_list.size() << " elems" << std::endl;
 
     clock_t begin = clock();
     for (auto it = elems_list.begin(); it != elems_list.end(); it++) {
@@ -43,35 +52,11 @@ void insertElems(CuckooFilter<int, 16> *c, int no_of_elems, std::vector<int> ele
     clock_t end = clock();
     double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
     
-    std::cout << "Time to insert " << no_of_elems << " elems: " << elapsed_secs << std::endl << std::endl;
+    out << "Time to insert " << elems_list.size() << " elems: " << elapsed_secs << std::endl << std::endl;
 }
 
-void checkExistingElems(CuckooFilter<int, 16> *c, int no_of_elems, std::vector<int> elems_list) {
-    std::cout << "Checking " << no_of_elems << " inserted elements:" << std::endl;
-    int found{};
-    int not_found{};
-
-    clock_t begin = clock();
-    for (auto it = elems_list.begin(); it != elems_list.end(); it++) {
-        std::cout << *it << std::endl;
-        if (c->Contain(*it)) {
-            found++;
-        } else {
-            not_found++;
-        }
-    }
-    clock_t end = clock();
-    double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
-    
-    std::cout << "Time to check existing " << no_of_elems << " elems: " << elapsed_secs << std::endl;
-    std::cout << "Found - " << found << std::endl;
-    std::cout << "Not found - " << not_found << std::endl;
-    std::cout << "Found percentage - " << float(not_found)/found*100 << "%" << std::endl << std::endl;
-}
-
-void checkNonExistingElems(CuckooFilter<int, 16> *c, int no_of_elems, std::vector<int> elems_list) {
-    std::cout << "Checking " << no_of_elems << " not inserted elements:" << std::endl;
-    
+void checkExistingElems(CuckooFilter<uint64_t, 8> *c, std::vector<uint64_t> elems_list, std::ofstream& out) {
+    out << "Checking " << elems_list.size() << " inserted elements:" << std::endl;
     int found{};
     int not_found{};
 
@@ -86,10 +71,33 @@ void checkNonExistingElems(CuckooFilter<int, 16> *c, int no_of_elems, std::vecto
     clock_t end = clock();
     double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
     
-    std::cout << "Time to check non existing " << no_of_elems << " elems: " << elapsed_secs << std::endl;
-    std::cout << "Found - " << found << std::endl;
-    std::cout << "Not found - " << not_found << std::endl;
-    std::cout << "False positives percentage - " << float(found)/not_found*100. << "%" << std::endl;
+    out << "Time to check existing " << elems_list.size() << " elems: " << elapsed_secs << std::endl;
+    out << "Found - " << found << std::endl;
+    out << "Not found - " << not_found << std::endl;
+    out << "Found percentage - " << float(not_found)/found*100 << "%" << std::endl << std::endl;
+}
+
+void checkNonExistingElems(CuckooFilter<uint64_t, 8> *c, std::vector<uint64_t> elems_list, std::ofstream& out) {
+    out << "Checking " << elems_list.size() << " not inserted elements:" << std::endl;
+    
+    int found{};
+    int not_found{};
+
+    clock_t begin = clock();
+    for (auto it = elems_list.begin(); it != elems_list.end(); it++) {
+        if (c->Contain(*it)) {
+            found++;
+        } else {
+            not_found++;
+        }
+    }
+    clock_t end = clock();
+    double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
+    
+    out << "Time to check non existing " << elems_list.size() << " elems: " << elapsed_secs << std::endl;
+    out << "Found - " << found << std::endl;
+    out << "Not found - " << not_found << std::endl;
+    out << "False positives percentage - " << float(found)/not_found*100. << "%" << std::endl;
 }
 
 int main(int argc, const char* argv[]) {
@@ -97,12 +105,14 @@ int main(int argc, const char* argv[]) {
     int total_items{1'000'000};
     
     SimpleEncoder encoder{3};
-    std::vector<int> input_vector{};
-    std::vector<int> nonex_vector{};
+    std::vector<uint64_t> input_vector{};
+    std::vector<uint64_t> nonex_vector{};
     std::string kMerInputFilename{getKMerDataInputArg(argc, argv)};
     std::string kMerNonExFilename{getKMerDataNonExistingArg(argc, argv)};
+    std::string outputFilename{getOutputArg(argc, argv)};
     std::ifstream infile(kMerInputFilename);
     std::ifstream nonex_file(kMerNonExFilename);
+    std::ofstream out(outputFilename);
     std::string line;
 
     while (std::getline(infile, line)) {
@@ -113,7 +123,7 @@ int main(int argc, const char* argv[]) {
         nonex_vector.push_back(encoder.encode(line));
     }
 
-    CuckooFilter<int, 16> c(total_items);
+    CuckooFilter<uint64_t, 8> c(total_items);
     /*Cuckoo c2 = Cuckoo(Hash::MD5);
     Cuckoo c3 = Cuckoo(Hash::SHA1);
     Cuckoo c4 = Cuckoo(Hash::TIMS);
@@ -147,12 +157,12 @@ int main(int argc, const char* argv[]) {
     checkNonExistingElems(&c3, NO_OF_NON_EXISTING_ELEMS_TO_CHECK, nonex_vector);
     */
 
-    std::cout << std::string(20, '-') << std::endl;
+    out << std::string(20, '-') << std::endl;
     
-    std::cout << "std::hash" << std::endl;
-    insertElems(&c, NO_OF_ELEMS_TO_INSERT, input_vector);
-    checkExistingElems(&c, NO_OF_EXISTING_ELEMS_TO_CHECK, input_vector);
-    checkNonExistingElems(&c, NO_OF_NON_EXISTING_ELEMS_TO_CHECK, nonex_vector);
+    out << "std::hash" << std::endl;
+    insertElems(&c, input_vector, out);
+    checkExistingElems(&c, input_vector, out);
+    checkNonExistingElems(&c, nonex_vector, out);
     
 
     return 0;
