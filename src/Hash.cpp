@@ -6,6 +6,7 @@
 #include <openssl/md5.h>
 #include <openssl/sha.h>
 
+// Author: David (cizl)
 
 Hasher::Hasher(int bits_per_item) {
     this->bits_per_item_ = bits_per_item;
@@ -15,6 +16,7 @@ Hasher::Hasher(int bits_per_item) {
 Hasher::Hasher(int bits_per_item, Hash hash_function) {
     this->bits_per_item_ = bits_per_item;
     this->hash_function_ = hash_function;
+    std::cout << "Hasher this: " << this << std::endl;
 }
 
 std::uint32_t Hasher::hash(int item) {
@@ -39,7 +41,9 @@ std::uint32_t Hasher::hash(int item) {
         return item;
     }
     // TODO dodat ostale hasheve
-    return std::hash<int>{}(item);  
+    if (this->hash_function_ == Hash::STL) {
+        return std::hash<int>{}(item);  
+    }
 }
 
 std::uint32_t Hasher::hash(std::string item) {
@@ -55,7 +59,9 @@ std::uint32_t Hasher::hash(std::string item) {
         SHA1(charData, item.length(), (unsigned char*)&md);
         return stringToUint32(md);
     }
-    return std::hash<std::string>{}(item);
+    if (this->hash_function_ == Hash::STL) {
+        return std::hash<std::string>{}(item);
+    }
 }
 
 std::uint32_t Hasher::operator()(std::string item) {
