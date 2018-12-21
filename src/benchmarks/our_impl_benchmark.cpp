@@ -29,6 +29,15 @@ std::string getKMerDataNonExistingArg(int argc, const char* argv[]) {
   return argv[2];
 }
 
+std::string getOutputArg(int argc, const char* argv[]) {
+  if (argc < 4) {
+        std::cout << "Missing output file argument." << std::endl;
+        exit(-1);
+    }
+  return argv[3];
+}
+
+
 void insertElems(Cuckoo *c, int no_of_elems, std::vector<std::string> elems_list) {
     std::cout << "Inserting " << no_of_elems << " elems" << std::endl;
 
@@ -95,8 +104,10 @@ int main(int argc, const char* argv[]) {
     std::vector<std::string> nonex_vector{};
     std::string kMerInputFilename{getKMerDataInputArg(argc, argv)};
     std::string kMerNonExFilename{getKMerDataNonExistingArg(argc, argv)};
+    std::string outputFilename{getOutputArg(argc, argv)};
     std::ifstream infile(kMerInputFilename);
     std::ifstream nonex_file(kMerNonExFilename);
+    std::ofstream out(outFilename);
     std::string line;
 
     while (std::getline(infile, line)) {
