@@ -100,6 +100,19 @@ void checkNonExistingElems(CuckooFilter<uint64_t, 8> *c, std::vector<uint64_t> e
     out << "False positives percentage - " << float(found)/not_found*100. << "%" << std::endl;
 }
 
+void removeElems(CuckooFilter<uint64_t, 8> *c, std::vector<uint64_t> elems_list, std::ofstream& out) {
+    out << "Removing " << elems_list.size() << " elems" << std::endl;
+
+    clock_t begin = clock();
+    for (auto it = elems_list.begin(); it != elems_list.end(); it++) {
+        c->Delete(*it);
+    }
+    clock_t end = clock();
+    double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
+    
+    out << "Time to remove " << elems_list.size() << " elems: " << elapsed_secs << std::endl << std::endl;
+}
+
 int main(int argc, const char* argv[]) {
     // TODO ubacit formatiranje ispisa
     int total_items{1'000'000};
@@ -163,6 +176,7 @@ int main(int argc, const char* argv[]) {
     insertElems(&c, input_vector, out);
     checkExistingElems(&c, input_vector, out);
     checkNonExistingElems(&c, nonex_vector, out);
+    removeElems(&c, input_vector, out);
     
 
     return 0;

@@ -88,7 +88,20 @@ void checkNonExistingElems(Cuckoo *c, std::vector<std::string> elems_list, std::
     out << "Time to check non existing " << elems_list.size() << " elems: " << elapsed_secs << std::endl;
     out << "Found - " << found << std::endl;
     out << "Not found - " << not_found << std::endl;
-    out << "False positives percentage - " << float(found)/not_found*100. << "%" << std::endl;
+    out << "False positives percentage - " << float(found)/not_found*100. << "%" << std::endl << std::endl;
+}
+
+void removeElems(Cuckoo *c, std::vector<std::string> elems_list, std::ofstream& out) {
+    out << "Removing " << elems_list.size() << " elems" << std::endl;
+
+    clock_t begin = clock();
+    for (auto it = elems_list.begin(); it != elems_list.end(); it++) {
+        c->Remove(*it);
+    }
+    clock_t end = clock();
+    double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
+    
+    out << "Time to remove " << elems_list.size() << " elems: " << elapsed_secs << std::endl << std::endl;
 }
 
 int main(int argc, const char* argv[]) {
@@ -124,11 +137,17 @@ int main(int argc, const char* argv[]) {
     insertElems(&c5, input_vector, out);
     checkExistingElems(&c5, input_vector, out);
     checkNonExistingElems(&c5, nonex_vector, out);
+    removeElems(&c5, input_vector, out);
+    checkExistingElems(&c5, input_vector, out);
+    checkNonExistingElems(&c5, nonex_vector, out);
     
     out << std::string(20, '-') << std::endl;
  
     out << "Two independent multiply shift (TIMS)" << std::endl;
     insertElems(&c4, input_vector, out);
+    checkExistingElems(&c4, input_vector, out);
+    checkNonExistingElems(&c4, nonex_vector, out);
+    removeElems(&c4, input_vector, out);
     checkExistingElems(&c4, input_vector, out);
     checkNonExistingElems(&c4, nonex_vector, out);
     
@@ -138,6 +157,9 @@ int main(int argc, const char* argv[]) {
     insertElems(&c2, input_vector, out);
     checkExistingElems(&c2, input_vector, out);
     checkNonExistingElems(&c2, nonex_vector, out);
+    removeElems(&c2, input_vector, out);
+    checkExistingElems(&c2, input_vector, out);
+    checkNonExistingElems(&c2, nonex_vector, out);
     
     out << std::string(20, '-') << std::endl;
     
@@ -145,11 +167,17 @@ int main(int argc, const char* argv[]) {
     insertElems(&c, input_vector, out);
     checkExistingElems(&c, input_vector, out);
     checkNonExistingElems(&c, nonex_vector, out);
+    removeElems(&c, input_vector, out);
+    checkExistingElems(&c, input_vector, out);
+    checkNonExistingElems(&c, nonex_vector, out);
     
     out << std::string(20, '-') << std::endl;
 
     out << "SHA1 hash" << std::endl;
     insertElems(&c3, input_vector, out);
+    checkExistingElems(&c3, input_vector, out);
+    checkNonExistingElems(&c3, nonex_vector, out);
+    removeElems(&c3, input_vector, out);
     checkExistingElems(&c3, input_vector, out);
     checkNonExistingElems(&c3, nonex_vector, out);
 
