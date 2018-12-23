@@ -7,6 +7,7 @@
 
 #include <openssl/evp.h>
 
+// Author: David (cizl)
 
 // TIMS - Two independent multiply shift, Martin Dietzfelbinger,
 // "Universal hashing and k-wise independent random
@@ -16,21 +17,21 @@ enum class Hash { STL, MD5, SHA1, TIMS, IDENTITY };// BOB_HASH, MURMUR_HASH};
 
 class Hasher {
 private:
-    int bits_per_item_;
+    size_t bits_per_item_;
     Hash hash_function_;
 
 public:
-    Hasher(int bits_per_item);
-    Hasher(int bits_per_item, Hash hash_function);
+    Hasher(size_t bits_per_item);
+    Hasher(size_t bits_per_item, Hash hash_function);
 
-    uint32_t hash(std::string item);
-    uint32_t hash(uint64_t item);
+    uint64_t hash(std::string item);
+    uint64_t hash(int item);
 
     // same as hash
-    uint32_t operator()(std::string item);
+    uint64_t operator()(std::string item);
 
     uint16_t fingerprint(std::string item);
-    uint16_t fingerprint(uint64_t item);
+    uint16_t fingerprint(uint64_t hash);
 
 };
 
