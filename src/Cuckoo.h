@@ -20,6 +20,7 @@ public:
     void Insert(int element);
 
     bool Remove(std::string element);
+    bool Remove(int element);
 
     bool Contains(std::string element);
     

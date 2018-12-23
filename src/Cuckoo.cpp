@@ -33,6 +33,10 @@ bool Cuckoo::Remove(std::string element) {
 	return table_.Remove(element);
 }
 
+bool Cuckoo::Remove(int element) {
+	return table_.Remove(element);
+}
+
 bool Cuckoo::Contains(std::string element) {
 	return table_.Contains(element);
 }
