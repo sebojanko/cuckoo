@@ -8,7 +8,9 @@ Run `make` in the root folder then run `cuckoo`
 
 ### Running unit tests
 
-Run `make test` in the root folder then run `test`
+Run `make test` in the root folder to create binary.
+Run `./test <fasta_input_file>` to run all tests.
+Without the input file, some tests are not run.
 
 
 ### Generating input data
