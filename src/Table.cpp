@@ -22,9 +22,9 @@ Table::Table(Hasher *hasher, int b_size) {
 void Table::Insert(std::string element) {
     int iter = 0;
     while (iter++ < 500) {
-        int f = getFingerprint(element);
-        int i1 = getHash(element);
-        int i2 = i1 ^ getHash(f);
+        uint16_t f = getFingerprint(element);
+        uint64_t i1 = getHash(element);
+        uint64_t i2 = i1 ^ getHash(f);
         if (table_[i1].size() < 8) {
             table_[i1].push_front(f);
             return;
@@ -43,9 +43,9 @@ void Table::Insert(std::string element) {
 void Table::Insert(int element) {
     int iter = 0;
     while (iter++ < 500) {
-        int f = getFingerprint(element);
-        int i1 = getHash(element);
-        int i2 = i1 ^ getHash(f);
+        uint16_t f = getFingerprint(element);
+        uint64_t i1 = getHash(element);
+        uint64_t i2 = i1 ^ getHash(f);
         if (table_[i1].size() < 8) {
             table_[i1].push_front(f);
             return;
@@ -62,18 +62,18 @@ void Table::Insert(int element) {
 }
 
 bool Table::Contains(std::string element) {
-    size_t h = getHash(element);
+    uint64_t h = getHash(element);
     return std::find(table_[h].begin(), table_[h].end(), getFingerprint(h)) != table_[h].end();
 }
 
 bool Table::Contains(int element) {
-    size_t h = getHash(element);
+    uint64_t h = getHash(element);
     return std::find(table_[h].begin(), table_[h].end(), getFingerprint(h)) != table_[h].end();
 }
 
 bool Table::Remove(std::string element) {
-    size_t h = getHash(element);
-    std::list<int>::iterator it = std::find(table_[h].begin(), table_[h].end(), getFingerprint(h));
+    uint64_t h = getHash(element);
+    std::list<uint16_t>::iterator it = std::find(table_[h].begin(), table_[h].end(), getFingerprint(h));
     if (it != table_[h].end()) {
         table_[h].erase(it);
         return true;
@@ -88,15 +88,15 @@ void Table::Print() {
     }
 };
 
-int Table::getFingerprint(std::string element) {
+uint16_t Table::getFingerprint(std::string element) {
     return hasher_->fingerprint(element);
 }
-int Table::getFingerprint(size_t element) {
+uint16_t Table::getFingerprint(uint64_t element) {
     return hasher_->fingerprint(element);
 }
-int Table::getHash(std::string element) {
+uint64_t Table::getHash(std::string element) {
     return hasher_->hash(element);
 }
-int Table::getHash(int element) {
+uint64_t Table::getHash(int element) {
     return hasher_->hash(element);
 }
