@@ -29,7 +29,12 @@ void Table::Insert(std::string element) {
 }
 
 void Table::Insert(int element) {
-   // TODO
+    int iter = 0;
+    int h = getHash(element);
+    while (iter++ < 500) {
+        table_[h].push_front(getFingerprint(h));
+        return;
+    }
 }
 
 bool Table::Contains(std::string element) {
@@ -43,9 +48,12 @@ bool Table::Contains(int element) {
 
 bool Table::Remove(std::string element) {
     size_t h = getHash(element);
-    table_[h].erase(std::find(table_[h].begin(), table_[h].end(), getFingerprint(h)));
-    // trebam vidjeti kaj vraca
-    return true;
+    std::list<int>::iterator it = std::find(table_[h].begin(), table_[h].end(), getFingerprint(h));
+    if (it != table_[h].end()) {
+        table_[h].erase(it);
+        return true;
+    }
+    return false;
 }
 
 void Table::Print() {

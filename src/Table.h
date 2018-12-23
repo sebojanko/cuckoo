@@ -31,13 +31,12 @@ public:
     Table(Hasher *hasher, int bucket_size = 8);
 
     void Insert(std::string element);
-
     void Insert(int element);
 
     bool Remove(std::string element);
+    bool Remove(int element);
 
     bool Contains(std::string element);
-
     bool Contains(int element);
 
     void Print();
