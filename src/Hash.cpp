@@ -8,17 +8,17 @@
 
 // Author: David (cizl)
 
-Hasher::Hasher(int bits_per_item) {
+Hasher::Hasher(size_t bits_per_item) {
     this->bits_per_item_ = bits_per_item;
     this->hash_function_ = Hash::STL;
 }
 
-Hasher::Hasher(int bits_per_item, Hash hash_function) {
+Hasher::Hasher(size_t bits_per_item, Hash hash_function) {
     this->bits_per_item_ = bits_per_item;
     this->hash_function_ = hash_function;
 }
 
-std::uint32_t Hasher::hash(int item) {
+std::uint64_t Hasher::hash(int item) {
     if (this->hash_function_ == Hash::TIMS) {
         return twoIndependentMultiplyShift(item);
     }
@@ -45,7 +45,7 @@ std::uint32_t Hasher::hash(int item) {
     }
 }
 
-std::uint32_t Hasher::hash(std::string item) {
+std::uint64_t Hasher::hash(std::string item) {
     if (this->hash_function_ == Hash::MD5) {
         unsigned char md[MD5_DIGEST_LENGTH];
         unsigned char *charData = (unsigned char*) item.c_str();
@@ -63,18 +63,18 @@ std::uint32_t Hasher::hash(std::string item) {
     }
 }
 
-std::uint32_t Hasher::operator()(std::string item) {
+std::uint64_t Hasher::operator()(std::string item) {
     return std::hash<std::string>{}(item);
 }
 
 std::uint16_t Hasher::fingerprint(std::string item) {
-    uint32_t fp = hash(item);
+    uint64_t fp = hash(item);
     fp = fp & ((1ULL << bits_per_item_) - 1);
     fp += (fp == 0);
     return fp;
 }
 
-std::uint16_t Hasher::fingerprint(size_t hash) {
+std::uint16_t Hasher::fingerprint(uint64_t hash) {
     hash = hash & ((1ULL << bits_per_item_) - 1);
     hash += (hash == 0);
     return hash;
