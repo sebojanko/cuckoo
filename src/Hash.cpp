@@ -18,7 +18,7 @@ Hasher::Hasher(int bits_per_item, Hash hash_function) {
     this->hash_function_ = hash_function;
 }
 
-std::uint32_t Hasher::hash(int item) {
+std::uint32_t Hasher::hash(uint64_t item) {
     if (this->hash_function_ == Hash::TIMS) {
         return twoIndependentMultiplyShift(item);
     }
@@ -74,7 +74,7 @@ std::uint16_t Hasher::fingerprint(std::string item) {
     return fp;
 }
 
-std::uint16_t Hasher::fingerprint(size_t hash) {
+std::uint16_t Hasher::fingerprint(uint64_t hash) {
     hash = hash & ((1ULL << bits_per_item_) - 1);
     hash += (hash == 0);
     return hash;

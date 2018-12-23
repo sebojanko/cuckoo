@@ -16,15 +16,13 @@ public:
     Cuckoo(Hash h);
 
     void Insert(std::string element);
-
-    void Insert(int element);
+    void Insert(uint64_t element);
 
     bool Remove(std::string element);
-    bool Remove(int element);
+    bool Remove(uint64_t element);
 
     bool Contains(std::string element);
-    
-    bool Contains(int element);
+    bool Contains(uint64_t element);
 
     void Print();
 

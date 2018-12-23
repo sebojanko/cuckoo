@@ -33,7 +33,7 @@ std::string getOutputArg(int argc, const char* argv[]) {
 }
 
 
-void insertElems(Cuckoo *c, std::vector<std::string> elems_list, std::ofstream& out) {
+void insertElems(Cuckoo *c, std::vector<uint64_t> elems_list, std::ofstream& out) {
     out << "Inserting " << elems_list.size() << " elems" << std::endl;
 
     clock_t begin = clock();
@@ -46,7 +46,7 @@ void insertElems(Cuckoo *c, std::vector<std::string> elems_list, std::ofstream& 
     out << "Time to insert " << elems_list.size() << " elems: " << elapsed_secs << std::endl << std::endl;
 }
 
-void checkExistingElems(Cuckoo *c, std::vector<std::string> elems_list, std::ofstream& out) {
+void checkExistingElems(Cuckoo *c, std::vector<uint64_t> elems_list, std::ofstream& out) {
     out << "Checking " << elems_list.size() << " inserted elements:" << std::endl;
     int found{};
     int not_found{};
@@ -65,10 +65,10 @@ void checkExistingElems(Cuckoo *c, std::vector<std::string> elems_list, std::ofs
     out << "Time to check existing " << elems_list.size() << " elems: " << elapsed_secs << std::endl;
     out << "Found - " << found << std::endl;
     out << "Not found - " << not_found << std::endl;
-    out << "Found percentage - " << float(not_found)/found*100 << "%" << std::endl << std::endl;
+    out << "Found percentage - " << float(found)/not_found*100 << "%" << std::endl << std::endl;
 }
 
-void checkNonExistingElems(Cuckoo *c, std::vector<std::string> elems_list, std::ofstream& out) {
+void checkNonExistingElems(Cuckoo *c, std::vector<uint64_t> elems_list, std::ofstream& out) {
     out << "Checking " << elems_list.size() << " not inserted elements:" << std::endl;
     
     int found{};
@@ -91,7 +91,7 @@ void checkNonExistingElems(Cuckoo *c, std::vector<std::string> elems_list, std::
     out << "False positives percentage - " << float(found)/not_found*100. << "%" << std::endl << std::endl;
 }
 
-void removeElems(Cuckoo *c, std::vector<std::string> elems_list, std::ofstream& out) {
+void removeElems(Cuckoo *c, std::vector<uint64_t> elems_list, std::ofstream& out) {
     out << "Removing " << elems_list.size() << " elems" << std::endl;
 
     clock_t begin = clock();
@@ -105,25 +105,28 @@ void removeElems(Cuckoo *c, std::vector<std::string> elems_list, std::ofstream& 
 }
 
 int main(int argc, const char* argv[]) {
-    // TODO ubacit formatiranje ispisa
-    
     SimpleEncoder encoder{};
-    std::vector<std::string> input_vector{};
-    std::vector<std::string> nonex_vector{};
+
+    std::vector<uint64_t> input_vector{};
+    std::vector<uint64_t> nonex_vector{};
+
     std::string kMerInputFilename{getKMerDataInputArg(argc, argv)};
     std::string kMerNonExFilename{getKMerDataNonExistingArg(argc, argv)};
     std::string outputFilename{getOutputArg(argc, argv)};
+
     std::ifstream infile(kMerInputFilename);
     std::ifstream nonex_file(kMerNonExFilename);
     std::ofstream out(outputFilename);
+
     std::string line;
 
+
     while (std::getline(infile, line)) {
-        input_vector.push_back(line);
+        input_vector.push_back(encoder.encode(line));
     }
 
     while (std::getline(nonex_file, line)) {
-        nonex_vector.push_back(line);
+        nonex_vector.push_back(encoder.encode(line));
     }
 
     Cuckoo c = Cuckoo();

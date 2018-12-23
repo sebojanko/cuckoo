@@ -40,7 +40,7 @@ void Table::Insert(std::string element) {
     return;
 }
 
-void Table::Insert(int element) {
+void Table::Insert(uint64_t element) {
     int iter = 0;
     while (iter++ < 500) {
         int f = getFingerprint(element);
@@ -66,7 +66,7 @@ bool Table::Contains(std::string element) {
     return std::find(table_[h].begin(), table_[h].end(), getFingerprint(h)) != table_[h].end();
 }
 
-bool Table::Contains(int element) {
+bool Table::Contains(uint64_t element) {
     size_t h = getHash(element);
     return std::find(table_[h].begin(), table_[h].end(), getFingerprint(h)) != table_[h].end();
 }
@@ -81,7 +81,7 @@ bool Table::Remove(std::string element) {
     return false;
 }
 
-bool Table::Remove(int element) {
+bool Table::Remove(uint64_t element) {
     size_t h = getHash(element);
     std::list<int>::iterator it = std::find(table_[h].begin(), table_[h].end(), getFingerprint(h));
     if (it != table_[h].end()) {
@@ -98,15 +98,15 @@ void Table::Print() {
     }
 };
 
-int Table::getFingerprint(std::string element) {
+uint16_t Table::getFingerprint(std::string element) {
     return hasher_->fingerprint(element);
 }
-int Table::getFingerprint(size_t element) {
+uint16_t Table::getFingerprint(uint64_t element) {
     return hasher_->fingerprint(element);
 }
-int Table::getHash(std::string element) {
+uint32_t Table::getHash(std::string element) {
     return hasher_->hash(element);
 }
-int Table::getHash(int element) {
+uint32_t Table::getHash(uint64_t element) {
     return hasher_->hash(element);
 }

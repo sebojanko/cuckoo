@@ -21,23 +21,23 @@ private:
     //static const int COLS{1000};
     //int table_[ROWS][COLS]{};
     int bucket_size;
-    int getHash(std::string element);
-    int getFingerprint(std::string element);
-    int getFingerprint(size_t element);
+    uint16_t getFingerprint(std::string element);
+    uint16_t getFingerprint(uint64_t element);
 
-    int getHash(int element);
+    uint32_t getHash(std::string element);
+    uint32_t getHash(uint64_t element);
 
 public:
     Table(Hasher *hasher, int bucket_size = 8);
 
     void Insert(std::string element);
-    void Insert(int element);
+    void Insert(uint64_t element);
 
     bool Remove(std::string element);
-    bool Remove(int element);
+    bool Remove(uint64_t element);
 
     bool Contains(std::string element);
-    bool Contains(int element);
+    bool Contains(uint64_t element);
 
     void Print();
 
