@@ -21,20 +21,44 @@ Table::Table(Hasher *hasher, int b_size) {
 
 void Table::Insert(std::string element) {
     int iter = 0;
-    int h = getHash(element);
     while (iter++ < 500) {
-        table_[h].push_front(getFingerprint(h));
-        return;
+        int f = getFingerprint(element);
+        int i1 = getHash(element);
+        int i2 = i1 ^ getHash(f);
+        if (table_[i1].size() < 8) {
+            table_[i1].push_front(f);
+            return;
+        } else if (table_[i2].size() < 8) {
+            table_[i2].push_front(f);
+            return;
+        } else {
+            table_[i1].push_front(f);
+            element = table_[i1].back();
+            table_[i1].pop_back();
+        }
     }
+    return;
 }
 
 void Table::Insert(int element) {
     int iter = 0;
-    int h = getHash(element);
     while (iter++ < 500) {
-        table_[h].push_front(getFingerprint(h));
-        return;
+        int f = getFingerprint(element);
+        int i1 = getHash(element);
+        int i2 = i1 ^ getHash(f);
+        if (table_[i1].size() < 8) {
+            table_[i1].push_front(f);
+            return;
+        } else if (table_[i2].size() < 8) {
+            table_[i2].push_front(f);
+            return;
+        } else {
+            table_[i1].push_front(f);
+            element = table_[i1].back();
+            table_[i1].pop_back();
+        }
     }
+    return;
 }
 
 bool Table::Contains(std::string element) {
@@ -43,7 +67,8 @@ bool Table::Contains(std::string element) {
 }
 
 bool Table::Contains(int element) {
-    // TODO
+    size_t h = getHash(element);
+    return std::find(table_[h].begin(), table_[h].end(), getFingerprint(h)) != table_[h].end();
 }
 
 bool Table::Remove(std::string element) {
@@ -72,7 +97,6 @@ int Table::getFingerprint(size_t element) {
 int Table::getHash(std::string element) {
     return hasher_->hash(element);
 }
-
 int Table::getHash(int element) {
     return hasher_->hash(element);
 }
