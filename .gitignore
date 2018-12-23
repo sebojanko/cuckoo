@@ -18,3 +18,5 @@ out\.txt
 benchmark
 
 nonex\.txt
+
+*.txt

@@ -3,7 +3,16 @@
 #include "KMerGeneratorTests.cpp"
 #include "SimpleEncoderTests.cpp"
 
-int main() {
+std::string getKMerDataInputArg(int argc, const char* argv[]) {
+  if (argc < 2) {
+        std::cout << "Missing input KMer file argument." << std::endl;
+        exit(-1);
+    }
+  return argv[1];
+}
+
+int main(int argc, const char* argv[]) {
+
     test_SimpleEncoder__EncodeSingleChar();
     test_SimpleEncoder__EncodeKMer();
     test_SimpleEncoder__EncodeBigValue();
@@ -19,16 +28,15 @@ int main() {
     test_Table__InsertedTwoElements__FindsBoth();
 
     test_Table__InsertedOneElement__DeletesOneElement();
-    // TODO this test doesn't pass
     test_Table__InsertedOneElement__UnsuccessfulDeletionOfNonExistingElement();
     test_Table__InsertedTwoElements__DeletesBoth();
 
 
     test_Bucket__InsertedOneElement__RetrievesFirst();
-	test_Bucket__InsertedFiveElements__RetrievesLast();
-	test_Bucket__InsertedFiveElements__RetrievesThird();
-	test_Bucket__InsertedTwoElements__FailsToRetrieveThird();
-	test_Bucket__InsertedTwoElements__FailsToRetrieveMinusFirst();
+    test_Bucket__InsertedFiveElements__RetrievesLast();
+    test_Bucket__InsertedFiveElements__RetrievesThird();
+    test_Bucket__InsertedTwoElements__FailsToRetrieveThird();
+    test_Bucket__InsertedTwoElements__FailsToRetrieveMinusFirst();
 
     test_Bucket__InsertedOneElement__RetrievesFirstWithOverloadedOperator();
     test_Bucket__InsertedFiveElements__RetrievesLastWithOverloadedOperator();
@@ -42,10 +50,14 @@ int main() {
     test_KMerGenerator__GenerateRandom100Mer__ReturnsStringOfLength100();
     test_KMerGenerator__GenerateRandom500Mer__ReturnsStringOfLength500();
 
-    test_KMerGenerator__ExtractRandomKMer__ReturnsStringOfLength10();
-    test_KMerGenerator__ExtractRandomKMer__ReturnsStringOfLength1();
-    test_KMerGenerator__ExtractRandomKMer__ReturnsStringOfLength100();
-    test_KMerGenerator__ExtractRandomKMer__ReturnsStringOfLength500();
+    if (argc == 2) {
+        std::string filename{getKMerDataInputArg(argc, argv)};
+
+        test_KMerGenerator__ExtractRandomKMer__ReturnsStringOfLength10(filename);
+        test_KMerGenerator__ExtractRandomKMer__ReturnsStringOfLength1(filename);
+        test_KMerGenerator__ExtractRandomKMer__ReturnsStringOfLength100(filename);
+        test_KMerGenerator__ExtractRandomKMer__ReturnsStringOfLength500(filename);
+    }
 
     return 0;
 }
