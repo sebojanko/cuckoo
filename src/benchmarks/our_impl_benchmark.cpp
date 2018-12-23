@@ -6,6 +6,7 @@
 #include "../Cuckoo.h"
 #include "../SimpleEncoder.h"
 #include <ctime>
+#include <set>
 
 
 std::string getKMerDataInputArg(int argc, const char* argv[]) {
@@ -107,7 +108,12 @@ void removeElems(Cuckoo *c, std::vector<uint64_t> elems_list, std::ofstream& out
 int main(int argc, const char* argv[]) {
     SimpleEncoder encoder{};
 
+    std::set<std::string> input_str_set{};
+    std::set<uint64_t> input_enc_set{};
     std::vector<uint64_t> input_vector{};
+
+    std::set<std::string> nonex_str_set{};
+    std::set<uint64_t> nonex_enc_set{};
     std::vector<uint64_t> nonex_vector{};
 
     std::string kMerInputFilename{getKMerDataInputArg(argc, argv)};
@@ -122,12 +128,32 @@ int main(int argc, const char* argv[]) {
 
 
     while (std::getline(infile, line)) {
-        input_vector.push_back(encoder.encode(line));
+        input_str_set.insert(line);
+        input_enc_set.insert(encoder.encode(line));
     }
 
+    out << "Number of unique k-mers for input - " << input_str_set.size() << std::endl;
+    out << "Number of unique encodings for input - " << input_enc_set.size() << std::endl;
+    std::copy(input_enc_set.begin(), input_enc_set.end(), std::back_inserter(input_vector));
+
+
     while (std::getline(nonex_file, line)) {
-        nonex_vector.push_back(encoder.encode(line));
+        nonex_str_set.insert(line);
+        nonex_enc_set.insert(encoder.encode(line));
     }
+
+    out << "Number of unique nonexistent k-mers - " << nonex_str_set.size() << std::endl;
+    out << "Number of unique nonexistent encodings - " << nonex_enc_set.size() << std::endl;
+
+
+    std::vector<std::string> intersection;
+ 
+    std::set_intersection(input_str_set.begin(), input_str_set.end(),
+                          nonex_str_set.begin(), nonex_str_set.end(),
+                          std::back_inserter(intersection));
+    out << "Intersection from input file - " << intersection.size() << std::endl;
+
+
 
     Cuckoo c = Cuckoo();
     Cuckoo c2 = Cuckoo(Hash::MD5);
