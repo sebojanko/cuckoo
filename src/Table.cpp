@@ -81,6 +81,16 @@ bool Table::Remove(std::string element) {
     return false;
 }
 
+bool Table::Remove(int element) {
+    size_t h = getHash(element);
+    std::list<int>::iterator it = std::find(table_[h].begin(), table_[h].end(), getFingerprint(h));
+    if (it != table_[h].end()) {
+        table_[h].erase(it);
+        return true;
+    }
+    return false;
+}
+
 void Table::Print() {
     for (auto val : table_) {
         print(val.second);
