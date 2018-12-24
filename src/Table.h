@@ -22,7 +22,7 @@ private:
     //int table_[ROWS][COLS]{};
     int bucket_size;
     uint64_t getHash(std::string element);
-    uint64_t getHash(int element);
+    uint64_t getHash(uint64_t element);
     uint16_t getFingerprint(std::string element);
     uint16_t getFingerprint(uint64_t element);
 

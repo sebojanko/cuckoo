@@ -107,6 +107,6 @@ uint16_t Table::getFingerprint(uint64_t element) {
 uint64_t Table::getHash(std::string element) {
     return hasher_->hash(element);
 }
-uint64_t Table::getHash(int element) {
+uint64_t Table::getHash(uint64_t element) {
     return hasher_->hash(element);
 }

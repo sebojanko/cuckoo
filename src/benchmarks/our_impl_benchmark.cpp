@@ -141,6 +141,7 @@ int main(int argc, const char* argv[]) {
         nonex_str_set.insert(line);
         nonex_enc_set.insert(encoder.encode(line));
     }
+    std::copy(nonex_enc_set.begin(), nonex_enc_set.end(), std::back_inserter(nonex_vector));
 
     out << "Number of unique nonexistent k-mers - " << nonex_str_set.size() << std::endl;
     out << "Number of unique nonexistent encodings - " << nonex_enc_set.size() << std::endl;
