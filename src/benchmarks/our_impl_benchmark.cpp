@@ -66,7 +66,7 @@ void checkExistingElems(Cuckoo *c, std::vector<uint64_t> elems_list, std::ofstre
     out << "Time to check existing " << elems_list.size() << " elems: " << elapsed_secs << std::endl;
     out << "Found - " << found << std::endl;
     out << "Not found - " << not_found << std::endl;
-    out << "Found percentage - " << float(found)/not_found*100 << "%" << std::endl << std::endl;
+    out << "Found percentage - " << float(found)/elems_list.size()*100 << "%" << std::endl << std::endl;
 }
 
 void checkNonExistingElems(Cuckoo *c, std::vector<uint64_t> elems_list, std::ofstream& out) {
@@ -89,7 +89,7 @@ void checkNonExistingElems(Cuckoo *c, std::vector<uint64_t> elems_list, std::ofs
     out << "Time to check non existing " << elems_list.size() << " elems: " << elapsed_secs << std::endl;
     out << "Found - " << found << std::endl;
     out << "Not found - " << not_found << std::endl;
-    out << "False positives percentage - " << float(found)/not_found*100. << "%" << std::endl << std::endl;
+    out << "False positives percentage - " << float(found)/elems_list.size()*100. << "%" << std::endl << std::endl;
 }
 
 void removeElems(Cuckoo *c, std::vector<uint64_t> elems_list, std::ofstream& out) {
@@ -152,8 +152,7 @@ int main(int argc, const char* argv[]) {
     std::set_intersection(input_str_set.begin(), input_str_set.end(),
                           nonex_str_set.begin(), nonex_str_set.end(),
                           std::back_inserter(intersection));
-    out << "Intersection from input file - " << intersection.size() << std::endl;
-
+    out << "Intersection from input file - " << intersection.size() << std::endl << std::endl;
 
 
     Cuckoo c = Cuckoo();
