@@ -1,0 +1,49 @@
+bioinfo docs
+
+
+Opisati zadani algoritam/problem
+
+Zadatak je bio implementirati Cuckoo filter i testirati njegove performanse
+(vrijeme izvođenja, zauzeće memorije) pomoću k-mera različitih duljina.
+Te je performanse trebalo usporediti s već postojećom implementacijom filtra.
+
+Cuckoo filter je struktura podataka slična Bloom filtru s razlikom da se iz Cuckoo filtra
+elementi mogu brisati.
+Iz ove strukture podataka nije moguće izvlačiti elemente već samo provjeriti,
+s određenom sigurnošću, sadrži li određeni element.
+Filter se sastoji od tablice koja sadrži otiske (fingerprint) elemenata.
+Kako bi dobili otisak, potrebno je element provuć kroz hash funkciju te iz rezultata
+izvuć određeni broj bitova. Ti se bitovi unose u filter.
+Pretpostavimo li da se rezultati hash funkcija ne preklapaju za različite ulazne elemente,
+ovisno o količini bitova koje ćemo izolirati za otisak elemenata, postoji mogućnost da se oni
+preklapaju. Zbog toga se javljaju lažno pozitivni rezultati.
+
+Kako se iz Cuckoo filtra mogu brisati elementi, ta je struktura podataka mnogo brža za
+rad u situacijama kada nam je to važno od Bloom filtra kod kojeg se cijela struktura mora ponovno
+sagraditi kada želimo izbaciti neki element.
+
+
+Za testiranje performansi bilo je potrebno testirati filter s k-merama različitih duljina.
+Kako je postojeća implementacija podržavala samo cjelobrojni tip podataka, a k-mere su nizovi
+znakova, bilo je potrebno osmisliti enkoder znakova u cjelobrojni tip podataka.
+***CIZL OPISI MALO***
+
+
+Primjer
+
+
+
+
+
+
+Zaključak
+
+Ako pogledamo izvorni kod postojeće implementacije filtra, možemo vidjeti vrlo visoku razinu
+optimizacije koda pa ne čudi da je naša implementacija za red veličine sporija.
+
+Prosječno zauzeće memorije je ***
+Prosječna brzina unosa je ***
+Prosječna brzina provjere pola elemenata je ***
+Prosječni postotak lažno pozitivnih elemenata je ***
+
+Možemo vidjeti da je ***ovaj hash*** najbrži prilikom unosa podataka.
