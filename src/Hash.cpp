@@ -16,6 +16,15 @@ Hasher::Hasher(size_t bits_per_item) {
 Hasher::Hasher(size_t bits_per_item, Hash hash_function) {
     this->bits_per_item_ = bits_per_item;
     this->hash_function_ = hash_function;
+
+    std::random_device random;
+    for (auto v : {&multiply_, &add_}) {
+        *v = random();
+        for (int i = 1; i <= 4; ++i) {
+            *v = *v << 32;
+            *v |= random();
+        }
+    }
 }
 
 std::uint64_t Hasher::hash(int item) {
@@ -96,16 +105,6 @@ uint64_t stringToUint64(unsigned char *data) {
     return fingerprint;
 }
 
-uint64_t twoIndependentMultiplyShift(uint64_t item) {
-    unsigned __int128 multiply, add;
-    std::random_device random;
-    for (auto v : {&multiply, &add}) {
-        *v = random();
-        for (int i = 1; i <= 4; ++i) {
-            *v = *v << 32;
-            *v |= random();
-        }
-    }
-
-    return (add + multiply * static_cast<decltype(multiply)>(item)) >> 64;
+uint64_t Hasher::twoIndependentMultiplyShift(uint64_t item) {
+    return (add_ + multiply_ * static_cast<decltype(multiply_)>(item)) >> 64;
 };
