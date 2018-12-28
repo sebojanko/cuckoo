@@ -30,23 +30,24 @@ int main(int argc, const char* argv[]) {
         std::cout << "Usage: ./kmergen <len> <iterations> <outputFile> <type> [inputFile]\n<type> is 'gen' or 'ext'\n";
         return -1;
     }
-    
+
     int len = atoi(argv[1]);
     int noOfKMersToWrite = atoi(argv[2]);
     std::string outFilename = argv[3];
     std::string typeOfGeneration = argv[4];
 
-    KMerGenerator kmg = KMerGenerator();
     std::string output = "";
 
     if (typeOfGeneration == "gen") {
-      for (int i = 0; i < noOfKMersToWrite; i++)
-        output += kmg.GenerateRandomKMer(len) + "\n";
+        KMerGenerator kmg = KMerGenerator();
+        for (int i = 0; i < noOfKMersToWrite; i++)
+            output += kmg.GenerateRandomKMer(len) + "\n";
     }
     if (typeOfGeneration == "ext") {
-      std::string extractionFile = argv[5];
-      for (int i = 0; i < noOfKMersToWrite; i++)
-        output += kmg.ExtractRandomKMer(extractionFile, len) + "\n";
+        std::string extractionFile = argv[5];
+        KMerGenerator kmg = KMerGenerator(argv[5]);
+        for (int i = 0; i < noOfKMersToWrite; i++)
+            output += kmg.ExtractRandomKMer(extractionFile, len) + "\n";
     }
 
 
