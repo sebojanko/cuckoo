@@ -24,14 +24,14 @@ public:
     Hasher(size_t bits_per_item);
     Hasher(size_t bits_per_item, Hash hash_function);
 
-    uint64_t hash(std::string item);
-    uint64_t hash(int item);
+    template<class T>
+    uint64_t hash(T& item);
+    template<class T>
+    uint16_t fingerprint(T& item);
 
     // same as hash
     uint64_t operator()(std::string item);
 
-    uint16_t fingerprint(std::string item);
-    uint16_t fingerprint(uint64_t hash);
 
 };
 
