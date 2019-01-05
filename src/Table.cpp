@@ -51,13 +51,13 @@ bool Table::Insert(T& element) {
 template<class T>
 bool Table::Contains(T& element) {
     uint64_t h = getHash(element);
-    return std::find(table_[h].begin(), table_[h].end(), getFingerprint(h)) != table_[h].end();
+    return std::find(table_[h].begin(), table_[h].end(), getFingerprint(element)) != table_[h].end();
 }
 
 template<class T>
 bool Table::Remove(T& element) {
     uint64_t h = getHash(element);
-    std::list<uint16_t>::iterator it = std::find(table_[h].begin(), table_[h].end(), getFingerprint(h));
+    std::list<uint16_t>::iterator it = std::find(table_[h].begin(), table_[h].end(), getFingerprint(element));
     if (it != table_[h].end()) {
         table_[h].erase(it);
         return true;

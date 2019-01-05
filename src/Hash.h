@@ -19,6 +19,7 @@ class Hasher {
 private:
     size_t bits_per_item_;
     Hash hash_function_;
+    unsigned __int128 multiply_, add_;
 
 public:
     Hasher(size_t bits_per_item);
@@ -33,13 +34,13 @@ public:
     uint16_t fingerprint(std::string item);
     uint16_t fingerprint(uint64_t hash);
 
+    uint64_t twoIndependentMultiplyShift(uint64_t item);
 };
 
 
 uint32_t stringToUint32(unsigned char *data);
 uint64_t stringToUint64(unsigned char *data);
 
-uint64_t twoIndependentMultiplyShift(uint64_t item);
 
 #endif
 
