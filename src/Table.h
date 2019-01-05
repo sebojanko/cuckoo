@@ -32,13 +32,13 @@ public:
     Table(Hasher *hasher, int bucket_size = 8);
 
     template<class T>
-    bool Insert(T& element);
+    bool Insert(T element);
 
     template<class T>
-    bool Remove(T& element);
+    bool Remove(T element);
 
     template<class T>
-    bool Contains(T& element);
+    bool Contains(T element);
 
     void Print();
 

@@ -27,37 +27,60 @@ Table::Table(Hasher *hasher, int b_size) {
 }
 
 template<class T>
-bool Table::Insert(T& element) {
+bool Table::Insert(T element) {
+    unsigned long table_size = 8;
+    uint16_t f = getFingerprint(element);
+    uint64_t i1 = getHash(element);
+    uint64_t i2 = i1 ^ getHash(f);
+
+    if (table_[i1].size() < table_size) {
+        table_[i1].push_front(f);
+        return true;
+    }
+    if (table_[i2].size() < table_size) {
+        table_[i2].push_front(f);
+        return true;
+    }
+
     int iter = 0;
+    uint64_t i = (f % 2) ? i1 : i2;
+    T elem;
     while (iter++ < 500) {
-        uint16_t f = getFingerprint(element);
-        uint64_t i1 = getHash(element);
-        uint64_t i2 = i1 ^ getHash(f);
-        if (table_[i1].size() < 8) {
-            table_[i1].push_front(f);
+        elem = table_[i].back();
+        table_[i].pop_back();
+        table_[i].push_front(f);
+        f = elem;
+        i = i ^ getHash(f);
+        if (table_[i].size() < table_size) {
+            table_[i].push_front(f);
             return true;
-        } else if (table_[i2].size() < 8) {
-            table_[i2].push_front(f);
-            return true;
-        } else {
-            table_[i1].push_front(f);
-            element = table_[i1].back();
-            table_[i1].pop_back();
         }
     }
+    std::cout << "Filter full\n";
     return false;
 }
 
 template<class T>
-bool Table::Contains(T& element) {
-    uint64_t h = getHash(element);
-    return std::find(table_[h].begin(), table_[h].end(), getFingerprint(element)) != table_[h].end();
+bool Table::Contains(T element) {
+    uint16_t f = getFingerprint(element);
+    uint64_t i1 = getHash(element);
+    uint64_t i2 = i1 ^ getHash(f);
+    return
+        std::find(table_[i1].begin(), table_[i1].end(), f) != table_[i1].end() ||
+        std::find(table_[i2].begin(), table_[i2].end(), f) != table_[i2].end();
 }
 
 template<class T>
-bool Table::Remove(T& element) {
+bool Table::Remove(T element) {
+    uint16_t f = getFingerprint(element);
     uint64_t h = getHash(element);
-    std::list<uint16_t>::iterator it = std::find(table_[h].begin(), table_[h].end(), getFingerprint(element));
+    std::list<uint16_t>::iterator it = std::find(table_[h].begin(), table_[h].end(), f);
+    if (it != table_[h].end()) {
+        table_[h].erase(it);
+        return true;
+    }
+    h = h ^ getHash(f);
+    it = std::find(table_[h].begin(), table_[h].end(), f);
     if (it != table_[h].end()) {
         table_[h].erase(it);
         return true;
