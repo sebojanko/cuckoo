@@ -42,7 +42,7 @@ std::string getOutputArg(int argc, const char* argv[]) {
 }
 
 
-void insertElems(CuckooFilter<uint64_t, 8> *c, std::vector<uint64_t> elems_list, std::ofstream& out) {
+void insertElems(CuckooFilter *c, std::vector<uint64_t> elems_list, std::ofstream& out) {
     out << "Inserting " << elems_list.size() << " elems" << std::endl;
 
     clock_t begin = clock();
@@ -55,7 +55,7 @@ void insertElems(CuckooFilter<uint64_t, 8> *c, std::vector<uint64_t> elems_list,
     out << "Time to insert " << elems_list.size() << " elems: " << elapsed_secs << std::endl << std::endl;
 }
 
-void checkExistingElems(CuckooFilter<uint64_t, 8> *c, std::vector<uint64_t> elems_list, std::ofstream& out) {
+void checkExistingElems(CuckooFilter *c, std::vector<uint64_t> elems_list, std::ofstream& out) {
     out << "Checking " << elems_list.size() << " inserted elements:" << std::endl;
     int found{};
     int not_found{};
@@ -77,7 +77,7 @@ void checkExistingElems(CuckooFilter<uint64_t, 8> *c, std::vector<uint64_t> elem
     out << "Found percentage - " << float(not_found)/found*100 << "%" << std::endl << std::endl;
 }
 
-void checkNonExistingElems(CuckooFilter<uint64_t, 8> *c, std::vector<uint64_t> elems_list, std::ofstream& out) {
+void checkNonExistingElems(CuckooFilter *c, std::vector<uint64_t> elems_list, std::ofstream& out) {
     out << "Checking " << elems_list.size() << " not inserted elements:" << std::endl;
     
     int found{};
@@ -137,26 +137,31 @@ int main(int argc, const char* argv[]) {
     }
 
     CuckooFilter<uint64_t, 8> c(total_items);
-    /*Cuckoo c2 = Cuckoo(Hash::MD5);
-    Cuckoo c3 = Cuckoo(Hash::SHA1);
-    Cuckoo c4 = Cuckoo(Hash::TIMS);
-    Cuckoo c5 = Cuckoo(Hash::IDENTITY);*/
+    CuckooFilter<uint64_t, 8, SingleTable, TwoIndependentMultiplyShift> c2(total_items);
+    CuckooFilter<uint64_t, 8, SingleTable, SimpleTabulation> c3(total_items);
+
+    out << "Two independent multiply shift (TIMS)" << std::endl;
+    insertElems(&c2, input_vector, out);
+    checkExistingElems(&c2, input_vector, out);
+    checkNonExistingElems(&c2, nonex_vector, out);
+    removeElems(&c2, input_vector, out);
+    checkExistingElems(&c2, input_vector, out);
+    checkNonExistingElems(&c2, nonex_vector, out);
+    
+    out << std::string(20, '-') << std::endl;
 
 
-    /*std::cout << "IDENTITY (no hash)" << std::endl;
-    insertElems(&c5, NO_OF_ELEMS_TO_INSERT, input_vector);
-    checkExistingElems(&c5, NO_OF_EXISTING_ELEMS_TO_CHECK, input_vector);
-    checkNonExistingElems(&c5, NO_OF_NON_EXISTING_ELEMS_TO_CHECK, nonex_vector);
+    out << "SimpleTabulation" << std::endl;
+    insertElems(&c3, input_vector, out);
+    checkExistingElems(&c3, input_vector, out);
+    checkNonExistingElems(&c3, nonex_vector, out);
+    removeElems(&c3, input_vector, out);
+    checkExistingElems(&c3, input_vector, out);
+    checkNonExistingElems(&c3, nonex_vector, out);
     
-    std::cout << std::string(20, '-') << std::endl;
+    out << std::string(20, '-') << std::endl;
  
-    std::cout << "Two independent multiply shift (TIMS)" << std::endl;
-    insertElems(&c4, NO_OF_ELEMS_TO_INSERT, input_vector);
-    checkExistingElems(&c4, NO_OF_EXISTING_ELEMS_TO_CHECK, input_vector);
-    checkNonExistingElems(&c4, NO_OF_NON_EXISTING_ELEMS_TO_CHECK, nonex_vector);
-    
-    std::cout << std::string(20, '-') << std::endl;
- 
+    /*
     std::cout << "MD5 hash" << std::endl;
     insertElems(&c2, NO_OF_ELEMS_TO_INSERT, input_vector);
     checkExistingElems(&c2, NO_OF_EXISTING_ELEMS_TO_CHECK, input_vector);
@@ -169,14 +174,14 @@ int main(int argc, const char* argv[]) {
     checkExistingElems(&c3, NO_OF_EXISTING_ELEMS_TO_CHECK, input_vector);
     checkNonExistingElems(&c3, NO_OF_NON_EXISTING_ELEMS_TO_CHECK, nonex_vector);
     */
-
-    out << std::string(20, '-') << std::endl;
     
-    out << "std::hash" << std::endl;
+    out << "default hash" << std::endl;
     insertElems(&c, input_vector, out);
     checkExistingElems(&c, input_vector, out);
     checkNonExistingElems(&c, nonex_vector, out);
     removeElems(&c, input_vector, out);
+    checkExistingElems(&c, input_vector, out);
+    checkNonExistingElems(&c, nonex_vector, out);
     
 
     return 0;
