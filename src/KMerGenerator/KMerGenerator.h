@@ -17,7 +17,7 @@ private:
 
 public:
     std::string GenerateRandomKMer(int length);
-    std::string ExtractRandomKMer(std::string filename, int length);
+    std::string ExtractRandomKMer(int length);
 
     KMerGenerator() = default;
     KMerGenerator(std::string filename) {

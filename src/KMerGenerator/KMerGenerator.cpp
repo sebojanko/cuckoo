@@ -15,7 +15,7 @@ std::string KMerGenerator::GenerateRandomKMer(int length) {
     return out;
 }
 
-std::string KMerGenerator::ExtractRandomKMer(std::string filename, int length) {	
+std::string KMerGenerator::ExtractRandomKMer(int length) {	
 	std::random_device rd;
     std::mt19937 mt(rd());
     std::uniform_int_distribution<int> dist(0, sequence.length()-length);

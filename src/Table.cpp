@@ -45,7 +45,7 @@ bool Table::Insert(const T& element) {
 
     int iter = 0;
     uint64_t i = (f % 2) ? i1 : i2;
-    T elem;
+    uint16_t elem;
     while (iter++ < 500) {
         elem = table_[i].back();
         table_[i].pop_back();
@@ -57,7 +57,6 @@ bool Table::Insert(const T& element) {
             return true;
         }
     }
-    std::cout << "Filter full\n";
     return false;
 }
 
