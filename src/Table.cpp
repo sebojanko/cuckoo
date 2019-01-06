@@ -2,6 +2,7 @@
 // Created by Luka on 10/22/18.
 //
 
+#pragma once
 #include <iostream>
 #include "Table.h"
 
@@ -27,7 +28,7 @@ Table::Table(Hasher *hasher, int b_size) {
 }
 
 template<class T>
-bool Table::Insert(T element) {
+bool Table::Insert(const T& element) {
     unsigned long table_size = 8;
     uint16_t f = getFingerprint(element);
     uint64_t i1 = getHash(element);
@@ -61,39 +62,55 @@ bool Table::Insert(T element) {
 }
 
 template<class T>
-bool Table::Contains(T element) {
+bool Table::Contains(const T& element) const {
     uint16_t f = getFingerprint(element);
     uint64_t i1 = getHash(element);
+
+    auto it = table_.find(i1);
+    bool myb = false;
+    if (it != table_.end()) {
+        myb |= std::find(it->second.begin(), it->second.end(), f) != it->second.end();
+        if (myb) {
+            return myb;
+        }
+    }
     uint64_t i2 = i1 ^ getHash(f);
-    return
-        std::find(table_[i1].begin(), table_[i1].end(), f) != table_[i1].end() ||
-        std::find(table_[i2].begin(), table_[i2].end(), f) != table_[i2].end();
+    auto it2 = table_.find(i2);
+    if (it2 != table_.end()) {
+        myb |= std::find(it2->second.begin(), it2->second.end(), f) != it2->second.end();
+    }
+    return myb;
 }
 
 template<class T>
-bool Table::Remove(T element) {
+bool Table::Remove(const T& element) {
     uint16_t f = getFingerprint(element);
     uint64_t h = getHash(element);
-    std::list<uint16_t>::iterator it = std::find(table_[h].begin(), table_[h].end(), f);
-    if (it != table_[h].end()) {
-        table_[h].erase(it);
-        return true;
+    if (table_.count(h)) {
+        std::list<uint16_t>::iterator it = std::find(table_[h].begin(), table_[h].end(), f);
+        if (it != table_[h].end()) {
+            table_[h].erase(it);
+            return true;
+        }
     }
+
     h = h ^ getHash(f);
-    it = std::find(table_[h].begin(), table_[h].end(), f);
-    if (it != table_[h].end()) {
-        table_[h].erase(it);
-        return true;
+    if (table_.count(h)) {
+        std::list<uint16_t>::iterator it = std::find(table_[h].begin(), table_[h].end(), f);
+        if (it != table_[h].end()) {
+            table_[h].erase(it);
+            return true;
+        }
     }
     return false;
 }
 
 template<class T>
-uint16_t Table::getFingerprint(T& element) {
+uint16_t Table::getFingerprint(const T& element) const {
     return hasher_->fingerprint(element);
 }
 
 template<class T>
-uint64_t Table::getHash(T& element) {
+uint64_t Table::getHash(const T& element) const {
     return hasher_->hash(element);
 }

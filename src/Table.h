@@ -24,21 +24,21 @@ private:
     int bucket_size;
     
     template<class T>
-    uint64_t getHash(T& element);
+    uint64_t getHash(const T& element) const;
     template<class T>
-    uint16_t getFingerprint(T& element);
+    uint16_t getFingerprint(const T& element) const;
 
 public:
     Table(Hasher *hasher, int bucket_size = 8);
 
     template<class T>
-    bool Insert(T element);
+    bool Insert(const T& element);
 
     template<class T>
-    bool Remove(T element);
+    bool Remove(const T& element);
 
     template<class T>
-    bool Contains(T element);
+    bool Contains(const T& element) const;
 
     void Print();
 

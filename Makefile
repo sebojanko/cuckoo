@@ -4,10 +4,11 @@ SOURCES=src/main.cpp src/Cuckoo.cpp src/FastADocument.cpp src/GeneSequence.cpp s
 
 all: cuckoo test gen bench
 
-cuckoo: src/main.cpp src/Cuckoo.cpp src/FastADocument.cpp src/GeneSequence.cpp src/Hash.cpp src/Table.cpp
+#cuckoo: src/main.cpp src/Cuckoo.cpp src/FastADocument.cpp src/GeneSequence.cpp src/Hash.cpp src/Table.cpp
+cuckoo: src/main.cpp src/Cuckoo.cpp src/FastADocument.cpp src/GeneSequence.cpp src/Hash.cpp
 	$(CXX) $^ -o cuckoo $(CXXFLAGS)
 
-test: src/tests/main.cpp src/Table.cpp src/Bucket.cpp src/Hash.cpp src/FastADocument.cpp src/KMerGenerator/KMerGenerator.cpp src/SimpleEncoder.cpp
+test: src/tests/main.cpp src/FastADocument.cpp src/KMerGenerator/KMerGenerator.cpp src/SimpleEncoder.cpp
 	$(CXX) $^ -o test $(CXXFLAGS)
 
 gen: src/KMerGenerator/main.cpp src/FastADocument.cpp src/KMerGenerator/KMerGenerator.cpp

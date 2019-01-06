@@ -18,13 +18,13 @@ public:
     Cuckoo(Hash h);
 
     template<class T>
-    bool Insert(T& element);
+    bool Insert(const T& element);
 
     template<class T>
-    bool Remove(T& element);
+    bool Remove(const T& element);
 
     template<class T>
-    bool Contains(T& element);
+    bool Contains(const T& element) const;
 
     void Print();
 

@@ -20,17 +20,17 @@ Cuckoo::Cuckoo(Hash h) {
 }
 
 template<class T>
-bool Cuckoo::Insert(T& element) {
+bool Cuckoo::Insert(const T& element) {
 	return table_.Insert(element);
 }
 
 template<class T>
-bool Cuckoo::Remove(T& element) {
+bool Cuckoo::Remove(const T& element) {
 	return table_.Remove(element);
 }
 
 template<class T>
-bool Cuckoo::Contains(T& element) {
+bool Cuckoo::Contains(const T& element) const {
 	return table_.Contains(element);
 }
 
