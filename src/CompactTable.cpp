@@ -44,9 +44,10 @@ void CompactTable::Insert(uint64_t element) {
         // randomly select an entry e from bucket[i] and swap with f
         std::swap(f, table_[i * bucket_size_ + 1 + std::rand() % (bucket_size_ - 1)]);
         i = i ^ hasher_->hash(f);
+        i %= bucket_count_;
 
         n_items = table_[i * bucket_size_];
-        if (n_items < bucket_size_) {
+        if (n_items < bucket_size_ - 1) {
             table_[i * bucket_size_ + n_items + 1] = f;
             table_[i * bucket_size_]++;
             return;
