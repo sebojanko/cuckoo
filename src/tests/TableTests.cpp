@@ -1,10 +1,11 @@
 #include <iostream>
 #include <assert.h>
 #include "../Table.h"
+#include "../Table.cpp"
 #include "../Hash.h"
 
 void test_Table__InsertedOneElement__FindsOneElement() {
-    Hasher hasher(8);
+    Hasher hasher = Hasher(8);
     Table t = Table(&hasher);
     t.Insert(1);
     assert(t.Contains(1));

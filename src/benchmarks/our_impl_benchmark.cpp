@@ -3,11 +3,12 @@
 //
 #include <iostream>
 #include <fstream>
-#include "../Cuckoo.h"
-#include "../SimpleEncoder.h"
 #include <ctime>
 #include <set>
 
+#include "../Cuckoo.cpp"
+#include "../Cuckoo.h"
+#include "../SimpleEncoder.h"
 
 std::string getKMerDataInputArg(int argc, const char* argv[]) {
   if (argc < 2) {
@@ -33,28 +34,31 @@ std::string getOutputArg(int argc, const char* argv[]) {
   return argv[3];
 }
 
-
-void insertElems(Cuckoo *c, std::vector<uint64_t> elems_list, std::ofstream& out) {
+void insertElems(Cuckoo& c, std::vector<uint64_t>& elems_list, std::ofstream& out) {
     out << "Inserting " << elems_list.size() << " elems" << std::endl;
 
+    int not_inserted = 0;
     clock_t begin = clock();
     for (auto it = elems_list.begin(); it != elems_list.end(); it++) {
-        c->Insert(*it);
+        if (!c.Insert(*it)) {
+            not_inserted++;
+        }
     }
     clock_t end = clock();
     double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
     
     out << "Time to insert " << elems_list.size() << " elems: " << elapsed_secs << std::endl << std::endl;
+    out << "Failed to insert " << not_inserted << " elements." << std::endl;
 }
 
-void checkExistingElems(Cuckoo *c, std::vector<uint64_t> elems_list, std::ofstream& out) {
+void checkExistingElems(Cuckoo& c, std::vector<uint64_t>& elems_list, std::ofstream& out) {
     out << "Checking " << elems_list.size() << " inserted elements:" << std::endl;
     int found{};
     int not_found{};
 
     clock_t begin = clock();
     for (auto it = elems_list.begin(); it != elems_list.end(); it++) {
-        if (c->Contains(*it)) {
+        if (c.Contains(*it)) {
             found++;
         } else {
             not_found++;
@@ -69,7 +73,7 @@ void checkExistingElems(Cuckoo *c, std::vector<uint64_t> elems_list, std::ofstre
     out << "Found percentage - " << float(found)/elems_list.size()*100 << "%" << std::endl << std::endl;
 }
 
-void checkNonExistingElems(Cuckoo *c, std::vector<uint64_t> elems_list, std::ofstream& out) {
+void checkNonExistingElems(Cuckoo &c, std::vector<uint64_t>& elems_list, std::ofstream& out) {
     out << "Checking " << elems_list.size() << " not inserted elements:" << std::endl;
     
     int found{};
@@ -77,7 +81,7 @@ void checkNonExistingElems(Cuckoo *c, std::vector<uint64_t> elems_list, std::ofs
 
     clock_t begin = clock();
     for (auto it = elems_list.begin(); it != elems_list.end(); it++) {
-        if (c->Contains(*it)) {
+        if (c.Contains(*it)) {
             found++;
         } else {
             not_found++;
@@ -92,17 +96,21 @@ void checkNonExistingElems(Cuckoo *c, std::vector<uint64_t> elems_list, std::ofs
     out << "False positives percentage - " << float(found)/elems_list.size()*100. << "%" << std::endl << std::endl;
 }
 
-void removeElems(Cuckoo *c, std::vector<uint64_t> elems_list, std::ofstream& out) {
+void removeElems(Cuckoo& c, std::vector<uint64_t>& elems_list, std::ofstream& out) {
     out << "Removing " << elems_list.size() << " elems" << std::endl;
 
+    int not_removed = 0;
     clock_t begin = clock();
     for (auto it = elems_list.begin(); it != elems_list.end(); it++) {
-        c->Remove(*it);
+        if(!c.Remove(*it)) {
+            not_removed++;
+        }
     }
     clock_t end = clock();
     double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
     
     out << "Time to remove " << elems_list.size() << " elems: " << elapsed_secs << std::endl << std::endl;
+    out << "Failed to remove " << not_removed << " elements." << std::endl;
 }
 
 int main(int argc, const char* argv[]) {
@@ -155,60 +163,23 @@ int main(int argc, const char* argv[]) {
     out << "Intersection from input file - " << intersection.size() << std::endl << std::endl;
 
 
-    Cuckoo c = Cuckoo();
-    Cuckoo c2 = Cuckoo(Hash::MD5);
-    Cuckoo c3 = Cuckoo(Hash::SHA1);
-    Cuckoo c4 = Cuckoo(Hash::TIMS);
-    Cuckoo c5 = Cuckoo(Hash::IDENTITY);
+    std::vector<Cuckoo> cs = { Cuckoo(Hash::IDENTITY), Cuckoo(Hash::TIMS), Cuckoo(Hash::MD5), Cuckoo(), Cuckoo(Hash::SHA1) };
+    std::vector<std::string> descriptions = { "IDENTITY (no hash)", "Two independent multiply shift (TIMS)", "MD5 hash", "std::hash", "SHA1 hash" };
 
+    auto it = descriptions.begin();
 
-    out << "IDENTITY (no hash)" << std::endl;
-    insertElems(&c5, input_vector, out);
-    checkExistingElems(&c5, input_vector, out);
-    checkNonExistingElems(&c5, nonex_vector, out);
-    removeElems(&c5, input_vector, out);
-    checkExistingElems(&c5, input_vector, out);
-    checkNonExistingElems(&c5, nonex_vector, out);
-    
-    out << std::string(20, '-') << std::endl;
- 
-    out << "Two independent multiply shift (TIMS)" << std::endl;
-    insertElems(&c4, input_vector, out);
-    checkExistingElems(&c4, input_vector, out);
-    checkNonExistingElems(&c4, nonex_vector, out);
-    removeElems(&c4, input_vector, out);
-    checkExistingElems(&c4, input_vector, out);
-    checkNonExistingElems(&c4, nonex_vector, out);
-    
-    out << std::string(20, '-') << std::endl;
- 
-    out << "MD5 hash" << std::endl;
-    insertElems(&c2, input_vector, out);
-    checkExistingElems(&c2, input_vector, out);
-    checkNonExistingElems(&c2, nonex_vector, out);
-    removeElems(&c2, input_vector, out);
-    checkExistingElems(&c2, input_vector, out);
-    checkNonExistingElems(&c2, nonex_vector, out);
-    
-    out << std::string(20, '-') << std::endl;
-    
-    out << "std::hash" << std::endl;
-    insertElems(&c, input_vector, out);
-    checkExistingElems(&c, input_vector, out);
-    checkNonExistingElems(&c, nonex_vector, out);
-    removeElems(&c, input_vector, out);
-    checkExistingElems(&c, input_vector, out);
-    checkNonExistingElems(&c, nonex_vector, out);
-    
-    out << std::string(20, '-') << std::endl;
+    for(Cuckoo& c : cs) {
+        out << *it++ << std::endl;
 
-    out << "SHA1 hash" << std::endl;
-    insertElems(&c3, input_vector, out);
-    checkExistingElems(&c3, input_vector, out);
-    checkNonExistingElems(&c3, nonex_vector, out);
-    removeElems(&c3, input_vector, out);
-    checkExistingElems(&c3, input_vector, out);
-    checkNonExistingElems(&c3, nonex_vector, out);
+        insertElems(c, input_vector, out);
+        checkExistingElems(c, input_vector, out);
+        checkNonExistingElems(c, nonex_vector, out);
+        removeElems(c, input_vector, out);
+        checkExistingElems(c, input_vector, out);
+        checkNonExistingElems(c, nonex_vector, out);
+
+        out << std::string(20, '-') << std::endl;
+    }
 
     return 0;
 }
