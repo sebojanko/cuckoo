@@ -45,9 +45,9 @@ int main(int argc, const char* argv[]) {
     }
     if (typeOfGeneration == "ext") {
         std::string extractionFile = argv[5];
-        KMerGenerator kmg = KMerGenerator(argv[5]);
+        KMerGenerator kmg = KMerGenerator(extractionFile);
         for (int i = 0; i < noOfKMersToWrite; i++)
-            output += kmg.ExtractRandomKMer(extractionFile, len) + "\n";
+            output += kmg.ExtractRandomKMer(len) + "\n";
     }
 
 
