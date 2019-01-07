@@ -1,3 +1,4 @@
+#pragma once
 #include "Hash.h"
 
 #include <stdlib.h>
@@ -72,9 +73,9 @@ std::uint64_t Hasher::hash(std::string item) {
     }
 }
 
-std::uint64_t Hasher::operator()(std::string item) {
-    return std::hash<std::string>{}(item);
-}
+//std::uint64_t Hasher::operator()(std::string item) {
+//    return std::hash<std::string>{}(item);
+//}
 
 std::uint16_t Hasher::fingerprint(std::string item) {
     uint64_t fp = hash(item);

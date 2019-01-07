@@ -1,8 +1,8 @@
 #include "TableTests.cpp"
-#include "BucketTests.cpp"
 #include "KMerGeneratorTests.cpp"
 #include "SimpleEncoderTests.cpp"
 #include "CompactTableTests.cpp"
+#include <iostream>
 
 std::string getKMerDataInputArg(int argc, const char* argv[]) {
   if (argc < 2) {
@@ -42,20 +42,6 @@ int main(int argc, const char* argv[]) {
     test_Table__InsertedOneElement__DeletesOneElement();
     test_Table__InsertedOneElement__UnsuccessfulDeletionOfNonExistingElement();
     test_Table__InsertedTwoElements__DeletesBoth();
-
-
-    test_Bucket__InsertedOneElement__RetrievesFirst();
-    test_Bucket__InsertedFiveElements__RetrievesLast();
-    test_Bucket__InsertedFiveElements__RetrievesThird();
-    test_Bucket__InsertedTwoElements__FailsToRetrieveThird();
-    test_Bucket__InsertedTwoElements__FailsToRetrieveMinusFirst();
-
-    test_Bucket__InsertedOneElement__RetrievesFirstWithOverloadedOperator();
-    test_Bucket__InsertedFiveElements__RetrievesLastWithOverloadedOperator();
-    test_Bucket__InsertedFiveElements__RetrievesThirdWithOverloadedOperator();
-    test_Bucket__InsertedTwoElements__FailsToRetrieveThirdWithOverloadedOperator();
-    test_Bucket__InsertedTwoElements__FailsToRetrieveMinusFirstWithOverloadedOperator();
-
     
     test_KMerGenerator__GenerateRandom10Mer__ReturnsStringOfLength10();
     test_KMerGenerator__GenerateRandom1Mer__ReturnsStringOfLength1();

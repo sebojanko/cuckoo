@@ -2,7 +2,6 @@
 // Created by sebo on 11/28/18.
 //
 
-#include <iostream>
 #include "Cuckoo.h"
 
 Cuckoo::Cuckoo() {
@@ -18,30 +17,20 @@ Cuckoo::Cuckoo() {
 Cuckoo::Cuckoo(Hash h) {
     Hasher *hasher = new Hasher(8, h);
     table_ = Table(hasher);
-
 }
 
-void Cuckoo::Insert(std::string element) {
-	table_.Insert(element);
+template<class T>
+bool Cuckoo::Insert(const T& element) {
+	return table_.Insert(element);
 }
 
-void Cuckoo::Insert(uint64_t element) {
-	table_.Insert(element);
-}
-
-bool Cuckoo::Remove(std::string element) {
+template<class T>
+bool Cuckoo::Remove(const T& element) {
 	return table_.Remove(element);
 }
 
-bool Cuckoo::Remove(uint64_t element) {
-	return table_.Remove(element);
-}
-
-bool Cuckoo::Contains(std::string element) {
-	return table_.Contains(element);
-}
-
-bool Cuckoo::Contains(uint64_t element) {
+template<class T>
+bool Cuckoo::Contains(const T& element) const {
 	return table_.Contains(element);
 }
 
