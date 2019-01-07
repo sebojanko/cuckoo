@@ -27,7 +27,7 @@ public:
     Hasher(size_t bits_per_item, Hash hash_function);
 
     uint64_t hash(std::string item);
-    uint64_t hash(int item);
+    uint64_t hash(uint64_t item);
 
     // same as hash
     uint64_t operator()(std::string item);

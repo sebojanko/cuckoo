@@ -28,7 +28,7 @@ Hasher::Hasher(size_t bits_per_item, Hash hash_function) {
     }
 }
 
-std::uint64_t Hasher::hash(int item) {
+std::uint64_t Hasher::hash(uint64_t item) {
     if (this->hash_function_ == Hash::TIMS) {
         return twoIndependentMultiplyShift(item);
     }
@@ -51,7 +51,7 @@ std::uint64_t Hasher::hash(int item) {
     }
     // TODO dodat ostale hasheve
     if (this->hash_function_ == Hash::STL) {
-        return std::hash<int>{}(item);  
+        return std::hash<uint64_t>{}(item);  
     }
 }
 
@@ -78,15 +78,15 @@ std::uint64_t Hasher::hash(std::string item) {
 //}
 
 std::uint16_t Hasher::fingerprint(std::string item) {
-    uint64_t fp = hash(item);
-    fp = fp & ((1ULL << bits_per_item_) - 1);
-    fp += (fp == 0);
-    return fp;
+    //uint64_t fp = hash(item);
+    //fp = fp & ((1ULL << bits_per_item_) - 1);
+    //fp += (fp == 0);
+    return 0;
 }
 
 std::uint16_t Hasher::fingerprint(uint64_t hash) {
     hash = hash & ((1ULL << bits_per_item_) - 1);
-    hash += (hash == 0);
+    //hash += (hash == 0);
     return hash;
 }
 

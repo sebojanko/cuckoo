@@ -82,6 +82,7 @@ void checkNonExistingElems(Cuckoo &c, std::vector<uint64_t>& elems_list, std::of
     clock_t begin = clock();
     for (auto it = elems_list.begin(); it != elems_list.end(); it++) {
         if (c.Contains(*it)) {
+            //std::cout << "Element at index " << it-elems_list.begin() << " is already inside!\n";
             found++;
         } else {
             not_found++;
@@ -118,7 +119,7 @@ int main(int argc, const char* argv[]) {
 
     std::set<std::string> input_str_set{};
     std::set<uint64_t> input_enc_set{};
-    std::vector<uint64_t> input_vector{};
+    std::vector<uint64_t> input_vector;
 
     std::set<std::string> nonex_str_set{};
     std::set<uint64_t> nonex_enc_set{};
@@ -161,12 +162,19 @@ int main(int argc, const char* argv[]) {
                           nonex_str_set.begin(), nonex_str_set.end(),
                           std::back_inserter(intersection));
     out << "Intersection from input file - " << intersection.size() << std::endl << std::endl;
+ 
+    std::vector<uint64_t> intersection_encoding;
+    std::set_intersection(input_enc_set.begin(), input_enc_set.end(),
+                          nonex_enc_set.begin(), nonex_enc_set.end(),
+                          std::back_inserter(intersection_encoding));
+    out << "Intersecting encodings from input file - " << intersection_encoding.size() << std::endl << std::endl;
 
 
     std::vector<Cuckoo> cs = { Cuckoo(Hash::IDENTITY), Cuckoo(Hash::TIMS), Cuckoo(Hash::MD5), Cuckoo(), Cuckoo(Hash::SHA1) };
     std::vector<std::string> descriptions = { "IDENTITY (no hash)", "Two independent multiply shift (TIMS)", "MD5 hash", "std::hash", "SHA1 hash" };
 
     auto it = descriptions.begin();
+
 
     for(Cuckoo& c : cs) {
         out << *it++ << std::endl;
@@ -180,6 +188,7 @@ int main(int argc, const char* argv[]) {
 
         out << std::string(20, '-') << std::endl;
     }
+    //cs[0].Print();
 
     return 0;
 }

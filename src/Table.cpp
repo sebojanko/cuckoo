@@ -30,8 +30,8 @@ Table::Table(Hasher *hasher, int b_size) {
 template<class T>
 bool Table::Insert(const T& element) {
     unsigned long table_size = 8;
-    uint16_t f = getFingerprint(element);
     uint64_t i1 = getHash(element);
+    uint16_t f = getFingerprint(i1);
     uint64_t i2 = i1 ^ getHash(f);
 
     if (table_[i1].size() < table_size) {
@@ -62,8 +62,8 @@ bool Table::Insert(const T& element) {
 
 template<class T>
 bool Table::Contains(const T& element) const {
-    uint16_t f = getFingerprint(element);
     uint64_t i1 = getHash(element);
+    uint16_t f = getFingerprint(i1);
 
     auto it = table_.find(i1);
     bool myb = false;
@@ -83,8 +83,8 @@ bool Table::Contains(const T& element) const {
 
 template<class T>
 bool Table::Remove(const T& element) {
-    uint16_t f = getFingerprint(element);
     uint64_t h = getHash(element);
+    uint16_t f = getFingerprint(h);
     if (table_.count(h)) {
         std::list<uint16_t>::iterator it = std::find(table_[h].begin(), table_[h].end(), f);
         if (it != table_[h].end()) {
