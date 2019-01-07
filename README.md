@@ -1,5 +1,6 @@
 # cuckoo
-Implementation of the cuckoo filter
+Implementation of the cuckoo filter for the Bioinformatics course, Faculty of electrical engineering and computing on the University of Zagreb.
+https://www.fer.unizg.hr/en/course/bio
 
 
 ### Compiling
