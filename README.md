@@ -23,7 +23,7 @@ Use the Generator to create input files of either random k-mers or k-mers extrac
 <type> is 'gen' (for generating random k-mers) or 'ext' (for extraction from [inputFile])
   
 #### Example:
-`./kmergen 20 1000000 input.txt gen`
+`./kmergen 20 1000000 generated_1M_20mer.txt gen`
 This generates one million random 20-mers and writes them to input.txt.
 
 
