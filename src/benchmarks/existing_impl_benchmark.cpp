@@ -10,10 +10,6 @@
 #include "SimpleEncoder.h"
 
 
-#define NO_OF_ELEMS_TO_INSERT 1'000'000
-#define NO_OF_EXISTING_ELEMS_TO_CHECK 500'000
-#define NO_OF_NON_EXISTING_ELEMS_TO_CHECK 500'000
-
 using namespace cuckoofilter;
 
 
@@ -41,8 +37,8 @@ std::string getOutputArg(int argc, const char* argv[]) {
   return argv[3];
 }
 
-
-void insertElems(CuckooFilter<uint64_t, 8> *c, std::vector<uint64_t> elems_list, std::ofstream& out) {
+template <class T>
+void insertElems(T *c, std::vector<uint64_t> elems_list, std::ofstream& out) {
     out << "Inserting " << elems_list.size() << " elems" << std::endl;
 
     clock_t begin = clock();
@@ -55,7 +51,8 @@ void insertElems(CuckooFilter<uint64_t, 8> *c, std::vector<uint64_t> elems_list,
     out << "Time to insert " << elems_list.size() << " elems: " << elapsed_secs << std::endl << std::endl;
 }
 
-void checkExistingElems(CuckooFilter<uint64_t, 8> *c, std::vector<uint64_t> elems_list, std::ofstream& out) {
+template <class T>
+void checkExistingElems(T *c, std::vector<uint64_t> elems_list, std::ofstream& out) {
     out << "Checking " << elems_list.size() << " inserted elements:" << std::endl;
     int found{};
     int not_found{};
@@ -74,10 +71,11 @@ void checkExistingElems(CuckooFilter<uint64_t, 8> *c, std::vector<uint64_t> elem
     out << "Time to check existing " << elems_list.size() << " elems: " << elapsed_secs << std::endl;
     out << "Found - " << found << std::endl;
     out << "Not found - " << not_found << std::endl;
-    out << "Found percentage - " << float(not_found)/found*100 << "%" << std::endl << std::endl;
+    out << "Found percentage - " << float(found)/elems_list.size()*100 << "%" << std::endl << std::endl;
 }
 
-void checkNonExistingElems(CuckooFilter<uint64_t, 8> *c, std::vector<uint64_t> elems_list, std::ofstream& out) {
+template <class T>
+void checkNonExistingElems(T *c, std::vector<uint64_t> elems_list, std::ofstream& out) {
     out << "Checking " << elems_list.size() << " not inserted elements:" << std::endl;
     
     int found{};
@@ -97,10 +95,11 @@ void checkNonExistingElems(CuckooFilter<uint64_t, 8> *c, std::vector<uint64_t> e
     out << "Time to check non existing " << elems_list.size() << " elems: " << elapsed_secs << std::endl;
     out << "Found - " << found << std::endl;
     out << "Not found - " << not_found << std::endl;
-    out << "False positives percentage - " << float(found)/not_found*100. << "%" << std::endl;
+    out << "False positives percentage - " << float(found)/elems_list.size()*100. << "%" << std::endl << std::endl;
 }
 
-void removeElems(CuckooFilter<uint64_t, 8> *c, std::vector<uint64_t> elems_list, std::ofstream& out) {
+template <class T>
+void removeElems(T *c, std::vector<uint64_t> elems_list, std::ofstream& out) {
     out << "Removing " << elems_list.size() << " elems" << std::endl;
 
     clock_t begin = clock();
@@ -113,10 +112,7 @@ void removeElems(CuckooFilter<uint64_t, 8> *c, std::vector<uint64_t> elems_list,
     out << "Time to remove " << elems_list.size() << " elems: " << elapsed_secs << std::endl << std::endl;
 }
 
-int main(int argc, const char* argv[]) {
-    // TODO ubacit formatiranje ispisa
-    int total_items{1'000'000};
-    
+int main(int argc, const char* argv[]) {    
     SimpleEncoder encoder{3};
     std::vector<uint64_t> input_vector{};
     std::vector<uint64_t> nonex_vector{};
@@ -136,47 +132,32 @@ int main(int argc, const char* argv[]) {
         nonex_vector.push_back(encoder.encode(line));
     }
 
-    CuckooFilter<uint64_t, 8> c(total_items);
-    /*Cuckoo c2 = Cuckoo(Hash::MD5);
-    Cuckoo c3 = Cuckoo(Hash::SHA1);
-    Cuckoo c4 = Cuckoo(Hash::TIMS);
-    Cuckoo c5 = Cuckoo(Hash::IDENTITY);*/
+    CuckooFilter<uint64_t, 17> c(input_vector.size());
+    CuckooFilter<uint64_t, 17, SingleTable, TwoIndependentMultiplyShift> c2(input_vector.size());
+    CuckooFilter<uint64_t, 17, SingleTable, SimpleTabulation> c3(input_vector.size());
 
-
-    /*std::cout << "IDENTITY (no hash)" << std::endl;
-    insertElems(&c5, NO_OF_ELEMS_TO_INSERT, input_vector);
-    checkExistingElems(&c5, NO_OF_EXISTING_ELEMS_TO_CHECK, input_vector);
-    checkNonExistingElems(&c5, NO_OF_NON_EXISTING_ELEMS_TO_CHECK, nonex_vector);
-    
-    std::cout << std::string(20, '-') << std::endl;
- 
-    std::cout << "Two independent multiply shift (TIMS)" << std::endl;
-    insertElems(&c4, NO_OF_ELEMS_TO_INSERT, input_vector);
-    checkExistingElems(&c4, NO_OF_EXISTING_ELEMS_TO_CHECK, input_vector);
-    checkNonExistingElems(&c4, NO_OF_NON_EXISTING_ELEMS_TO_CHECK, nonex_vector);
-    
-    std::cout << std::string(20, '-') << std::endl;
- 
-    std::cout << "MD5 hash" << std::endl;
-    insertElems(&c2, NO_OF_ELEMS_TO_INSERT, input_vector);
-    checkExistingElems(&c2, NO_OF_EXISTING_ELEMS_TO_CHECK, input_vector);
-    checkNonExistingElems(&c2, NO_OF_NON_EXISTING_ELEMS_TO_CHECK, nonex_vector);
-    
-    std::cout << std::string(20, '-') << std::endl;
-
-    std::cout << "SHA1 hash" << std::endl;
-    insertElems(&c3, NO_OF_ELEMS_TO_INSERT, input_vector);
-    checkExistingElems(&c3, NO_OF_EXISTING_ELEMS_TO_CHECK, input_vector);
-    checkNonExistingElems(&c3, NO_OF_NON_EXISTING_ELEMS_TO_CHECK, nonex_vector);
-    */
-
-    out << std::string(20, '-') << std::endl;
-    
+  
     out << "std::hash" << std::endl;
     insertElems(&c, input_vector, out);
     checkExistingElems(&c, input_vector, out);
     checkNonExistingElems(&c, nonex_vector, out);
     removeElems(&c, input_vector, out);
+
+    out << std::string(20, '-') << std::endl;
+    
+    out << "TIMS" << std::endl;
+    insertElems(&c2, input_vector, out);
+    checkExistingElems(&c2, input_vector, out);
+    checkNonExistingElems(&c2, nonex_vector, out);
+    removeElems(&c2, input_vector, out);
+
+    out << std::string(20, '-') << std::endl;
+    
+    out << "SimpleTabulation" << std::endl;
+    insertElems(&c3, input_vector, out);
+    checkExistingElems(&c3, input_vector, out);
+    checkNonExistingElems(&c3, nonex_vector, out);
+    removeElems(&c3, input_vector, out);
     
 
     return 0;
