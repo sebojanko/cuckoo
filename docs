@@ -40,18 +40,51 @@ Zaključak
 
 Ako pogledamo izvorni kod postojeće implementacije filtra, možemo vidjeti vrlo visoku razinu
 optimizacije koda pa ne čudi da je naša implementacija za red veličine sporija.
+Također, kako enkoder radi samo za kmere veličine 20 i manje, 50-mere, 100-mere i 200-mere
+se obrađuju kao stringovi, što je sporije od baratanja s integerima.
+
+
 
 Prosječno zauzeće memorije:
 	k 		broj k-mera 	tablica 	hash 	vrijeme (sec)
+	***MARK***
+
 
 Brzina unosa:
 	k 		broj k-mera 	tablica 	hash 	vrijeme (sec)
 	10		50k				single		TIMS	0.0078
 	10		50k				single		MD5		0.0284
 	10		50k				single		SHA1	0.0280
+	10		1M				single		TIMS	
+	10		1M				single		MD5		
+	10		1M				single		SHA1	
 	20		1M				single		TIMS	0.41
 	20		1M				single		MD5		0.88
 	20		1M				single		SHA1	0.86
+	50		1M				single		TIMS	0.57
+	50		1M				single		MD5 	0.78
+	50		1M				single		SHA1 	0.75
+	100		1M				single		TIMS 	0.58
+	100		1M				single		MD5 	0.87
+	100		1M				single		SHA1 	0.83
+	200		1M				single		TIMS 	0.59
+	200		1M				single		MD5 	1.03
+	200		1M				single		SHA1  	1.12
+	10		50k				compact		TIMS	
+	10		50k				compact		MD5		
+	10		50k				compact		SHA1	
+	20		1M				compact		TIMS	
+	20		1M				compact		MD5		
+	20		1M				compact		SHA1	
+	50		1M				compact		TIMS
+	50		1M				compact		MD5
+	50		1M				compact		SHA1
+	100		1M				compact		TIMS
+	100		1M				compact		MD5
+	100		1M				compact		SHA1
+	200		1M				compact		TIMS
+	200		1M				compact		MD5
+	200		1M				compact		SHA1
 
 Brzina provjere uspješnog unosa elemenata:
 	k 		broj k-mera 	tablica 	hash 	vrijeme (sec)
@@ -61,17 +94,65 @@ Brzina provjere uspješnog unosa elemenata:
 	20 		1M				single	 	TIMS	0.13
 	20 		1M				single	 	MD5		0.51
 	20		1M				single		SHA1 	0.45
+	50		1M				single		TIMS	0.39
+	50		1M				single		MD5 	0.39
+	50		1M				single		SHA1 	0.85
+	100		1M				single		TIMS 	0.38
+	100		1M				single		MD5 	0.45
+	100		1M				single		SHA1 	0.44
+	200		1M				single		TIMS 	0.41
+	200		1M				single		MD5 	0.75
+	200		1M				single		SHA1 	0.58
+	10		50k				compact		TIMS	
+	10		50k				compact		MD5		
+	10		50k				compact		SHA1	
+	20 		1M				compact	 	TIMS	
+	20 		1M				compact	 	MD5		
+	20		1M				compact		SHA1 	
+	50		1M				compact		TIMS
+	50		1M				compact		MD5
+	50		1M				compact		SHA1
+	100		1M				compact		TIMS
+	100		1M				compact		MD5
+	100		1M				compact		SHA1
+	200		1M				compact		TIMS
+	200		1M				compact		MD5
+	200		1M				compact		SHA1
 
 Postotak lažno pozitivnih elemenata:
 	k 		broj 		broj 			tablica 	hash 	false positives (%)
 			unesenih	nepostojecih
 			k-mera		k-mera
-	10		50k			5k				single		TIMS	unijet brojeve kada napravimo oduzimanje skupova
-	10		50k			5k				single		MD5		unijet brojeve kada napravimo oduzimanje skupova
-	10		50k			5k				single		SHA1	unijet brojeve kada napravimo oduzimanje skupova
-	20		1M			500k			single		TIMS 	unijet brojeve kada napravimo oduzimanje skupova
-	20		1M			500k			single		MD5 	unijet brojeve kada napravimo oduzimanje skupova
-	20		1M			500k			single		SHA1 	unijet brojeve kada napravimo oduzimanje skupova
+	10		50k			5k				single		TIMS	
+	10		50k			5k				single		MD5		
+	10		50k			5k				single		SHA1	
+	20		1M			500k			single		TIMS 	
+	20		1M			500k			single		MD5 	
+	20		1M			500k			single		SHA1 	
+	50		1M			500k			single		TIMS	
+	50		1M			500k			single		MD5		
+	50		1M			500k			single		SHA1		
+	100		1M			500k			single		TIMS	
+	100		1M			500k			single		MD5		
+	100		1M			500k			single		SHA1		
+	200		1M			500k			single		TIMS	
+	200		1M			500k			single		MD5		
+	200		1M			500k			single		SHA1		
+	10		50k			5k				compact		TIMS	
+	10		50k			5k				compact		MD5		
+	10		50k			5k				compact		SHA1	
+	20		1M			500k			compact		TIMS 	
+	20		1M			500k			compact		MD5 	
+	20		1M			500k			compact		SHA1 	
+	50		1M			500k			compact		TIMS	
+	50		1M			500k			compact		MD5		
+	50		1M			500k			compact		SHA1		
+	100		1M			500k			compact		TIMS	
+	100		1M			500k			compact		MD5		
+	100		1M			500k			compact		SHA1		
+	200		1M			500k			compact		TIMS	
+	200		1M			500k			compact		MD5		
+	200		1M			500k			compact		SHA1		
 
 Brisanje svih elemenata iz tablice:
 	k 		broj k-mera 	tablica 	hash 	vrijeme (sec)
@@ -81,3 +162,27 @@ Brisanje svih elemenata iz tablice:
 	20		1M				single		TIMS 	0.33
 	20		1M				single		MD5 	0.59
 	20		1M				single		SHA1 	0.56
+	50		1M				single		TIMS
+	50		1M				single		MD5
+	50		1M				single		SHA1
+	100		1M				single		TIMS
+	100		1M				single		MD5
+	100		1M				single		SHA1
+	200		1M				single		TIMS
+	200		1M				single		MD5
+	200		1M				single		SHA1
+	10		50k				compact		TIMS	
+	10		50k				compact		MD5		
+	10		50k				compact		SHA1	
+	20		1M				compact		TIMS 	
+	20		1M				compact		MD5 	
+	20		1M				compact		SHA1 	
+	50		1M				compact		TIMS
+	50		1M				compact		MD5
+	50		1M				compact		SHA1
+	100		1M				compact		TIMS
+	100		1M				compact		MD5
+	100		1M				compact		SHA1
+	200		1M				compact		TIMS
+	200		1M				compact		MD5
+	200		1M				compact		SHA1

@@ -35,7 +35,7 @@ std::string getOutputArg(int argc, const char* argv[]) {
 }
 
 template<class T>
-void insertElems(Cuckoo& c, std::vector<T>& elems_list, std::ofstream& out) {
+void insertElems(Cuckoo& c, T& elems_list, std::ofstream& out) {
     out << "Inserting " << elems_list.size() << " elems" << std::endl;
 
     int not_inserted = 0;
@@ -53,7 +53,7 @@ void insertElems(Cuckoo& c, std::vector<T>& elems_list, std::ofstream& out) {
 }
 
 template<class T>
-void checkExistingElems(Cuckoo& c, std::vector<T>& elems_list, std::ofstream& out) {
+void checkExistingElems(Cuckoo& c, T& elems_list, std::ofstream& out) {
     out << "Checking " << elems_list.size() << " inserted elements:" << std::endl;
     int found{};
     int not_found{};
@@ -76,7 +76,7 @@ void checkExistingElems(Cuckoo& c, std::vector<T>& elems_list, std::ofstream& ou
 }
 
 template<class T>
-void checkNonExistingElems(Cuckoo &c, std::vector<T>& elems_list, std::ofstream& out) {
+void checkNonExistingElems(Cuckoo &c, T& elems_list, std::ofstream& out) {
     out << "Checking " << elems_list.size() << " not inserted elements:" << std::endl;
     
     int found{};
@@ -101,7 +101,7 @@ void checkNonExistingElems(Cuckoo &c, std::vector<T>& elems_list, std::ofstream&
 }
 
 template<class T>
-void removeElems(Cuckoo& c, std::vector<T>& elems_list, std::ofstream& out) {
+void removeElems(Cuckoo& c, T& elems_list, std::ofstream& out) {
     out << "Removing " << elems_list.size() << " elems" << std::endl;
 
     int not_removed = 0;
@@ -122,12 +122,14 @@ int main(int argc, const char* argv[]) {
     SimpleEncoder encoder{};
 
     std::set<std::string> input_str_set{};
+    std::vector<std::string> input_vector_str{};
     std::set<uint64_t> input_enc_set{};
-    std::vector<uint64_t> input_vector;
+    std::vector<uint64_t> input_vector_enc{};
 
     std::set<std::string> nonex_str_set{};
+    std::vector<std::string> nonex_vector_str{};
     std::set<uint64_t> nonex_enc_set{};
-    std::vector<uint64_t> nonex_vector{};
+    std::vector<uint64_t> nonex_vector_enc{};
 
     std::string kMerInputFilename{getKMerDataInputArg(argc, argv)};
     std::string kMerNonExFilename{getKMerDataNonExistingArg(argc, argv)};
@@ -138,27 +140,50 @@ int main(int argc, const char* argv[]) {
     std::ofstream out(outputFilename);
 
     std::string line;
+    int size{};
 
+    std::getline(infile, line);
+    input_str_set.insert(line);
+    size = line.length();
+    out << "Inserting " << size << "-mers" << std::endl;
 
     while (std::getline(infile, line)) {
         input_str_set.insert(line);
-        input_enc_set.insert(encoder.encode(line));
+    }
+
+    if (size <= 20) {
+        for (auto l : input_str_set)
+            input_enc_set.insert(encoder.encode(l));
     }
 
     out << "Number of unique k-mers for input - " << input_str_set.size() << std::endl;
-    out << "Number of unique encodings for input - " << input_enc_set.size() << std::endl;
-    std::copy(input_enc_set.begin(), input_enc_set.end(), std::back_inserter(input_vector));
+    if (size <= 20) {
+        out << "Number of unique encodings for input - " << input_enc_set.size() << std::endl;
+        std::copy(input_enc_set.begin(), input_enc_set.end(), std::back_inserter(input_vector_enc));
+    } else {
+        std::copy(input_str_set.begin(), input_str_set.end(), std::back_inserter(input_vector_str));
+    }
 
+    std::getline(nonex_file, line);
+    nonex_str_set.insert(line);
+    size = line.length();
 
     while (std::getline(nonex_file, line)) {
         nonex_str_set.insert(line);
-        nonex_enc_set.insert(encoder.encode(line));
     }
-    std::copy(nonex_enc_set.begin(), nonex_enc_set.end(), std::back_inserter(nonex_vector));
+
+     if (size <= 20) {
+        for (auto l : nonex_str_set)
+            nonex_enc_set.insert(encoder.encode(l));
+    }
 
     out << "Number of unique nonexistent k-mers - " << nonex_str_set.size() << std::endl;
-    out << "Number of unique nonexistent encodings - " << nonex_enc_set.size() << std::endl;
-
+    if (size <= 20) {
+        out << "Number of unique nonexistent encodings - " << nonex_enc_set.size() << std::endl;
+        std::copy(nonex_enc_set.begin(), nonex_enc_set.end(), std::back_inserter(nonex_vector_enc));
+    } else {
+        std::copy(nonex_str_set.begin(), nonex_str_set.end(), std::back_inserter(nonex_vector_str));
+    }
 
     std::vector<std::string> intersection;
  
@@ -181,28 +206,50 @@ int main(int argc, const char* argv[]) {
                           std::back_inserter(difference_encoding));
     out << "Intersecting encodings from input file - " << abs((int) nonex_enc_set.size() - (int) difference_encoding.size()) << std::endl << std::endl;
 
+    if (size <= 20) {
+        std::vector<std::string> difference_encoding_str;
+        std::set_difference(nonex_str_set.begin(), nonex_str_set.end(),
+                            input_str_set.begin(), input_str_set.end(),
+                            std::back_inserter(difference_encoding_str));
+        nonex_vector_str.clear();
+        std::copy(difference_encoding_str.begin(), difference_encoding_str.end(), std::back_inserter(nonex_vector_str));
+        out << "Intersecting encodings from input file - " << abs((int) difference_encoding_str.size() - (int) input_str_set.size())<< std::endl << std::endl;
+    } else {
+        std::vector<uint64_t> difference_encoding_enc;
+        std::set_difference(nonex_enc_set.begin(), nonex_enc_set.end(),
+                            input_enc_set.begin(), input_enc_set.end(),
+                            std::back_inserter(difference_encoding_enc));
+        nonex_vector_enc.clear();
+        std::copy(difference_encoding_enc.begin(), difference_encoding_enc.end(), std::back_inserter(nonex_vector_enc));
+        out << "Intersecting encodings from input file - " << abs((int) difference_encoding_enc.size() - (int) input_enc_set.size())<< std::endl << std::endl;
+    }
 
-    nonex_vector.clear();
-    std::copy(difference_encoding.begin(), difference_encoding.end(), std::back_inserter(nonex_vector));
-    std::vector<Cuckoo> cs = { Cuckoo(Hash::IDENTITY), Cuckoo(Hash::TIMS), Cuckoo(Hash::MD5), Cuckoo(), Cuckoo(Hash::SHA1) };
-    std::vector<std::string> descriptions = { "IDENTITY (no hash)", "Two independent multiply shift (TIMS)", "MD5 hash", "std::hash", "SHA1 hash" };
+    std::vector<Cuckoo> cs = { Cuckoo(Hash::TIMS), Cuckoo(Hash::MD5), Cuckoo(Hash::SHA1) };
+    std::vector<std::string> descriptions = {"Two independent multiply shift (TIMS)", "MD5 hash", "SHA1 hash" };
 
     auto it = descriptions.begin();
-
 
     for(Cuckoo& c : cs) {
         out << *it++ << std::endl;
 
-        insertElems(c, input_vector, out);
-        checkExistingElems(c, input_vector, out);
-        checkNonExistingElems(c, nonex_vector, out);
-        removeElems(c, input_vector, out);
-        checkExistingElems(c, input_vector, out);
-        checkNonExistingElems(c, nonex_vector, out);
-
+        if (size <= 20) {
+            insertElems(c, input_vector_enc, out);
+            checkExistingElems(c, input_vector_enc, out);
+            checkNonExistingElems(c, nonex_vector_enc, out);
+            removeElems(c, input_vector_enc, out);
+            checkExistingElems(c, input_vector_enc, out);
+            checkNonExistingElems(c, nonex_vector_enc, out);
+        } else {
+            insertElems(c, input_vector_str, out);
+            checkExistingElems(c, input_vector_str, out);
+            checkNonExistingElems(c, nonex_vector_str, out);
+            removeElems(c, input_vector_str, out);
+            checkExistingElems(c, input_vector_str, out);
+            checkNonExistingElems(c, nonex_vector_str, out);
+        }
         out << std::string(20, '-') << std::endl;
     }
-    //cs[0].Print();
+
 
     return 0;
 }
