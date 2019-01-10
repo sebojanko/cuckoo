@@ -63,13 +63,15 @@ Brzina provjere uspješnog unosa elemenata:
 	20		1M				single		SHA1 	0.45
 
 Postotak lažno pozitivnih elemenata:
-	k 		broj k-mera 	tablica 	hash 	false positives (%)
-	10		5k				single		TIMS	unijet brojeve kada napravimo oduzimanje skupova
-	10		5k				single		MD5		unijet brojeve kada napravimo oduzimanje skupova
-	10		5k				single		SHA1	unijet brojeve kada napravimo oduzimanje skupova
-	20		500k			single		TIMS 	unijet brojeve kada napravimo oduzimanje skupova
-	20		500k			single		MD5 	unijet brojeve kada napravimo oduzimanje skupova
-	20		500k			single		SHA1 	unijet brojeve kada napravimo oduzimanje skupova
+	k 		broj 		broj 			tablica 	hash 	false positives (%)
+			unesenih	nepostojecih
+			k-mera		k-mera
+	10		50k			5k				single		TIMS	unijet brojeve kada napravimo oduzimanje skupova
+	10		50k			5k				single		MD5		unijet brojeve kada napravimo oduzimanje skupova
+	10		50k			5k				single		SHA1	unijet brojeve kada napravimo oduzimanje skupova
+	20		1M			500k			single		TIMS 	unijet brojeve kada napravimo oduzimanje skupova
+	20		1M			500k			single		MD5 	unijet brojeve kada napravimo oduzimanje skupova
+	20		1M			500k			single		SHA1 	unijet brojeve kada napravimo oduzimanje skupova
 
 Brisanje svih elemenata iz tablice:
 	k 		broj k-mera 	tablica 	hash 	vrijeme (sec)
