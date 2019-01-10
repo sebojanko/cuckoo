@@ -14,7 +14,8 @@ CompactTable::CompactTable(Hasher *hasher, int bucket_size, int bucket_count) {
     memset(table_, 0, len);
 }
 
-bool CompactTable::Insert(uint64_t element) {
+template<class T>
+bool CompactTable::Insert(const T& element) {
     uint16_t f = hasher_->fingerprint(element);
     uint64_t i1 = hasher_->hash(element);
     uint64_t i2 = i1 ^ hasher_->hash(f);
@@ -58,7 +59,8 @@ bool CompactTable::Insert(uint64_t element) {
     return false;
 }
 
-bool CompactTable::Remove(uint64_t element) {
+template<class T>
+bool CompactTable::Remove(const T& element) {
     uint16_t f = hasher_->fingerprint(element);
     uint64_t i1 = hasher_->hash(element);
     uint64_t i2 = i1 ^ hasher_->hash(f);
@@ -106,7 +108,8 @@ bool CompactTable::Remove(uint64_t element) {
     return false;
 }
 
-bool CompactTable::Contains(uint64_t element) {
+template<class T>
+bool CompactTable::Contains(const T& element) {
     uint16_t f = hasher_->fingerprint(element);
     uint64_t i1 = hasher_->hash(element);
     uint64_t i2 = i1 ^ hasher_->hash(f);

@@ -4,6 +4,7 @@
 #include <iostream>
 #include <assert.h>
 #include "../CompactTable.h"
+#include "../CompactTable.cpp"
 #include "../Hash.h"
 
 void test_CompactTable__InsertedOneElement__FindsOneElement() {

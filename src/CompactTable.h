@@ -25,11 +25,14 @@ private:
 public:
     CompactTable(Hasher *hasher, int bucket_size = 8, int bucket_count = 200000);
 
-    bool Insert(uint64_t element);
+    template<class T>
+    bool Insert(const T& element);
 
-    bool Remove(uint64_t element);
+    template<class T>
+    bool Remove(const T& element);
 
-    bool Contains(uint64_t element);
+    template<class T>
+    bool Contains(const T& element);
 
     void Print();
 
