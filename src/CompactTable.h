@@ -25,7 +25,7 @@ private:
 public:
     CompactTable(Hasher *hasher, int bucket_size = 8, int bucket_count = 200000);
 
-    void Insert(uint64_t element);
+    bool Insert(uint64_t element);
 
     bool Remove(uint64_t element);
 

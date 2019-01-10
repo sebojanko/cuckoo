@@ -14,7 +14,7 @@ CompactTable::CompactTable(Hasher *hasher, int bucket_size, int bucket_count) {
     memset(table_, 0, len);
 }
 
-void CompactTable::Insert(uint64_t element) {
+bool CompactTable::Insert(uint64_t element) {
     uint16_t f = hasher_->fingerprint(element);
     uint64_t i1 = hasher_->hash(element);
     uint64_t i2 = i1 ^ hasher_->hash(f);
@@ -27,13 +27,13 @@ void CompactTable::Insert(uint64_t element) {
     if (n_items < bucket_size_ - 1) {
         table_[i1 * bucket_size_ + n_items + 1] = f;
         table_[i1 * bucket_size_]++;
-        return;
+        return true;
     }
     n_items = table_[i2 * bucket_size_];
     if (n_items < bucket_size_ - 1) {
         table_[i2 * bucket_size_ + n_items + 1] = f;
         table_[i2 * bucket_size_]++;
-        return;
+        return true;
     }
 
     // no free buckets, must relocate existing items
@@ -50,12 +50,12 @@ void CompactTable::Insert(uint64_t element) {
         if (n_items < bucket_size_ - 1) {
             table_[i * bucket_size_ + n_items + 1] = f;
             table_[i * bucket_size_]++;
-            return;
+            return true;
         }
     }
 
     // Table is full
-    // crash?
+    return false;
 }
 
 bool CompactTable::Remove(uint64_t element) {
