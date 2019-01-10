@@ -2,6 +2,7 @@
 #include "KMerGeneratorTests.cpp"
 #include "SimpleEncoderTests.cpp"
 #include "CompactTableTests.cpp"
+#include "HashTests.cpp"
 #include <iostream>
 
 std::string getKMerDataInputArg(int argc, const char* argv[]) {
@@ -23,6 +24,17 @@ int main(int argc, const char* argv[]) {
     test_SimpleEncoder__DecodeBigValue();
     test_SimpleEncoder__DecodeMaxValue();
     test_SimpleEncoder__EncodeDecode();
+
+    test_Hasher__Integer_TIMS();
+    test_Hasher__Integer_MD5();
+    test_Hasher__Integer_SHA1();
+    test_Hasher__Integer_STL();
+    test_Hasher__Integer_IDENTITY();
+    test_Hasher__String_TIMS();
+    test_Hasher__String_MD5();
+    test_Hasher__String_SHA1();
+    test_Hasher__String_STL();
+    test_Hasher__String_IDENTITY();
 
     test_CompactTable__InsertedOneElement__FindsOneElement();
     test_CompactTable__InsertedOneElement__SearchForAnother();
