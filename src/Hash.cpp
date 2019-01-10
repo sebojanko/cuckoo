@@ -82,7 +82,7 @@ std::uint64_t Hasher::hash(std::string item) {
 
 std::uint16_t Hasher::fingerprint(uint64_t hash) {
     hash = hash & ((1ULL << bits_per_item_) - 1);
-    //hash += (hash == 0);
+    hash += (hash == 0);
     return hash;
 }
 

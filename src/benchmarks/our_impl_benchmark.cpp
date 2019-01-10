@@ -165,13 +165,21 @@ int main(int argc, const char* argv[]) {
     std::set_intersection(input_str_set.begin(), input_str_set.end(),
                           nonex_str_set.begin(), nonex_str_set.end(),
                           std::back_inserter(intersection));
-    out << "Intersection from input file - " << intersection.size() << std::endl << std::endl;
+    out << "Intersection of input file and nonexistent file - " << intersection.size() << std::endl;
+
+    std::vector<uint64_t> encoding_intersection;
+
+    std::set_intersection(input_enc_set.begin(), input_enc_set.end(),
+                          nonex_enc_set.begin(), nonex_enc_set.end(),
+                          std::back_inserter(encoding_intersection));
  
+    out << "Intersection of input file and nonexistent file encodings - " << encoding_intersection.size() << std::endl << std::endl;
+
     std::vector<uint64_t> difference_encoding;
     std::set_difference(nonex_enc_set.begin(), nonex_enc_set.end(),
                           input_enc_set.begin(), input_enc_set.end(),
                           std::back_inserter(difference_encoding));
-    out << "Intersecting encodings from input file - " << abs((int) difference_encoding.size() - (int) input_enc_set.size())<< std::endl << std::endl;
+    out << "Intersecting encodings from input file - " << abs((int) nonex_enc_set.size() - (int) difference_encoding.size()) << std::endl << std::endl;
 
 
     nonex_vector.clear();

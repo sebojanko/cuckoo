@@ -5,6 +5,7 @@
 #pragma once
 #include <iostream>
 #include "Table.h"
+#include <assert.h>
 
 // čisto za debug
 template <class T>
@@ -21,9 +22,10 @@ void Table::Print() {
     }
 }
 
-Table::Table(Hasher *hasher, int b_size) {
+Table::Table(Hasher *hasher, int b_size, int num_buckets) {
     hasher_ = hasher;
-    bucket_size = b_size;
+    bucket_size_ = b_size;
+    num_of_buckets_ = num_buckets;
     //table_ = {};
 }
 
@@ -33,6 +35,7 @@ bool Table::Insert(const T& element) {
     uint64_t i1 = getHash(element);
     uint16_t f = getFingerprint(i1);
     uint64_t i2 = i1 ^ getHash(f);
+    assert(i1 == i2 ^ getHash(f));
 
     if (table_[i1].size() < table_size) {
         table_[i1].push_front(f);

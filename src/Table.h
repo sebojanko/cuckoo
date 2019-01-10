@@ -21,7 +21,8 @@ private:
     //static const int ROWS{1000};
     //static const int COLS{1000};
     //int table_[ROWS][COLS]{};
-    int bucket_size;
+    int bucket_size_;
+    int num_of_buckets_;
     
     template<class T>
     uint64_t getHash(const T& element) const;
@@ -29,7 +30,7 @@ private:
     uint16_t getFingerprint(const T& element) const;
 
 public:
-    Table(Hasher *hasher, int bucket_size = 8);
+    Table(Hasher *hasher, int bucket_size = 8, int num_of_buckets = 64000);
 
     template<class T>
     bool Insert(const T& element);
