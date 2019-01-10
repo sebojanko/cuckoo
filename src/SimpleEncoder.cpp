@@ -12,8 +12,9 @@ SimpleEncoder::SimpleEncoder(size_t bits_per_char) {
 }
 
 uint64_t SimpleEncoder::encode(std::string item) {
+    int k = (64 / bits_per_char_) - 1;
     if (item.size() > (64 / bits_per_char_) - 1) {
-        return 0ULL;
+        item.resize(k);
     }
 
     uint64_t encoded = (1ULL << (bits_per_char_ - 1));

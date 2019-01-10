@@ -29,11 +29,11 @@ void test_SimpleEncoder__EncodeBigValue() {
 
 void test_SimpleEncoder__EncodeMaxValue() {
     SimpleEncoder enc;
-    uint64_t encoded;
-    encoded = enc.encode("ACGTACGTACGTACGTACGT");
-    assert(encoded == 4635054146603790419ULL);
-    encoded = enc.encode("ACGTACGTACGTACGTACGTA");
-    assert(encoded == 0ULL);
+    uint64_t encoded1, encoded2;
+    encoded1 = enc.encode("ACGTACGTACGTACGTACGT");
+    assert(encoded1 == 4635054146603790419ULL);
+    encoded2 = enc.encode("ACGTACGTACGTACGTACGTA");
+    assert(encoded1 == encoded2);
     std::cout << "PASS test_SimpleEncoder__EncodeMaxValue" << std::endl;
 }
 
