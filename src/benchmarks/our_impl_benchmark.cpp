@@ -194,21 +194,21 @@ int main(int argc, const char* argv[]) {
     
 
     if (size <= 20) {
-        std::vector<std::string> difference_encoding_str;
-        std::set_difference(nonex_str_set.begin(), nonex_str_set.end(),
-                            input_str_set.begin(), input_str_set.end(),
-                            std::back_inserter(difference_encoding_str));
-        nonex_vector_str.clear();
-        std::copy(difference_encoding_str.begin(), difference_encoding_str.end(), std::back_inserter(nonex_vector_str));
-        out << "Intersecting encodings from input file - " << abs((int) difference_encoding_str.size() - (int) input_str_set.size())<< std::endl << std::endl;
-    } else {
         std::vector<uint64_t> difference_encoding_enc;
         std::set_difference(nonex_enc_set.begin(), nonex_enc_set.end(),
                             input_enc_set.begin(), input_enc_set.end(),
                             std::back_inserter(difference_encoding_enc));
         nonex_vector_enc.clear();
         std::copy(difference_encoding_enc.begin(), difference_encoding_enc.end(), std::back_inserter(nonex_vector_enc));
-        out << "Intersecting encodings from input file - " << abs((int) difference_encoding_enc.size() - (int) input_enc_set.size())<< std::endl << std::endl;
+        out << "Deleted intersecting encodings from input file - " << nonex_enc_set.size() - difference_encoding_enc.size() << std::endl << std::endl;
+    } else {
+        std::vector<std::string> difference_encoding_str;
+        std::set_difference(nonex_str_set.begin(), nonex_str_set.end(),
+                            input_str_set.begin(), input_str_set.end(),
+                            std::back_inserter(difference_encoding_str));
+        nonex_vector_str.clear();
+        std::copy(difference_encoding_str.begin(), difference_encoding_str.end(), std::back_inserter(nonex_vector_str));
+        out << "Deleted intersecting strings from input file - " << nonex_str_set.size() - difference_encoding_str.size() << std::endl << std::endl;
     }
 
     std::vector<Cuckoo> cs = { Cuckoo(Hash::TIMS), Cuckoo(Hash::MD5), Cuckoo(Hash::SHA1) };
@@ -217,6 +217,7 @@ int main(int argc, const char* argv[]) {
     auto it = descriptions.begin();
 
     for(Cuckoo& c : cs) {
+        out << std::string(20, '-') << std::endl;
         out << *it++ << std::endl;
 
         if (size <= 20) {
@@ -234,7 +235,6 @@ int main(int argc, const char* argv[]) {
             checkExistingElems(c, input_vector_str, out);
             checkNonExistingElems(c, nonex_vector_str, out);
         }
-        out << std::string(20, '-') << std::endl;
     }
 
 

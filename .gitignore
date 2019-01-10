@@ -20,3 +20,5 @@ benchmark
 nonex\.txt
 
 *.txt
+
+benchs\.sh
