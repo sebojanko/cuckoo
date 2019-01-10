@@ -6,6 +6,7 @@
 #include <string.h>
 #include <openssl/md5.h>
 #include <openssl/sha.h>
+#include <bitset>
 
 // Author: David (cizl)
 
@@ -37,14 +38,14 @@ std::uint64_t Hasher::hash(uint64_t item) {
         unsigned char md[MD5_DIGEST_LENGTH];
         unsigned char *charData= (unsigned char*) item_str.c_str();
         MD5(charData, item_str.length(), (unsigned char*)&md);
-        return stringToUint32(md);
+        return stringToUint64(md);
     }
     if (this->hash_function_ == Hash::SHA1) {
         std::string item_str = std::to_string(item);
         unsigned char md[SHA_DIGEST_LENGTH];
         unsigned char *charData= (unsigned char*) item_str.c_str();
         SHA1(charData, item_str.length(), (unsigned char*)&md);
-        return stringToUint32(md);
+        return stringToUint64(md);
     }
     if (this->hash_function_ == Hash::STL) {
         return std::hash<uint64_t>{}(item);  
@@ -93,10 +94,13 @@ uint32_t stringToUint32(unsigned char *data) {
     return fingerprint;
 }
 
+// loses information for hex strings
 uint64_t stringToUint64(unsigned char *data) {
     uint64_t fingerprint = 0;
     for (int i = 0; i < 8; i++) {
-        fingerprint |= (unsigned char) data[i] << (56 - i * 8);
+        // std::cout << std::bitset<64>(data[i]) << std::endl;
+        fingerprint |= ((uint64_t) data[i]) << (56 - i * 8);
+        // std::cout << std::bitset<64>(fingerprint) << "x" << std::endl;
     }
     return fingerprint;
 }
