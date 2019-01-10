@@ -200,12 +200,7 @@ int main(int argc, const char* argv[]) {
  
     out << "Intersection of input file and nonexistent file encodings - " << encoding_intersection.size() << std::endl << std::endl;
 
-    std::vector<uint64_t> difference_encoding;
-    std::set_difference(nonex_enc_set.begin(), nonex_enc_set.end(),
-                          input_enc_set.begin(), input_enc_set.end(),
-                          std::back_inserter(difference_encoding));
-    out << "Intersecting encodings from input file - " << abs((int) nonex_enc_set.size() - (int) difference_encoding.size()) << std::endl << std::endl;
-
+    
     if (size <= 20) {
         std::vector<std::string> difference_encoding_str;
         std::set_difference(nonex_str_set.begin(), nonex_str_set.end(),
@@ -213,7 +208,7 @@ int main(int argc, const char* argv[]) {
                             std::back_inserter(difference_encoding_str));
         nonex_vector_str.clear();
         std::copy(difference_encoding_str.begin(), difference_encoding_str.end(), std::back_inserter(nonex_vector_str));
-        out << "Intersecting encodings from input file - " << abs((int) difference_encoding_str.size() - (int) input_str_set.size())<< std::endl << std::endl;
+        out << "Intersecting encodings from input file - " << abs((int) nonex_str_set.size() - (int) input_str_set.size())<< std::endl << std::endl;
     } else {
         std::vector<uint64_t> difference_encoding_enc;
         std::set_difference(nonex_enc_set.begin(), nonex_enc_set.end(),
@@ -221,7 +216,7 @@ int main(int argc, const char* argv[]) {
                             std::back_inserter(difference_encoding_enc));
         nonex_vector_enc.clear();
         std::copy(difference_encoding_enc.begin(), difference_encoding_enc.end(), std::back_inserter(nonex_vector_enc));
-        out << "Intersecting encodings from input file - " << abs((int) difference_encoding_enc.size() - (int) input_enc_set.size())<< std::endl << std::endl;
+        out << "Intersecting encodings from input file - " << abs((int) nonex_enc_set.size() - (int) input_enc_set.size())<< std::endl << std::endl;
     }
 
     std::vector<Cuckoo> cs = { Cuckoo(Hash::TIMS), Cuckoo(Hash::MD5), Cuckoo(Hash::SHA1) };
