@@ -198,3 +198,121 @@ Brisanje svih elemenata iz tablice:
 	200		1M				compact		TIMS
 	200		1M				compact		MD5
 	200		1M				compact		SHA1
+
+
+
+Njihova implementacija
+
+Prosječno zauzeće memorije:
+
+Brzina unosa:
+	fingerpint 		k 		broj k-mera 	tablica 	hash 		vrijeme (sec)
+	(bitovi)
+	8				10		1M 				Single 		default
+	16				10		1M 				Single 		default
+	8				200		1M 				Single 		default
+	16				200		1M 				Single 		default
+	8				10		1M 				Single 		TIMS
+	16				10		1M 				Single 		TIMS
+	8				200		1M 				Single 		TIMS
+	16				200		1M 				Single 		TIMS
+	8				10		1M 				Single 		SimpleTab
+	16				10		1M 				Single 		SimpleTab
+	8				200		1M 				Single 		SimpleTab
+	16				200		1M 				Single 		SimpleTab
+	8				10		1M 				Packed 		default
+	16				10		1M 				Packed 		default
+	8				200		1M 				Packed 		default
+	16				200		1M 				Packed 		default
+	8				10		1M 				Packed 		TIMS
+	16				10		1M 				Packed 		TIMS
+	8				200		1M 				Packed 		TIMS
+	16				200		1M 				Packed 		TIMS
+	8				10		1M 				Packed 		SimpleTab
+	16				10		1M 				Packed 		SimpleTab
+	8				200		1M 				Packed 		SimpleTab
+	16				200		1M 				Packed 		SimpleTab
+
+Brzina provjere uspješnog unosa elemenata:
+	fingerpint 		k 		broj k-mera 	tablica 	hash 		vrijeme (sec)
+	(bitovi)
+	8				10		1M 				Single 		default
+	16				10		1M 				Single 		default
+	8				200		1M 				Single 		default
+	16				200		1M 				Single 		default
+	8				10		1M 				Single 		TIMS
+	16				10		1M 				Single 		TIMS
+	8				200		1M 				Single 		TIMS
+	16				200		1M 				Single 		TIMS
+	8				10		1M 				Single 		SimpleTab
+	16				10		1M 				Single 		SimpleTab
+	8				200		1M 				Single 		SimpleTab
+	16				200		1M 				Single 		SimpleTab
+	8				10		1M 				Packed 		default
+	16				10		1M 				Packed 		default
+	8				200		1M 				Packed 		default
+	16				200		1M 				Packed 		default
+	8				10		1M 				Packed 		TIMS
+	16				10		1M 				Packed 		TIMS
+	8				200		1M 				Packed 		TIMS
+	16				200		1M 				Packed 		TIMS
+	8				10		1M 				Packed 		SimpleTab
+	16				10		1M 				Packed 		SimpleTab
+	8				200		1M 				Packed 		SimpleTab
+	16				200		1M 				Packed 		SimpleTab
+
+Postotak lažno pozitivnih elemenata:
+	fingerpint 		k 		broj k-mera 	tablica 	hash 		FP rate (%)
+	(bitovi)
+	8				10		1M 				Single 		default
+	16				10		1M 				Single 		default
+	8				200		1M 				Single 		default
+	16				200		1M 				Single 		default
+	8				10		1M 				Single 		TIMS
+	16				10		1M 				Single 		TIMS
+	8				200		1M 				Single 		TIMS
+	16				200		1M 				Single 		TIMS
+	8				10		1M 				Single 		SimpleTab
+	16				10		1M 				Single 		SimpleTab
+	8				200		1M 				Single 		SimpleTab
+	16				200		1M 				Single 		SimpleTab
+	8				10		1M 				Packed 		default
+	16				10		1M 				Packed 		default
+	8				200		1M 				Packed 		default
+	16				200		1M 				Packed 		default
+	8				10		1M 				Packed 		TIMS
+	16				10		1M 				Packed 		TIMS
+	8				200		1M 				Packed 		TIMS
+	16				200		1M 				Packed 		TIMS
+	8				10		1M 				Packed 		SimpleTab
+	16				10		1M 				Packed 		SimpleTab
+	8				200		1M 				Packed 		SimpleTab
+	16				200		1M 				Packed 		SimpleTab
+
+Brisanje svih elemenata iz tablice:
+	fingerpint 		k 		broj k-mera 	tablica 	hash 		vrijeme (sec)
+	(bitovi)
+	8				10		1M 				Single 		default
+	16				10		1M 				Single 		default
+	8				200		1M 				Single 		default
+	16				200		1M 				Single 		default
+	8				10		1M 				Single 		TIMS
+	16				10		1M 				Single 		TIMS
+	8				200		1M 				Single 		TIMS
+	16				200		1M 				Single 		TIMS
+	8				10		1M 				Single 		SimpleTab
+	16				10		1M 				Single 		SimpleTab
+	8				200		1M 				Single 		SimpleTab
+	16				200		1M 				Single 		SimpleTab
+	8				10		1M 				Packed 		default
+	16				10		1M 				Packed 		default
+	8				200		1M 				Packed 		default
+	16				200		1M 				Packed 		default
+	8				10		1M 				Packed 		TIMS
+	16				10		1M 				Packed 		TIMS
+	8				200		1M 				Packed 		TIMS
+	16				200		1M 				Packed 		TIMS
+	8				10		1M 				Packed 		SimpleTab
+	16				10		1M 				Packed 		SimpleTab
+	8				200		1M 				Packed 		SimpleTab
+	16				200		1M 				Packed 		SimpleTab
