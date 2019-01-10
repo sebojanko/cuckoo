@@ -17,7 +17,7 @@ uint64_t SimpleEncoder::encode(std::string item) {
     }
 
     uint64_t encoded = (1ULL << (bits_per_char_ - 1));
-    uint64_t enc_c;
+    uint64_t enc_c = 0ULL;
     for (char& c : item) {
         if (c == 'A') {
             enc_c = 0ULL;

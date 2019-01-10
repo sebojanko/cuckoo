@@ -8,6 +8,8 @@
 
 #include <openssl/evp.h>
 
+#include "SimpleEncoder.h"
+
 // Author: David (cizl)
 
 // TIMS - Two independent multiply shift, Martin Dietzfelbinger,
@@ -21,6 +23,7 @@ private:
     size_t bits_per_item_;
     Hash hash_function_;
     unsigned __int128 multiply_, add_;
+    SimpleEncoder enc_;
 
 public:
     Hasher(size_t bits_per_item);
