@@ -59,3 +59,51 @@ void test_Table__InsertedTwoElements__DeletesBoth() {
     assert(!t.Contains(2));
     std::cout << "PASS test_Table__InsertedTwoElements__DeletesBoth" << std::endl;
 }
+
+void test_Table__InsertedSameElementTwice__DeletesBoth() {
+    Hasher hasher(8);
+    Table t = Table(&hasher);
+    t.Insert(1);
+    t.Insert(1);
+    assert(t.Contains(1));
+    assert(t.Remove(1));
+    assert(t.Contains(1));
+    assert(t.Remove(1));
+    assert(!t.Contains(1));
+    std::cout << "PASS test_Table__InsertedSameElementTwice__DeletesBoth" << std::endl;
+}
+
+void test_Table__InsertedSameElementTwice__DeletesThree() {
+    Hasher hasher(8);
+    Table t = Table(&hasher);
+    t.Insert(1);
+    t.Insert(1);
+    assert(t.Remove(1));
+    assert(t.Remove(1));
+    assert(!t.Contains(1));
+    assert(!t.Remove(1));
+    std::cout << "PASS test_Table__InsertedSameElementTwice__DeletesThree" << std::endl;
+}
+
+void test_Table__OverfillBucket() {
+    Hasher hasher(8);
+    Table t = Table(&hasher);
+    for (int i = 0; i < 10; i++) {
+        t.Insert(1);
+    }
+    assert(t.Contains(1));
+    std::cout << "PASS test_Table__OverfillBucket" << std::endl;
+}
+
+void test_Table__OverfillBucket__DeleteAll() {
+    Hasher hasher(8);
+    Table t = Table(&hasher);
+    for (int i = 0; i < 10; i++) {
+        t.Insert(1);
+    }
+    for (int i = 0; i < 10; i++) {
+        assert(t.Remove(1));
+    }
+    assert(!t.Contains(1));
+    std::cout << "PASS test_Table__OverfillBucket__DeleteAll" << std::endl;
+}

@@ -34,7 +34,8 @@ std::string getOutputArg(int argc, const char* argv[]) {
   return argv[3];
 }
 
-void insertElems(Cuckoo& c, std::vector<uint64_t>& elems_list, std::ofstream& out) {
+template<class T>
+void insertElems(Cuckoo& c, std::vector<T>& elems_list, std::ofstream& out) {
     out << "Inserting " << elems_list.size() << " elems" << std::endl;
 
     int not_inserted = 0;
@@ -51,7 +52,8 @@ void insertElems(Cuckoo& c, std::vector<uint64_t>& elems_list, std::ofstream& ou
     out << "Failed to insert " << not_inserted << " elements." << std::endl;
 }
 
-void checkExistingElems(Cuckoo& c, std::vector<uint64_t>& elems_list, std::ofstream& out) {
+template<class T>
+void checkExistingElems(Cuckoo& c, std::vector<T>& elems_list, std::ofstream& out) {
     out << "Checking " << elems_list.size() << " inserted elements:" << std::endl;
     int found{};
     int not_found{};
@@ -73,7 +75,8 @@ void checkExistingElems(Cuckoo& c, std::vector<uint64_t>& elems_list, std::ofstr
     out << "Found percentage - " << float(found)/elems_list.size()*100 << "%" << std::endl << std::endl;
 }
 
-void checkNonExistingElems(Cuckoo &c, std::vector<uint64_t>& elems_list, std::ofstream& out) {
+template<class T>
+void checkNonExistingElems(Cuckoo &c, std::vector<T>& elems_list, std::ofstream& out) {
     out << "Checking " << elems_list.size() << " not inserted elements:" << std::endl;
     
     int found{};
@@ -97,7 +100,8 @@ void checkNonExistingElems(Cuckoo &c, std::vector<uint64_t>& elems_list, std::of
     out << "False positives percentage - " << float(found)/elems_list.size()*100. << "%" << std::endl << std::endl;
 }
 
-void removeElems(Cuckoo& c, std::vector<uint64_t>& elems_list, std::ofstream& out) {
+template<class T>
+void removeElems(Cuckoo& c, std::vector<T>& elems_list, std::ofstream& out) {
     out << "Removing " << elems_list.size() << " elems" << std::endl;
 
     int not_removed = 0;
