@@ -29,13 +29,6 @@ znakova, bilo je potrebno osmisliti enkoder znakova u cjelobrojni tip podataka.
 ***CIZL OPISI MALO***
 
 
-Primjer
-
-
-
-
-
-
 Zaključak
 
 Ako pogledamo izvorni kod postojeće implementacije filtra, možemo vidjeti vrlo visoku razinu
@@ -163,6 +156,9 @@ Postotak lažno pozitivnih elemenata:
 	200		1M			500k			compact		MD5		
 	200		1M			500k			compact		SHA1		
 
+Razlog malog broja false positives je taj što se tablica proširuje u ovisnosti o broju
+unešenih elemenata.
+
 Brisanje svih elemenata iz tablice:
 	k 		broj k-mera 	tablica 	hash 	vrijeme (sec)
 	10		48k				single		TIMS	0.0071
@@ -201,7 +197,7 @@ Brisanje svih elemenata iz tablice:
 
 
 
-Njihova implementacija
+Postojeća implementacija
 
 Prosječno zauzeće memorije:
 
