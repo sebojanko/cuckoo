@@ -15,13 +15,9 @@
 class Table {
 private:
     Hasher *hasher_;
-    // TODO trebat ce ipak ovdje ubaciti 2D polje izgleda
-    //std::map<std::string, Bucket*> table_;
     std::unordered_map<uint64_t, std::list<uint16_t>> table_;
-    //static const int ROWS{1000};
-    //static const int COLS{1000};
-    //int table_[ROWS][COLS]{};
-    int bucket_size_;
+    // cisto da se kompajler ne buni zbog usporedbe .size() i inta
+    unsigned long bucket_size_;
     int num_of_buckets_;
     
     template<class T>
@@ -30,7 +26,7 @@ private:
     uint16_t getFingerprint(const T& element) const;
 
 public:
-    Table(Hasher *hasher, int bucket_size = 8, int num_of_buckets = 64000);
+    Table(Hasher *hasher, int bucket_size = 8, int num_of_buckets = 128000);
 
     template<class T>
     bool Insert(const T& element);

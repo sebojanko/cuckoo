@@ -31,17 +31,18 @@ Table::Table(Hasher *hasher, int b_size, int num_buckets) {
 
 template<class T>
 bool Table::Insert(const T& element) {
-    unsigned long table_size = 8;
     uint64_t i1 = getHash(element);
     uint16_t f = getFingerprint(i1);
     uint64_t i2 = i1 ^ getHash(f);
-    assert(i1 == i2 ^ getHash(f));
+    //assert(i1 == (i2 ^ getHash(f)));
+    i1 %= num_of_buckets_;
+    i2 %= num_of_buckets_;
 
-    if (table_[i1].size() < table_size) {
+    if (table_[i1].size() < bucket_size_) {
         table_[i1].push_front(f);
         return true;
     }
-    if (table_[i2].size() < table_size) {
+    if (table_[i2].size() < bucket_size_) {
         table_[i2].push_front(f);
         return true;
     }
@@ -55,7 +56,8 @@ bool Table::Insert(const T& element) {
         table_[i].push_front(f);
         f = elem;
         i = i ^ getHash(f);
-        if (table_[i].size() < table_size) {
+        i %= num_of_buckets_;
+        if (table_[i].size() < bucket_size_) {
             table_[i].push_front(f);
             return true;
         }
@@ -68,7 +70,7 @@ bool Table::Contains(const T& element) const {
     uint64_t i1 = getHash(element);
     uint16_t f = getFingerprint(i1);
 
-    auto it = table_.find(i1);
+    auto it = table_.find(i1%num_of_buckets_);
     bool myb = false;
     if (it != table_.end()) {
         myb |= std::find(it->second.begin(), it->second.end(), f) != it->second.end();
@@ -76,7 +78,7 @@ bool Table::Contains(const T& element) const {
             return myb;
         }
     }
-    uint64_t i2 = i1 ^ getHash(f);
+    uint64_t i2 = (i1 ^ getHash(f)) % num_of_buckets_;
     auto it2 = table_.find(i2);
     if (it2 != table_.end()) {
         myb |= std::find(it2->second.begin(), it2->second.end(), f) != it2->second.end();
@@ -88,7 +90,7 @@ template<class T>
 bool Table::Remove(const T& element) {
     uint64_t h = getHash(element);
     uint16_t f = getFingerprint(h);
-    if (table_.count(h)) {
+    if (table_.count(h%num_of_buckets_)) {
         std::list<uint16_t>::iterator it = std::find(table_[h].begin(), table_[h].end(), f);
         if (it != table_[h].end()) {
             table_[h].erase(it);
@@ -96,7 +98,7 @@ bool Table::Remove(const T& element) {
         }
     }
 
-    h = h ^ getHash(f);
+    h = (h ^ getHash(f)) % num_of_buckets_;
     if (table_.count(h)) {
         std::list<uint16_t>::iterator it = std::find(table_[h].begin(), table_[h].end(), f);
         if (it != table_[h].end()) {
