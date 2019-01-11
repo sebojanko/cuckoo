@@ -187,6 +187,7 @@ while (std::getline(infile, line)) {
   
     out << "8bit, SingleTable, Default" << std::endl;
     insertElems(&c1, input_vector, out);
+    out << c1.Info() << std::endl;
     checkExistingElems(&c1, input_vector, out);
     checkNonExistingElems(&c1, nonex_vector, out);
     removeElems(&c1, input_vector, out);
@@ -195,6 +196,7 @@ while (std::getline(infile, line)) {
     
     out << "16bit, SingleTable, Default" << std::endl;
     insertElems(&c2, input_vector, out);
+    out << c2.Info() << std::endl;
     checkExistingElems(&c2, input_vector, out);
     checkNonExistingElems(&c2, nonex_vector, out);
     removeElems(&c2, input_vector, out);
@@ -203,6 +205,7 @@ while (std::getline(infile, line)) {
         
     out << "8bit, PackedTable, Default" << std::endl;
     insertElems(&c3, input_vector, out);
+    out << c3.Info() << std::endl;
     checkExistingElems(&c3, input_vector, out);
     checkNonExistingElems(&c3, nonex_vector, out);
     removeElems(&c3, input_vector, out);
@@ -211,6 +214,7 @@ while (std::getline(infile, line)) {
         
     out << "16bit, PackedTable, Default" << std::endl;
     insertElems(&c4, input_vector, out);
+    out << c4.Info() << std::endl;
     checkExistingElems(&c4, input_vector, out);
     checkNonExistingElems(&c4, nonex_vector, out);
     removeElems(&c4, input_vector, out);
@@ -219,6 +223,7 @@ while (std::getline(infile, line)) {
         
     out << "8bit, SingleTable, TwoIndependentMultiplyShift" << std::endl;
     insertElems(&c5, input_vector, out);
+    out << c5.Info() << std::endl;
     checkExistingElems(&c5, input_vector, out);
     checkNonExistingElems(&c5, nonex_vector, out);
     removeElems(&c5, input_vector, out);
@@ -227,6 +232,7 @@ while (std::getline(infile, line)) {
 
     out << "16bit, SingleTable, TwoIndependentMultiplyShift" << std::endl;
     insertElems(&c6, input_vector, out);
+    out << c6.Info() << std::endl;
     checkExistingElems(&c6, input_vector, out);
     checkNonExistingElems(&c6, nonex_vector, out);
     removeElems(&c6, input_vector, out);
@@ -235,6 +241,7 @@ while (std::getline(infile, line)) {
     
     out << "8bit, SingleTable, SimpleTabulation" << std::endl;
     insertElems(&c7, input_vector, out);
+    out << c7.Info() << std::endl;
     checkExistingElems(&c7, input_vector, out);
     checkNonExistingElems(&c7, nonex_vector, out);
     removeElems(&c7, input_vector, out);
@@ -243,6 +250,7 @@ while (std::getline(infile, line)) {
     
     out << "16bit, SingleTable, SimpleTabulation" << std::endl;
     insertElems(&c8, input_vector, out);
+    out << c8.Info() << std::endl;
     checkExistingElems(&c8, input_vector, out);
     checkNonExistingElems(&c8, nonex_vector, out);
     removeElems(&c8, input_vector, out);
@@ -251,6 +259,7 @@ while (std::getline(infile, line)) {
     
     out << "8bit, PackedTable, TwoIndependentMultiplyShift" << std::endl;
     insertElems(&c9, input_vector, out);
+    out << c9.Info() << std::endl;
     checkExistingElems(&c9, input_vector, out);
     checkNonExistingElems(&c9, nonex_vector, out);
     removeElems(&c9, input_vector, out);
@@ -259,6 +268,7 @@ while (std::getline(infile, line)) {
     
     out << "16bit, PackedTable, TwoIndependentMultiplyShift" << std::endl;
     insertElems(&c10, input_vector, out);
+    out << c10.Info() << std::endl;
     checkExistingElems(&c10, input_vector, out);
     checkNonExistingElems(&c10, nonex_vector, out);
     removeElems(&c10, input_vector, out);
@@ -267,6 +277,7 @@ while (std::getline(infile, line)) {
     
     out << "8bit, PackedTable, SimpleTabulation" << std::endl;
     insertElems(&c11, input_vector, out);
+    out << c11.Info() << std::endl;
     checkExistingElems(&c11, input_vector, out);
     checkNonExistingElems(&c11, nonex_vector, out);
     removeElems(&c11, input_vector, out);
@@ -275,6 +286,7 @@ while (std::getline(infile, line)) {
     
     out << "16, PackedTable, SimpleTabulation" << std::endl;
     insertElems(&c12, input_vector, out);
+    out << c12.Info() << std::endl;
     checkExistingElems(&c12, input_vector, out);
     checkNonExistingElems(&c12, nonex_vector, out);
     removeElems(&c12, input_vector, out);

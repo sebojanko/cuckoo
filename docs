@@ -208,111 +208,119 @@ Prosječno zauzeće memorije:
 Brzina unosa:
 	fingerpint 		k 		broj k-mera 	tablica 	hash 		vrijeme (sec)
 	(bitovi)
-	8				10		1M 				Single 		default
-	16				10		1M 				Single 		default
-	8				200		1M 				Single 		default
-	16				200		1M 				Single 		default
-	8				10		1M 				Single 		TIMS
-	16				10		1M 				Single 		TIMS
-	8				200		1M 				Single 		TIMS
-	16				200		1M 				Single 		TIMS
-	8				10		1M 				Single 		SimpleTab
-	16				10		1M 				Single 		SimpleTab
-	8				200		1M 				Single 		SimpleTab
-	16				200		1M 				Single 		SimpleTab
-	8				10		1M 				Packed 		default
-	16				10		1M 				Packed 		default
-	8				200		1M 				Packed 		default
-	16				200		1M 				Packed 		default
-	8				10		1M 				Packed 		TIMS
-	16				10		1M 				Packed 		TIMS
-	8				200		1M 				Packed 		TIMS
-	16				200		1M 				Packed 		TIMS
-	8				10		1M 				Packed 		SimpleTab
-	16				10		1M 				Packed 		SimpleTab
-	8				200		1M 				Packed 		SimpleTab
-	16				200		1M 				Packed 		SimpleTab
+	8				10		644k			Single 		default 	0.0153
+	16				10		644k			Single 		default 	0.0114
+	8				20		1M 				Single 		default 	0.0346
+	16				20		1M 				Single 		default 	0.0401
+	8				10		644k			Single 		TIMS		0.0099
+	16				10		644k			Single 		TIMS 		0.0116
+	8				20		1M 				Single 		TIMS 		0.0402
+	16				20		1M 				Single 		TIMS 		0.0431
+	8				10		644k			Single 		SimpleTab 	0.0129
+	16				10		644k			Single 		SimpleTab 	0.0183
+	8				20		1M 				Single 		SimpleTab 	0.0387
+	16				20		1M 				Single 		SimpleTab 	0.0422
+	8				10		644k			Packed 		default 	0.0251
+	16				10		644k			Packed 		default 	x
+	8				20		1M 				Packed 		default 	0.0813
+	16				20		1M 				Packed 		default 	x
+	8				10		644k			Packed 		TIMS 	 	0.0242	
+	16				10		644k			Packed 		TIMS 		x
+	8				20		1M 				Packed 		TIMS 		0.0902
+	16				20		1M 				Packed 		TIMS 		x
+	8				10		644k			Packed 		SimpleTab 	0.0281
+	16				10		644k			Packed 		SimpleTab 	x
+	8				20		1M 				Packed 		SimpleTab 	0.0948
+	16				20		1M 				Packed 		SimpleTab 	x
+
+* retci s 'x' - status CuckooFiltra dojavlja da nijedan element nije unesen
 
 Brzina provjere uspješnog unosa elemenata:
-	fingerpint 		k 		broj k-mera 	tablica 	hash 		vrijeme (sec)
+	fingerpint 		k 		broj k-mera 	tablica 	hash 		vrijeme (sec)	pronadeno (%)
 	(bitovi)
-	8				10		1M 				Single 		default
-	16				10		1M 				Single 		default
-	8				200		1M 				Single 		default
-	16				200		1M 				Single 		default
-	8				10		1M 				Single 		TIMS
-	16				10		1M 				Single 		TIMS
-	8				200		1M 				Single 		TIMS
-	16				200		1M 				Single 		TIMS
-	8				10		1M 				Single 		SimpleTab
-	16				10		1M 				Single 		SimpleTab
-	8				200		1M 				Single 		SimpleTab
-	16				200		1M 				Single 		SimpleTab
-	8				10		1M 				Packed 		default
-	16				10		1M 				Packed 		default
-	8				200		1M 				Packed 		default
-	16				200		1M 				Packed 		default
-	8				10		1M 				Packed 		TIMS
-	16				10		1M 				Packed 		TIMS
-	8				200		1M 				Packed 		TIMS
-	16				200		1M 				Packed 		TIMS
-	8				10		1M 				Packed 		SimpleTab
-	16				10		1M 				Packed 		SimpleTab
-	8				200		1M 				Packed 		SimpleTab
-	16				200		1M 				Packed 		SimpleTab
+	8				10		644k			Single 		default 	x 				x
+	16				10		644k			Single 		default 	x 				x
+	8				20		1M 				Single 		default 	x 				x
+	16				20		1M 				Single 		default 	x 				x
+	8				10		644k			Single 		TIMS 		x 				x
+	16				10		644k			Single 		TIMS 		x 				x
+	8				20		1M 				Single 		TIMS 		x 				x
+	16				20		1M 				Single 		TIMS 		x 				x
+	8				10		644k			Single 		SimpleTab 	x 				x
+	16				10		644k			Single 		SimpleTab 	x 				x
+	8				20		1M 				Single 		SimpleTab 	x 				x
+	16				20		1M 				Single 		SimpleTab 	x 				x
+	8				10		644k			Packed 		default 	0.0138 			87.8
+	16				10		644k			Packed 		default 	x 				x
+	8				20		1M 				Packed 		default 	0.0221 			83.4
+	16				20		1M 				Packed 		default 	x 				x
+	8				10		644k			Packed 		TIMS 		0.0139			88.6
+	16				10		644k			Packed 		TIMS		x 				x
+	8				20		1M 				Packed 		TIMS 		0.022			83.4
+	16				20		1M 				Packed 		TIMS 		x 				x
+	8				10		644k			Packed 		SimpleTab 	0.0177 			88.0
+	16				10		644k			Packed 		SimpleTab 	x 				x
+	8				20		1M 				Packed 		SimpleTab 	0.0254 			83.3
+	16				20		1M 				Packed 		SimpleTab 	x 				x
+
+* retci s 'x' - ili nije pronaden nijedan ili uopce nije niti bio unesen nijedan element
 
 Postotak lažno pozitivnih elemenata:
 	fingerpint 		k 		broj k-mera 	tablica 	hash 		FP rate (%)
 	(bitovi)
-	8				10		1M 				Single 		default
-	16				10		1M 				Single 		default
-	8				200		1M 				Single 		default
-	16				200		1M 				Single 		default
-	8				10		1M 				Single 		TIMS
-	16				10		1M 				Single 		TIMS
-	8				200		1M 				Single 		TIMS
-	16				200		1M 				Single 		TIMS
-	8				10		1M 				Single 		SimpleTab
-	16				10		1M 				Single 		SimpleTab
-	8				200		1M 				Single 		SimpleTab
-	16				200		1M 				Single 		SimpleTab
-	8				10		1M 				Packed 		default
-	16				10		1M 				Packed 		default
-	8				200		1M 				Packed 		default
-	16				200		1M 				Packed 		default
-	8				10		1M 				Packed 		TIMS
-	16				10		1M 				Packed 		TIMS
-	8				200		1M 				Packed 		TIMS
-	16				200		1M 				Packed 		TIMS
-	8				10		1M 				Packed 		SimpleTab
-	16				10		1M 				Packed 		SimpleTab
-	8				200		1M 				Packed 		SimpleTab
-	16				200		1M 				Packed 		SimpleTab
+	8				10		500k			Single 		default 	98.6
+	16				10		500k			Single 		default 	99.99
+	8				20		500k			Single 		default 	97.04
+	16				20		500k			Single 		default 	99.99
+	8				10		500k			Single 		TIMS 		98.3
+	16				10		500k			Single 		TIMS 		99.99
+	8				20		500k			Single 		TIMS 		97.03
+	16				20		500k			Single 		TIMS 		99.98
+	8				10		500k			Single 		SimpleTab 	98.1
+	16				10		500k			Single 		SimpleTab 	99.99
+	8				20		500k			Single 		SimpleTab 	97.07
+	16				20		500k			Single 		SimpleTab 	99.99
+	8				10		500k			Packed 		default 	97.6
+	16				10		500k			Packed 		default 	x
+	8				20		500k			Packed 		default 	96.98
+	16				20		500k			Packed 		default 	x
+	8				10		500k			Packed 		TIMS 		97.5
+	16				10		500k			Packed 		TIMS 		x
+	8				20		500k			Packed 		TIMS 		96.96
+	16				20		500k			Packed 		TIMS 		x
+	8				10		500k			Packed 		SimpleTab 	97.5
+	16				10		500k			Packed 		SimpleTab 	x
+	8				20		500k			Packed 		SimpleTab 	97.02
+	16				20		500k			Packed 		SimpleTab 	x
+
+* retci s 'x' - nijedan element nije bio ubacen u tablicu
 
 Brisanje svih elemenata iz tablice:
 	fingerpint 		k 		broj k-mera 	tablica 	hash 		vrijeme (sec)
 	(bitovi)
-	8				10		1M 				Single 		default
-	16				10		1M 				Single 		default
-	8				200		1M 				Single 		default
-	16				200		1M 				Single 		default
-	8				10		1M 				Single 		TIMS
-	16				10		1M 				Single 		TIMS
-	8				200		1M 				Single 		TIMS
-	16				200		1M 				Single 		TIMS
-	8				10		1M 				Single 		SimpleTab
-	16				10		1M 				Single 		SimpleTab
-	8				200		1M 				Single 		SimpleTab
-	16				200		1M 				Single 		SimpleTab
-	8				10		1M 				Packed 		default
-	16				10		1M 				Packed 		default
-	8				200		1M 				Packed 		default
-	16				200		1M 				Packed 		default
-	8				10		1M 				Packed 		TIMS
-	16				10		1M 				Packed 		TIMS
-	8				200		1M 				Packed 		TIMS
-	16				200		1M 				Packed 		TIMS
-	8				10		1M 				Packed 		SimpleTab
-	16				10		1M 				Packed 		SimpleTab
-	8				200		1M 				Packed 		SimpleTab
-	16				200		1M 				Packed 		SimpleTab
+	8				10		644k			Single 		default 	0.0109
+	16				10		644k			Single 		default 	0.0099
+	8				20		1M 				Single 		default 	0.0219
+	16				20		1M 				Single 		default 	0.0198
+	8				10		644k			Single 		TIMS 		0.0108
+	16				10		644k			Single 		TIMS 		0.0103
+	8				20		1M 				Single 		TIMS 		0.0219
+	16				20		1M 				Single 		TIMS 		0.0194
+	8				10		644k			Single 		SimpleTab 	0.0167
+	16				10		644k			Single 		SimpleTab 	0.0146
+	8				20		1M 				Single 		SimpleTab 	0.0288
+	16				20		1M 				Single 		SimpleTab 	0.0238
+	8				10		644k			Packed 		default 	0.0259
+	16				10		644k			Packed 		default 	x
+	8				20		1M 				Packed 		default 	0.0441
+	16				20		1M 				Packed 		default 	x
+	8				10		644k			Packed 		TIMS 		0.0259
+	16				10		644k			Packed 		TIMS 		x
+	8				20		1M 				Packed 		TIMS 		0.0448
+	16				20		1M 				Packed 		TIMS 		x
+	8				10		644k			Packed 		SimpleTab 	0.0296
+	16				10		644k			Packed 		SimpleTab 	x
+	8				20		1M 				Packed 		SimpleTab 	0.0483
+	16				20		1M 				Packed 		SimpleTab 	x
+
+* retci s 'x' - nijedan element nije bio ubacen u tablicu
