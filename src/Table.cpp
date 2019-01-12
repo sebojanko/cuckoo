@@ -35,7 +35,7 @@ void Table::Print() {
 Table::Table(Hasher *hasher, int b_size, size_t min_num_of_buckets) {
     hasher_ = hasher;
     bucket_size_ = b_size;
-    num_of_buckets_ = pow(2, floor(log2(min_num_of_buckets)) + 1);
+    num_of_buckets_ = pow(2, ceil(log2(min_num_of_buckets)));
     //table_ = {};
 }
 
