@@ -11,6 +11,7 @@
 #include <iomanip>
 
 #include "Hash.h"
+#include "Hash.cpp"
 
 class CompactTable {
 private:
@@ -20,10 +21,8 @@ private:
     size_t bucket_count_;
     int max_num_kicks_;
 
-    uint64_t getHashIndex(uint64_t hash);
-
 public:
-    CompactTable(Hasher *hasher, int bucket_size = 8, int bucket_count = 200000);
+    CompactTable(Hasher *hasher, int bucket_size = 8, size_t bucket_count = 524288);
 
     template<class T>
     bool Insert(const T& element);
@@ -32,7 +31,7 @@ public:
     bool Remove(const T& element);
 
     template<class T>
-    bool Contains(const T& element);
+    bool Contains(const T& element) const;
 
     void Print();
 
