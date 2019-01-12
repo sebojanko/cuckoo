@@ -1,24 +1,19 @@
 #pragma once
 #include "Hash.h"
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include <openssl/md5.h>
-#include <openssl/sha.h>
-#include <bitset>
 
 // Author: David (cizl)
 
 Hasher::Hasher(size_t bits_per_item) {
     this->bits_per_item_ = bits_per_item;
-    this->hash_function_ = Hash::STL;
+    this->hash_function_ = HashType::STL;
 }
 
-Hasher::Hasher(size_t bits_per_item, Hash hash_function) {
+Hasher::Hasher(size_t bits_per_item, HashType hash_function) {
     this->bits_per_item_ = bits_per_item;
     this->hash_function_ = hash_function;
 
+    // initialize variables for TIMS hash
     std::random_device random;
     for (auto v : {&multiply_, &add_}) {
         *v = random();
@@ -29,64 +24,70 @@ Hasher::Hasher(size_t bits_per_item, Hash hash_function) {
     }
 }
 
-std::uint64_t Hasher::hash(uint64_t item) {
-    if (this->hash_function_ == Hash::TIMS) {
-        return twoIndependentMultiplyShift(item);
+uint64_t Hasher::Hash(uint64_t item) {
+    if (this->hash_function_ == HashType::TIMS) {
+        return TwoIndependentMultiplyShift(item);
     }
-    if (this->hash_function_ == Hash::MD5) {
+    if (this->hash_function_ == HashType::MD5) {
         std::string item_str = std::to_string(item);
         unsigned char md[MD5_DIGEST_LENGTH];
-        unsigned char *charData= (unsigned char*) item_str.c_str();
+        unsigned char *charData = (unsigned char*) item_str.c_str();
         MD5(charData, item_str.length(), (unsigned char*)&md);
-        return stringToUint64(md);
+        return StringToUint64(md);
     }
-    if (this->hash_function_ == Hash::SHA1) {
+    if (this->hash_function_ == HashType::SHA1) {
         std::string item_str = std::to_string(item);
         unsigned char md[SHA_DIGEST_LENGTH];
-        unsigned char *charData= (unsigned char*) item_str.c_str();
+        unsigned char *charData = (unsigned char*) item_str.c_str();
         SHA1(charData, item_str.length(), (unsigned char*)&md);
-        return stringToUint64(md);
+        return StringToUint64(md);
     }
-    if (this->hash_function_ == Hash::STL) {
-        return std::hash<uint64_t>{}(item);  
+    if (this->hash_function_ == HashType::STL) {
+        return std::hash<uint64_t>{}(item);
     }
 
     // defaults to identity "hash"
     return item;
 }
 
-std::uint64_t Hasher::hash(std::string item) {
-    if (this->hash_function_ == Hash::TIMS) {
-        uint64_t enc = enc_.encode(item);
-        return twoIndependentMultiplyShift(enc);
+uint64_t Hasher::Hash(std::string item) {
+    if (this->hash_function_ == HashType::TIMS) {
+        uint64_t enc = enc_.Encode(item);
+        return TwoIndependentMultiplyShift(enc);
     }
-    if (this->hash_function_ == Hash::MD5) {
+    if (this->hash_function_ == HashType::MD5) {
         unsigned char md[MD5_DIGEST_LENGTH];
         unsigned char *charData = (unsigned char*) item.c_str();
         MD5(charData, item.length(), (unsigned char*)&md);
-        return stringToUint64(md);
+        return StringToUint64(md);
     }
-    if (this->hash_function_ == Hash::SHA1) {
+    if (this->hash_function_ == HashType::SHA1) {
         unsigned char md[SHA_DIGEST_LENGTH];
         unsigned char *charData = (unsigned char*) item.c_str();
         SHA1(charData, item.length(), (unsigned char*)&md);
-        return stringToUint64(md);
+        return StringToUint64(md);
     }
-    if (this->hash_function_ == Hash::STL) {
+    if (this->hash_function_ == HashType::STL) {
         return std::hash<std::string>{}(item);
     }
 
-    // "identity hash" - encoded k-mer
-    return enc_.encode(item);
+    // "identity hash" for strings - encoded k-mer
+    return enc_.Encode(item);
 }
 
-std::uint16_t Hasher::fingerprint(uint64_t hash) {
+uint16_t Hasher::Fingerprint(uint64_t hash) {
+    // takes the last few bits of a hash by masking it
+    //     hash & 000..00011111111
     hash = hash & ((1ULL << bits_per_item_) - 1);
     hash += (hash == 0);
     return hash;
 }
 
-uint32_t stringToUint32(unsigned char *data) {
+uint64_t Hasher::TwoIndependentMultiplyShift(uint64_t item) {
+    return (add_ + multiply_ * static_cast<decltype(multiply_)>(item)) >> 64;
+}
+
+uint32_t StringToUint32(unsigned char *data) {
     uint32_t fingerprint = 0;
     for (int i = 0; i < 4; i++) {
         fingerprint |= (unsigned char) data[i] << (24 - i * 8);
@@ -94,17 +95,10 @@ uint32_t stringToUint32(unsigned char *data) {
     return fingerprint;
 }
 
-// loses information for hex strings
-uint64_t stringToUint64(unsigned char *data) {
+uint64_t StringToUint64(unsigned char *data) {
     uint64_t fingerprint = 0;
     for (int i = 0; i < 8; i++) {
-        // std::cout << std::bitset<64>(data[i]) << std::endl;
         fingerprint |= ((uint64_t) data[i]) << (56 - i * 8);
-        // std::cout << std::bitset<64>(fingerprint) << "x" << std::endl;
     }
     return fingerprint;
 }
-
-uint64_t Hasher::twoIndependentMultiplyShift(uint64_t item) {
-    return (add_ + multiply_ * static_cast<decltype(multiply_)>(item)) >> 64;
-};

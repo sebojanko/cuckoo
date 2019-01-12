@@ -153,7 +153,7 @@ int main(int argc, const char* argv[]) {
 
     if (size <= 20) {
         for (auto l : input_str_set)
-            input_enc_set.insert(encoder.encode(l));
+            input_enc_set.insert(encoder.Encode(l));
     }
 
     out << "Number of unique k-mers for input - " << input_str_set.size() << std::endl;
@@ -174,7 +174,7 @@ int main(int argc, const char* argv[]) {
 
      if (size <= 20) {
         for (auto l : nonex_str_set)
-            nonex_enc_set.insert(encoder.encode(l));
+            nonex_enc_set.insert(encoder.Encode(l));
     }
 
     out << "Number of unique nonexistent k-mers - " << nonex_str_set.size() << std::endl;
@@ -211,7 +211,7 @@ int main(int argc, const char* argv[]) {
         out << "Deleted intersecting strings from input file - " << nonex_str_set.size() - difference_encoding_str.size() << std::endl << std::endl;
     }
 
-    std::vector<Cuckoo> cs = { Cuckoo(Hash::TIMS, 8, 8, 1000000), Cuckoo(Hash::MD5, 8, 8, 1000000), Cuckoo(Hash::SHA1, 8, 8, 1000000) };
+    std::vector<Cuckoo> cs = { Cuckoo(HashType::TIMS, 8, 8, 1000000), Cuckoo(HashType::MD5, 8, 8, 1000000), Cuckoo(HashType::SHA1, 8, 8, 1000000) };
     std::vector<std::string> descriptions = {"Two independent multiply shift (TIMS)", "MD5 hash", "SHA1 hash" };
 
     auto it = descriptions.begin();
