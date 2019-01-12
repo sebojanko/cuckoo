@@ -211,7 +211,7 @@ int main(int argc, const char* argv[]) {
         out << "Deleted intersecting strings from input file - " << nonex_str_set.size() - difference_encoding_str.size() << std::endl << std::endl;
     }
 
-    std::vector<Cuckoo> cs = { Cuckoo(Hash::TIMS), Cuckoo(Hash::MD5), Cuckoo(Hash::SHA1) };
+    std::vector<Cuckoo> cs = { Cuckoo(Hash::TIMS, 8, 8, 1000000), Cuckoo(Hash::MD5, 8, 8, 1000000), Cuckoo(Hash::SHA1, 8, 8, 1000000) };
     std::vector<std::string> descriptions = {"Two independent multiply shift (TIMS)", "MD5 hash", "SHA1 hash" };
 
     auto it = descriptions.begin();

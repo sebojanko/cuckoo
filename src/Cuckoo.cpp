@@ -14,9 +14,9 @@ Cuckoo::Cuckoo() {
 // (defaultni stl hash). Zato u benchmarku svi imaju iste rezultate.
 // Ako se ove linije zamjene sa zakomentiranima, onda izgleda da
 // dobro radi.
-Cuckoo::Cuckoo(Hash h) {
-    Hasher *hasher = new Hasher(8, h);
-    table_ = Table(hasher);
+Cuckoo::Cuckoo(Hash h, int fprint_size, int bucket_size, int num_of_buckets) {
+    Hasher *hasher = new Hasher(fprint_size, h);
+    table_ = Table(hasher, bucket_size, num_of_buckets);
 }
 
 template<class T>
