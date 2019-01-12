@@ -26,7 +26,32 @@ sagraditi kada želimo izbaciti neki element.
 Za testiranje performansi bilo je potrebno testirati filter s k-merama različitih duljina.
 Kako je postojeća implementacija podržavala samo cjelobrojni tip podataka, a k-mere su nizovi
 znakova, bilo je potrebno osmisliti enkoder znakova u cjelobrojni tip podataka.
-***CIZL OPISI MALO***
+U tu svrhu smo izradili jednostavni enkoder koji zauzima 3 bita po znaku.
+Naš enkoder mapira nukleotide A, C, G i T na bitovne nizove "000", "001", "010", "011" te koristi
+posebni niz "100" za pregradu. Tako se na prijmer k-mer "ACGT" enkodira u jedan 64-bitni
+nepredznačeni cijeli broj (uint64_t) na sljedeći način: 000..000'100'000'001'010'011.
+Ovim postupkom možemo umetnuti jedinstvene k-mere koji sadrže do 20 znakova.
+Iako ovakav enkoder nije efikasan, dobro je poslužio kao baza za usporedbu s originalnom
+implementacijom.
+Generirane 20-mere u obliku znakovnih nizova pretvaramo u cjelobrojni tip podataka te
+zatim ubacujemo u oba Cuckoo filtra i uspoređujemo rezultate.
+
+Osim cijelih brojeva koje koristimo za usporedbu performansi, naša implementacija također
+podržava izravno umetanje znakovnih nizova (std::string). Takav način korištenja je
+nešto sporiji za određene hash funkcije jer se znakovni nizovi interno moraju pretvoriti
+cijele brojeve. Takav filter podržava neodređeno velike k-mere.
+
+Interno smo koristili dvije implementacije za tablice Cuckoo filtra. Prva koristi 
+gotove STL strukture podataka. Tablica je predstavljena strukturom std::unordered_map koja sadrži
+"buckete" tipa std::list.
+U drugoj tablici koristimo jedan veliki niz podataka uint16_t. Bucketima se pristupa izravnim
+indeksiranjem. Na početku svakog bucketa se nalazi broj elemenata koji se nalaze u njemu.
+Time brzo provjeravamo popunjenost bucketa i lako ubacujemo element na prvo slobodno mjesto.
+
+Naš sustav nudi 4 funkcije sažimanja: MD5, SHA1, STL hash implementacija, Two independent multiply
+shift (TIMS). TIMS je korišten u originalnoj implementaciji i koristi cjelobrojni tip kao ulaz.
+Ulaz za MD5 i SHA1 je znakovni niz te je cjelobrojni ulaz potrebno pretvoriti u string čime
+se gubi na performansama.
 
 
 Zaključak
