@@ -222,6 +222,7 @@ int main(int argc, const char* argv[]) {
 
         if (size <= 20) {
             insertElems(c, input_vector_enc, out);
+        c.Print();
             checkExistingElems(c, input_vector_enc, out);
             checkNonExistingElems(c, nonex_vector_enc, out);
             removeElems(c, input_vector_enc, out);
