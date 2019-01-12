@@ -2,9 +2,10 @@
 // Created by David on 12/23/18.
 //
 #include "CompactTable.h"
+#include <assert.h>
 
 
-CompactTable::CompactTable(Hasher *hasher, int bucket_size, int bucket_count) {
+CompactTable::CompactTable(Hasher *hasher, int bucket_size, size_t bucket_count) {
     this->hasher_ = hasher;
     this->bucket_size_ = bucket_size;
     this->bucket_count_ = bucket_count;
@@ -16,11 +17,12 @@ CompactTable::CompactTable(Hasher *hasher, int bucket_size, int bucket_count) {
 
 template<class T>
 bool CompactTable::Insert(const T& element) {
-    uint16_t f = hasher_->fingerprint(element);
-    uint64_t i1 = hasher_->hash(element);
-    uint64_t i2 = i1 ^ hasher_->hash(f);
-    i1 %= bucket_count_;
-    i2 %= bucket_count_;
+    uint64_t h = hasher_->hash(element);
+    uint64_t i1 = (h >> 32) & (bucket_count_ - 1);
+    uint16_t f = hasher_->fingerprint(h);
+    uint64_t i2 = (i1 ^ hasher_->hash(f)) & (bucket_count_ - 1);
+
+    assert(i1 == ((i2 ^ hasher_->hash(f)) & (bucket_count_ - 1)));
 
     // The first element in the bucket is reserved and
     // shows the number of items currently in the bucket
@@ -44,8 +46,9 @@ bool CompactTable::Insert(const T& element) {
     for (int n = 0; n < max_num_kicks_; n++) {
         // randomly select an entry e from bucket[i] and swap with f
         std::swap(f, table_[i * bucket_size_ + 1 + std::rand() % (bucket_size_ - 1)]);
-        i = i ^ hasher_->hash(f);
-        i %= bucket_count_;
+
+        // hash and mod bucket_cout_
+        i = (i ^ hasher_->hash(f)) & (bucket_count_ - 1);
 
         n_items = table_[i * bucket_size_];
         if (n_items < bucket_size_ - 1) {
@@ -61,11 +64,9 @@ bool CompactTable::Insert(const T& element) {
 
 template<class T>
 bool CompactTable::Remove(const T& element) {
-    uint16_t f = hasher_->fingerprint(element);
-    uint64_t i1 = hasher_->hash(element);
-    uint64_t i2 = i1 ^ hasher_->hash(f);
-    i1 %= bucket_count_;
-    i2 %= bucket_count_;
+    uint64_t h = hasher_->hash(element);
+    uint64_t i1 = (h >> 32) & (bucket_count_ - 1);
+    uint16_t f = hasher_->fingerprint(h);
 
     uint16_t n_items = table_[i1 * bucket_size_];
     for (uint64_t i = i1 * bucket_size_ + 1; i <= i1 * bucket_size_ + n_items; i++) {
@@ -86,6 +87,7 @@ bool CompactTable::Remove(const T& element) {
         }
     }
 
+    uint64_t i2 = (i1 ^ hasher_->hash(f)) & (bucket_count_ - 1);
     n_items = table_[i2 * bucket_size_];
     for (uint64_t i = i2 * bucket_size_ + 1; i <= i2 * bucket_size_ + n_items; i++) {
         // remove element if found
@@ -109,12 +111,11 @@ bool CompactTable::Remove(const T& element) {
 }
 
 template<class T>
-bool CompactTable::Contains(const T& element) {
-    uint16_t f = hasher_->fingerprint(element);
-    uint64_t i1 = hasher_->hash(element);
-    uint64_t i2 = i1 ^ hasher_->hash(f);
-    i1 %= bucket_count_;
-    i2 %= bucket_count_;
+bool CompactTable::Contains(const T& element) const {
+
+    uint64_t h = hasher_->hash(element);
+    uint64_t i1 = (h >> 32) & (bucket_count_ - 1);
+    uint16_t f = hasher_->fingerprint(h);
 
     uint16_t n_items = table_[i1 * bucket_size_];
     for (uint64_t i = i1 * bucket_size_ + 1; i <= i1 * bucket_size_ + n_items; i++) {
@@ -122,6 +123,8 @@ bool CompactTable::Contains(const T& element) {
             return true;
         }
     }
+
+    uint64_t i2 = (i1 ^ hasher_->hash(f)) & (bucket_count_ - 1);
     n_items = table_[i2 * bucket_size_];
     for (uint64_t i = i2 * bucket_size_ + 1; i <= i2 * bucket_size_ + n_items; i++) {
         if (table_[i] == f) {
@@ -142,8 +145,4 @@ void CompactTable::Print() {
             std::cout << std::endl;
         }
     }
-}
-
-uint64_t CompactTable::getHashIndex(uint64_t hash) {
-    return hash & (this->bucket_count_ - 1);
 }

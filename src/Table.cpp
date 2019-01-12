@@ -16,13 +16,23 @@ void print(std::list<T> v) {
 }
 
 void Table::Print() {
+    int filled = 0, total = 0;
+    std::cout << "Table:\n";
     for (auto val : table_) {
+        if (val.second.size() > 0) {
+            std::cout << val.first << ": ";
+            filled++;
+            total += val.second.size();
+        } else {
+            continue;
+        }
         print(val.second);
         std::cout << std::endl;
     }
+    std::cout << "filled: " << filled << " total:" << total << std::endl;
 }
 
-Table::Table(Hasher *hasher, int b_size, int num_buckets) {
+Table::Table(Hasher *hasher, int b_size, size_t num_buckets) {
     hasher_ = hasher;
     bucket_size_ = b_size;
     num_of_buckets_ = num_buckets;
@@ -32,10 +42,13 @@ Table::Table(Hasher *hasher, int b_size, int num_buckets) {
 template<class T>
 bool Table::Insert(const T& element) {
     unsigned long table_size = 8;
-    uint64_t i1 = getHash(element);
-    uint16_t f = getFingerprint(i1);
-    uint64_t i2 = i1 ^ getHash(f);
-    assert(i1 == i2 ^ getHash(f));
+    uint64_t h = getHash(element);
+    uint64_t i1 = (h >> 32) % num_of_buckets_;
+    uint16_t f = getFingerprint(h);
+    uint64_t i2 = (i1 ^ getHash(f)) % num_of_buckets_;
+
+    // check if (alt index of i2) == i1
+    assert (i1 == ((i2 ^ getHash(f)) % num_of_buckets_));
 
     if (table_[i1].size() < table_size) {
         table_[i1].push_front(f);
@@ -54,7 +67,7 @@ bool Table::Insert(const T& element) {
         table_[i].pop_back();
         table_[i].push_front(f);
         f = elem;
-        i = i ^ getHash(f);
+        i = (i ^ getHash(f)) % num_of_buckets_;
         if (table_[i].size() < table_size) {
             table_[i].push_front(f);
             return true;
@@ -65,8 +78,9 @@ bool Table::Insert(const T& element) {
 
 template<class T>
 bool Table::Contains(const T& element) const {
-    uint64_t i1 = getHash(element);
-    uint16_t f = getFingerprint(i1);
+    uint64_t h = getHash(element);
+    uint64_t i1 = (h >> 32) % num_of_buckets_;
+    uint16_t f = getFingerprint(h);
 
     auto it = table_.find(i1);
     bool myb = false;
@@ -76,7 +90,7 @@ bool Table::Contains(const T& element) const {
             return myb;
         }
     }
-    uint64_t i2 = i1 ^ getHash(f);
+    uint64_t i2 = (i1 ^ getHash(f)) % num_of_buckets_;
     auto it2 = table_.find(i2);
     if (it2 != table_.end()) {
         myb |= std::find(it2->second.begin(), it2->second.end(), f) != it2->second.end();
@@ -87,20 +101,22 @@ bool Table::Contains(const T& element) const {
 template<class T>
 bool Table::Remove(const T& element) {
     uint64_t h = getHash(element);
+    uint64_t i1 = (h >> 32) % num_of_buckets_;
     uint16_t f = getFingerprint(h);
-    if (table_.count(h)) {
-        std::list<uint16_t>::iterator it = std::find(table_[h].begin(), table_[h].end(), f);
-        if (it != table_[h].end()) {
-            table_[h].erase(it);
+
+    if (table_.count(i1)) {
+        std::list<uint16_t>::iterator it = std::find(table_[i1].begin(), table_[i1].end(), f);
+        if (it != table_[i1].end()) {
+            table_[i1].erase(it);
             return true;
         }
     }
 
-    h = h ^ getHash(f);
-    if (table_.count(h)) {
-        std::list<uint16_t>::iterator it = std::find(table_[h].begin(), table_[h].end(), f);
-        if (it != table_[h].end()) {
-            table_[h].erase(it);
+    uint64_t i2 = (i1 ^ getHash(f)) % num_of_buckets_;
+    if (table_.count(i2)) {
+        std::list<uint16_t>::iterator it = std::find(table_[i2].begin(), table_[i2].end(), f);
+        if (it != table_[i2].end()) {
+            table_[i2].erase(it);
             return true;
         }
     }
