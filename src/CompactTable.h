@@ -2,8 +2,8 @@
 // Created by David on 12/23/18.
 //
 
-#ifndef COMPACT_TABLE_H
-#define COMPACT_TABLE_H
+#ifndef SRC_COMPACTTABLE_H_
+#define SRC_COMPACTTABLE_H_
 
 #include <cstdlib>
 #include <cstring>
@@ -13,15 +13,11 @@
 #include "Hash.h"
 #include "Hash.cpp"
 
-class CompactTable {
-private:
-    Hasher *hasher_;
-    uint16_t *table_;
-    size_t bucket_size_;
-    size_t bucket_count_;
-    int max_num_kicks_;
 
-public:
+// The internal data structure of the Cuckoo filter.
+// Uses a single large uint16_t array for storing fingerprints.
+class CompactTable {
+ public:
     CompactTable(Hasher *hasher, int bucket_size = 8, size_t bucket_count = 524288);
 
     template<class T>
@@ -35,6 +31,12 @@ public:
 
     void Print();
 
+ private:
+    Hasher *hasher_;
+    uint16_t *table_;
+    size_t bucket_size_;
+    size_t bucket_count_;
+    int max_num_kicks_;
 };
 
-#endif
+#endif  // SRC_COMPACTTABLE_H_

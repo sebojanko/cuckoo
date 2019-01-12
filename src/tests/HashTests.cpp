@@ -130,8 +130,8 @@ void test_Hasher__String_IDENTITY() {
     std::string e2("ACGTACGTACGTACGTACGTACGTACGTACGTACGTACGG");
 
     SimpleEncoder encoder;
-    uint64_t enc1 = encoder.encode(e1);
-    uint64_t enc2 = encoder.encode(e2);
+    uint64_t enc1 = encoder.Encode(e1);
+    uint64_t enc2 = encoder.Encode(e2);
 
     Hasher hasher(8, Hash::IDENTITY);
     uint64_t h1 = hasher.hash(e1);
@@ -143,8 +143,8 @@ void test_Hasher__String_IDENTITY() {
     // 20-mer
     e1 = "ACGTACGTACGTACGTACGT";
     e2 = "ACGTACGTACGTACGTACGG"; // last char diff (T-G)
-    enc1 = encoder.encode(e1);
-    enc2 = encoder.encode(e2);
+    enc1 = encoder.Encode(e1);
+    enc2 = encoder.Encode(e2);
     h1 = hasher.hash(e1);
     h2 = hasher.hash(e2);
     assert(h1 == enc1);

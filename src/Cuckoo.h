@@ -15,7 +15,7 @@ private:
 
 public:
     Cuckoo();
-    Cuckoo(Hash h, int fprint_size, int bucket_size, int num_of_buckets);
+    Cuckoo(HashType h, int fprint_size, int bucket_size, int num_of_buckets);
 
     template<class T>
     bool Insert(const T& element);

@@ -125,10 +125,10 @@ bool Table::Remove(const T& element) {
 
 template<class T>
 uint16_t Table::getFingerprint(const T& element) const {
-    return hasher_->fingerprint(element);
+    return hasher_->Fingerprint(element);
 }
 
 template<class T>
 uint64_t Table::getHash(const T& element) const {
-    return hasher_->hash(element);
+    return hasher_->Hash(element);
 }
