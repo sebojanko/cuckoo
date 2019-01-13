@@ -9,9 +9,12 @@
 #include <math.h>
 #include "CompactTable.h"
 #include "CompactTable.cpp"
+#include "Table.h"
+#include "Table.cpp"
 
 class Cuckoo {
 private:
+    //Table table_ = NULL;
     CompactTable table_ = NULL;
 
 public:
