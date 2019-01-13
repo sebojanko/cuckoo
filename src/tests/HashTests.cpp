@@ -5,10 +5,10 @@
 // created by David on 10/1/19
 
 void test_Hasher__Integer_TIMS() {
-    Hasher hasher(8, Hash::TIMS);
-    uint64_t h1 = hasher.hash(1ULL);
-    uint64_t h2 = hasher.hash(2ULL);
-    uint64_t h3 = hasher.hash(33ULL);
+    Hasher hasher(8, HashType::TIMS);
+    uint64_t h1 = hasher.Hash(1ULL);
+    uint64_t h2 = hasher.Hash(2ULL);
+    uint64_t h3 = hasher.Hash(33ULL);
     // just check for inequality since i have to official TIMS generator
     assert(h1 != h2);
     assert(h1 != h3);
@@ -17,10 +17,10 @@ void test_Hasher__Integer_TIMS() {
 }
 
 void test_Hasher__Integer_MD5() {
-    Hasher hasher(8, Hash::MD5);
-    uint64_t h1 = hasher.hash(1ULL);
-    uint64_t h2 = hasher.hash(2ULL);
-    uint64_t h3 = hasher.hash(123412341234ULL);
+    Hasher hasher(8, HashType::MD5);
+    uint64_t h1 = hasher.Hash(1ULL);
+    uint64_t h2 = hasher.Hash(2ULL);
+    uint64_t h3 = hasher.Hash(123412341234ULL);
     // md5: c4ca4238a0b923820dcc509a6f75849b
     assert(h1 == 14180219187711517570ULL);
     // md5: c81e728d9d4c2f636f067f89cc14862c
@@ -31,10 +31,10 @@ void test_Hasher__Integer_MD5() {
 }
 
 void test_Hasher__Integer_SHA1() {
-    Hasher hasher(8, Hash::SHA1);
-    uint64_t h1 = hasher.hash(1ULL);
-    uint64_t h2 = hasher.hash(2ULL);
-    uint64_t h3 = hasher.hash(123412341234ULL);
+    Hasher hasher(8, HashType::SHA1);
+    uint64_t h1 = hasher.Hash(1ULL);
+    uint64_t h2 = hasher.Hash(2ULL);
+    uint64_t h3 = hasher.Hash(123412341234ULL);
     // sha1: 356a192b7913b04c54574d18c28d46e6395428ab
     assert(h1 == 3848916506047131724ULL);
     // sha1: da4b9237bacccdf19c0760cab7aec4a8359010b0
@@ -45,10 +45,10 @@ void test_Hasher__Integer_SHA1() {
 }
 
 void test_Hasher__Integer_STL() {
-    Hasher hasher(8, Hash::STL);
-    uint64_t h1 = hasher.hash(1ULL);
-    uint64_t h2 = hasher.hash(2ULL);
-    uint64_t h3 = hasher.hash(123412341234ULL);
+    Hasher hasher(8, HashType::STL);
+    uint64_t h1 = hasher.Hash(1ULL);
+    uint64_t h2 = hasher.Hash(2ULL);
+    uint64_t h3 = hasher.Hash(123412341234ULL);
     assert(h1 == 1ULL);
     assert(h2 == 2ULL);
     assert(h3 == 123412341234ULL);
@@ -56,10 +56,10 @@ void test_Hasher__Integer_STL() {
 }
 
 void test_Hasher__Integer_IDENTITY() {
-    Hasher hasher(8, Hash::STL);
-    uint64_t h1 = hasher.hash(1ULL);
-    uint64_t h2 = hasher.hash(2ULL);
-    uint64_t h3 = hasher.hash(123412341234ULL);
+    Hasher hasher(8, HashType::STL);
+    uint64_t h1 = hasher.Hash(1ULL);
+    uint64_t h2 = hasher.Hash(2ULL);
+    uint64_t h3 = hasher.Hash(123412341234ULL);
     assert(h1 == 1ULL);
     assert(h2 == 2ULL);
     assert(h3 == 123412341234ULL);
@@ -70,9 +70,9 @@ void test_Hasher__String_TIMS() {
     // 20-mer
     std::string e1("ACGTACGTACGTACGTACGT");
     std::string e2("ACGTACGTACGTACGTACGG"); // last char diff (T-G)
-    Hasher hasher(8, Hash::TIMS);
-    uint64_t h1 = hasher.hash(e1);
-    uint64_t h2 = hasher.hash(e2);
+    Hasher hasher(8, HashType::TIMS);
+    uint64_t h1 = hasher.Hash(e1);
+    uint64_t h2 = hasher.Hash(e2);
     // just check for inequality since i have to official TIMS generator
     assert(h1 != h2);
 
@@ -80,8 +80,8 @@ void test_Hasher__String_TIMS() {
     // should give same result
     e1 = "ACGTACGTACGTACGTACGTACGTACGTACGTACGTACGT";
     e2 = "ACGTACGTACGTACGTACGTACGTACGTACGTACGTACGG";
-    h1 = hasher.hash(e1);
-    h2 = hasher.hash(e2);
+    h1 = hasher.Hash(e1);
+    h2 = hasher.Hash(e2);
     assert(h1 == h2);
     std::cout << "PASS test_Hasher__String_TIMS" << std::endl;
 }
@@ -90,10 +90,10 @@ void test_Hasher__String_MD5() {
     // 40-mer, last char diff (G-T)
     std::string e1("ACGTACGTACGTACGTACGTACGTACGTACGTACGTACGT");
     std::string e2("ACGTACGTACGTACGTACGTACGTACGTACGTACGTACGG");
-    Hasher hasher(8, Hash::MD5);
-    uint64_t h1 = hasher.hash(e1);
+    Hasher hasher(8, HashType::MD5);
+    uint64_t h1 = hasher.Hash(e1);
     assert(h1 == 10991465385735211093ULL);
-    uint64_t h2 = hasher.hash(e2);
+    uint64_t h2 = hasher.Hash(e2);
     assert(h2 == 1804265520071240556ULL);
     std::cout << "PASS test_Hasher__String_MD5" << std::endl;
 }
@@ -103,10 +103,10 @@ void test_Hasher__String_SHA1() {
     std::string e1("ACGTACGTACGTACGTACGTACGTACGTACGTACGTACGT");
     std::string e2("ACGTACGTACGTACGTACGTACGTACGTACGTACGTACGG");
 
-    Hasher hasher(8, Hash::SHA1);
-    uint64_t h1 = hasher.hash(e1);
+    Hasher hasher(8, HashType::SHA1);
+    uint64_t h1 = hasher.Hash(e1);
     assert(h1 == 5794984960110568035ULL);
-    uint64_t h2 = hasher.hash(e2);
+    uint64_t h2 = hasher.Hash(e2);
     assert(h2 == 1960348096402318606ULL);
     std::cout << "PASS test_Hasher__String_SHA1" << std::endl;
 }
@@ -116,9 +116,9 @@ void test_Hasher__String_STL() {
     std::string e1("ACGTACGTACGTACGTACGTACGTACGTACGTACGTACGT");
     std::string e2("ACGTACGTACGTACGTACGTACGTACGTACGTACGTACGG");
 
-    Hasher hasher(8, Hash::STL);
-    uint64_t h1 = hasher.hash(e1);
-    uint64_t h2 = hasher.hash(e2);
+    Hasher hasher(8, HashType::STL);
+    uint64_t h1 = hasher.Hash(e1);
+    uint64_t h2 = hasher.Hash(e2);
     assert(h1 == std::hash<std::string>{}(e1));
     assert(h2 == std::hash<std::string>{}(e2));
     std::cout << "PASS test_Hasher__String_STL" << std::endl;
@@ -133,9 +133,9 @@ void test_Hasher__String_IDENTITY() {
     uint64_t enc1 = encoder.Encode(e1);
     uint64_t enc2 = encoder.Encode(e2);
 
-    Hasher hasher(8, Hash::IDENTITY);
-    uint64_t h1 = hasher.hash(e1);
-    uint64_t h2 = hasher.hash(e2);
+    Hasher hasher(8, HashType::IDENTITY);
+    uint64_t h1 = hasher.Hash(e1);
+    uint64_t h2 = hasher.Hash(e2);
     assert(h1 == enc1);
     assert(h2 == enc2);
     assert(h1 == h2);
@@ -145,8 +145,8 @@ void test_Hasher__String_IDENTITY() {
     e2 = "ACGTACGTACGTACGTACGG"; // last char diff (T-G)
     enc1 = encoder.Encode(e1);
     enc2 = encoder.Encode(e2);
-    h1 = hasher.hash(e1);
-    h2 = hasher.hash(e2);
+    h1 = hasher.Hash(e1);
+    h2 = hasher.Hash(e2);
     assert(h1 == enc1);
     assert(h2 == enc2);
     assert(h1 != h2);
