@@ -8,7 +8,7 @@
 CompactTable::CompactTable(Hasher *hasher, int bucket_size, size_t bucket_count) {
     this->hasher_ = hasher;
     this->bucket_size_ = bucket_size;
-    this->bucket_count_ = bucket_count;
+    this->bucket_count_ = pow(2, ceil(log2(min_bucket_cout)));
     this->max_num_kicks_ = 500;
     uint64_t len = (bucket_size_ + 1) * bucket_count_ + 7;
     table_ = new uint16_t[len];
