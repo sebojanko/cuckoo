@@ -28,9 +28,9 @@ Kako je postojeća implementacija podržavala samo cjelobrojni tip podataka, a k
 znakova, bilo je potrebno osmisliti enkoder znakova u cjelobrojni tip podataka.
 U tu svrhu smo izradili jednostavni enkoder koji zauzima 3 bita po znaku.
 Naš enkoder mapira nukleotide A, C, G i T na bitovne nizove "000", "001", "010", "011" te koristi
-posebni niz "100" za pregradu. Tako se na prijmer k-mer "ACGT" enkodira u jedan 64-bitni
+posebni niz "100" za pregradu. Tako se na primjer k-mer "ACGT" enkodira u jedan 64-bitni
 nepredznačeni cijeli broj (uint64_t) na sljedeći način: 000..000'100'000'001'010'011.
-Ovim postupkom možemo umetnuti jedinstvene k-mere koji sadrže do 20 znakova.
+Ovim postupkom možemo umetnuti jedinstvene k-mere koje sadrže do 20 znakova.
 Iako ovakav enkoder nije efikasan, dobro je poslužio kao baza za usporedbu s originalnom
 implementacijom.
 Generirane 20-mere u obliku znakovnih nizova pretvaramo u cjelobrojni tip podataka te
@@ -38,7 +38,7 @@ zatim ubacujemo u oba Cuckoo filtra i uspoređujemo rezultate.
 
 Osim cijelih brojeva koje koristimo za usporedbu performansi, naša implementacija također
 podržava izravno umetanje znakovnih nizova (std::string). Takav način korištenja je
-nešto sporiji za određene hash funkcije jer se znakovni nizovi interno moraju pretvoriti
+nešto sporiji za određene hash funkcije jer se znakovni nizovi interno moraju pretvoriti u
 cijele brojeve. Takav filter podržava neodređeno velike k-mere.
 
 Interno smo koristili dvije implementacije za tablice Cuckoo filtra. Prva koristi 
@@ -238,10 +238,6 @@ Prosječno zauzeće memorije:
 Brzina unosa:
 	fingerpint 		k 		broj k-mera 	tablica 	hash 		vrijeme (sec)
 	(bitovi)
-	8				10		644k			Single 		default 	0.0153
-	16				10		644k			Single 		default 	0.0114
-	8				20		1M 				Single 		default 	0.0346
-	16				20		1M 				Single 		default 	0.0401
 	8				10		644k			Single 		TIMS		0.0099
 	16				10		644k			Single 		TIMS 		0.0116
 	8				20		1M 				Single 		TIMS 		0.0402
@@ -250,10 +246,6 @@ Brzina unosa:
 	16				10		644k			Single 		SimpleTab 	0.0183
 	8				20		1M 				Single 		SimpleTab 	0.0387
 	16				20		1M 				Single 		SimpleTab 	0.0422
-	8				10		644k			Packed 		default 	0.0251
-	16				10		644k			Packed 		default 	x
-	8				20		1M 				Packed 		default 	0.0813
-	16				20		1M 				Packed 		default 	x
 	8				10		644k			Packed 		TIMS 	 	0.0242	
 	16				10		644k			Packed 		TIMS 		x
 	8				20		1M 				Packed 		TIMS 		0.0902
@@ -268,10 +260,6 @@ Brzina unosa:
 Brzina provjere uspješnog unosa elemenata:
 	fingerpint 		k 		broj k-mera 	tablica 	hash 		vrijeme (sec)	pronadeno (%)
 	(bitovi)
-	8				10		644k			Single 		default 	x 				x
-	16				10		644k			Single 		default 	x 				x
-	8				20		1M 				Single 		default 	x 				x
-	16				20		1M 				Single 		default 	x 				x
 	8				10		644k			Single 		TIMS 		x 				x
 	16				10		644k			Single 		TIMS 		x 				x
 	8				20		1M 				Single 		TIMS 		x 				x
@@ -280,10 +268,6 @@ Brzina provjere uspješnog unosa elemenata:
 	16				10		644k			Single 		SimpleTab 	x 				x
 	8				20		1M 				Single 		SimpleTab 	x 				x
 	16				20		1M 				Single 		SimpleTab 	x 				x
-	8				10		644k			Packed 		default 	0.0138 			87.8
-	16				10		644k			Packed 		default 	x 				x
-	8				20		1M 				Packed 		default 	0.0221 			83.4
-	16				20		1M 				Packed 		default 	x 				x
 	8				10		644k			Packed 		TIMS 		0.0139			88.6
 	16				10		644k			Packed 		TIMS		x 				x
 	8				20		1M 				Packed 		TIMS 		0.022			83.4
@@ -298,10 +282,6 @@ Brzina provjere uspješnog unosa elemenata:
 Postotak lažno pozitivnih elemenata:
 	fingerpint 		k 		broj k-mera 	tablica 	hash 		FP rate (%)
 	(bitovi)
-	8				10		500k			Single 		default 	98.6
-	16				10		500k			Single 		default 	99.99
-	8				20		500k			Single 		default 	97.04
-	16				20		500k			Single 		default 	99.99
 	8				10		500k			Single 		TIMS 		98.3
 	16				10		500k			Single 		TIMS 		99.99
 	8				20		500k			Single 		TIMS 		97.03
@@ -310,10 +290,6 @@ Postotak lažno pozitivnih elemenata:
 	16				10		500k			Single 		SimpleTab 	99.99
 	8				20		500k			Single 		SimpleTab 	97.07
 	16				20		500k			Single 		SimpleTab 	99.99
-	8				10		500k			Packed 		default 	97.6
-	16				10		500k			Packed 		default 	x
-	8				20		500k			Packed 		default 	96.98
-	16				20		500k			Packed 		default 	x
 	8				10		500k			Packed 		TIMS 		97.5
 	16				10		500k			Packed 		TIMS 		x
 	8				20		500k			Packed 		TIMS 		96.96
@@ -328,10 +304,6 @@ Postotak lažno pozitivnih elemenata:
 Brisanje svih elemenata iz tablice:
 	fingerpint 		k 		broj k-mera 	tablica 	hash 		vrijeme (sec)
 	(bitovi)
-	8				10		644k			Single 		default 	0.0109
-	16				10		644k			Single 		default 	0.0099
-	8				20		1M 				Single 		default 	0.0219
-	16				20		1M 				Single 		default 	0.0198
 	8				10		644k			Single 		TIMS 		0.0108
 	16				10		644k			Single 		TIMS 		0.0103
 	8				20		1M 				Single 		TIMS 		0.0219
@@ -340,10 +312,6 @@ Brisanje svih elemenata iz tablice:
 	16				10		644k			Single 		SimpleTab 	0.0146
 	8				20		1M 				Single 		SimpleTab 	0.0288
 	16				20		1M 				Single 		SimpleTab 	0.0238
-	8				10		644k			Packed 		default 	0.0259
-	16				10		644k			Packed 		default 	x
-	8				20		1M 				Packed 		default 	0.0441
-	16				20		1M 				Packed 		default 	x
 	8				10		644k			Packed 		TIMS 		0.0259
 	16				10		644k			Packed 		TIMS 		x
 	8				20		1M 				Packed 		TIMS 		0.0448
