@@ -54,6 +54,15 @@ Ulaz za MD5 i SHA1 je znakovni niz te je cjelobrojni ulaz potrebno pretvoriti u 
 se gubi na performansama.
 
 
+Primjer
+
+U kontekstu bioinformatike i analize genoma, ova bi se struktura podataka mogla koristit
+kod provjere sadrži li neki genom određene k-mere.
+Za tako nešto prvo bi trebalo popuniti filtar s k-merama iz genoma te bi vjerojatno trebali
+imati više filtera za k-mere različitih duljina.
+Nakon toga bi mogli jako brzo provjeravati sadrži li uneseni genom određenu k-meru koja nam je zanimljiva.
+
+
 Zaključak
 
 Ako pogledamo izvorni kod postojeće implementacije filtra, možemo vidjeti vrlo visoku razinu
@@ -345,3 +354,12 @@ Brisanje svih elemenata iz tablice:
 	16				20		1M 				Packed 		SimpleTab 	x
 
 * retci s 'x' - nijedan element nije bio ubacen u tablicu
+
+
+
+Literatura
+
+Cuckoo Filter: Practically Better Than Bloom, https://www.cs.cmu.edu/~binfan/papers/conext14_cuckoofilter.pdf
+Cuckoo Filters, https://mybiasedcoin.blogspot.com/2014/10/cuckoo-filters.html
+cuckoofilter, https://github.com/efficient/cuckoofilter
+Dietzfelbinger M. (1996) Universal hashing and k-wise independent random variables via integer arithmetic without primes. In: Puech C., Reischuk R. (eds) STACS 96. STACS 1996. Lecture Notes in Computer Science, vol 1046. Springer, Berlin, Heidelberg
