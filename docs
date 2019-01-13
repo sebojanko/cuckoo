@@ -71,6 +71,9 @@ Također, kako enkoder radi samo za kmere veličine 20 i manje, 50-mere, 100-mer
 se obrađuju kao stringovi, što je sporije od baratanja s integerima.
 
 
+Naša implementacija:
+
+Napomena: sva testiranja obavljena su sa fingerprintom veličine 8 bitova.
 
 Prosječno zauzeće memorije:
 	k 		broj k-mera 	tablica 	hash 	vrijeme (sec)
@@ -79,155 +82,164 @@ Prosječno zauzeće memorije:
 
 Brzina unosa:
 	k 		broj k-mera 	tablica 	hash 	vrijeme (sec)
-	10		48k				single		TIMS	0.0077
-	10		48k				single		MD5		0.0391
-	10		48k				single		SHA1	0.0376
-	10		644k			single		TIMS	0.268
-	10		644k			single		MD5		0.684
-	10		644k			single		SHA1	0.645
-	20		1M				single		TIMS	0.394
-	20		1M				single		MD5		1.071
-	20		1M				single		SHA1	1.139
-	50		1M				single		TIMS	0.589
-	50		1M				single		MD5 	0.983
-	50		1M				single		SHA1 	0.946
-	100		1M				single		TIMS 	0.574
-	100		1M				single		MD5 	1.103
-	100		1M				single		SHA1 	1.035
-	200		1M				single		TIMS 	0.613
-	200		1M				single		MD5 	1.244
-	200		1M				single		SHA1  	1.199
-	10		1M				compact		TIMS	
-	10		1M				compact		MD5		
-	10		1M				compact		SHA1	
-	20		1M				compact		TIMS	
-	20		1M				compact		MD5		
-	20		1M				compact		SHA1	
-	50		1M				compact		TIMS
-	50		1M				compact		MD5
-	50		1M				compact		SHA1
-	100		1M				compact		TIMS
-	100		1M				compact		MD5
-	100		1M				compact		SHA1
-	200		1M				compact		TIMS
-	200		1M				compact		MD5
-	200		1M				compact		SHA1
-	200		50k				compact		TIMS
-	200		50k				compact		MD5
-	200		50k				compact		SHA1
+	10		48k				single		TIMS	
+	10		48k				single		MD5		
+	10		48k				single		SHA1	
+	10		644k			single		TIMS	
+	10		644k			single		MD5		
+	10		644k			single		SHA1	
+	20		1M				single		TIMS	
+	20		1M				single		MD5		
+	20		1M				single		SHA1	
+	50		1M				single		TIMS	
+	50		1M				single		MD5 	
+	50		1M				single		SHA1 	
+	100		1M				single		TIMS 	
+	100		1M				single		MD5 	
+	100		1M				single		SHA1 	
+	200		1M				single		TIMS 	
+	200		1M				single		MD5 	
+	200		1M				single		SHA1  	
+	10		48k				compact		TIMS	0.0068
+	10		48k				compact		MD5		0.0387
+	10		48k				compact		SHA1 	0.0367
+	10		644k			compact		TIMS	0.0575
+	10		644k			compact		MD5		0.4761
+	10		644k			compact		SHA1	0.4468
+	20		1M				compact		TIMS	0.1198
+	20		1M				compact		MD5		0.8761
+	20		1M				compact		SHA1	0.7997
+	50		1M				compact		TIMS	0.2641
+	50		1M				compact		MD5 	0.6698
+	50		1M				compact		SHA1 	0.6812
+	100		1M				compact		TIMS	0.2860
+	100		1M				compact		MD5 	0.8896
+	100		1M				compact		SHA1 	0.7945
+	200		1M				compact		TIMS 	0.3229
+	200		1M				compact		MD5 	1.0362
+	200		1M				compact		SHA1 	1.1326
 
 Brzina provjere uspješnog unosa elemenata:
 	k 		broj k-mera 	tablica 	hash 	vrijeme (sec)
-	10		48k				single		TIMS	0.0023
-	10		48k				single		MD5		0.0153
-	10		48k				single		SHA1	0.0200
-	10		644k			single		TIMS	0.071
-	10		644k			single		MD5		0.263
-	10		644k			single		SHA1	0.253
-	20 		1M				single	 	TIMS	0.129
-	20 		1M				single	 	MD5		0.506
-	20		1M				single		SHA1 	0.623
-	50		1M				single		TIMS	0.383
-	50		1M				single		MD5 	0.378
-	50		1M				single		SHA1 	0.373
-	100		1M				single		TIMS 	0.384
-	100		1M				single		MD5 	0.470
-	100		1M				single		SHA1 	0.437
-	200		1M				single		TIMS 	0.432
-	200		1M				single		MD5 	0.652
-	200		1M				single		SHA1 	0.582
-	10		1M				compact		TIMS	
-	10		1M				compact		MD5		
-	10		1M				compact		SHA1	
-	20 		1M				compact	 	TIMS	
-	20 		1M				compact	 	MD5		
-	20		1M				compact		SHA1 	
-	50		1M				compact		TIMS
-	50		1M				compact		MD5
-	50		1M				compact		SHA1
-	100		1M				compact		TIMS
-	100		1M				compact		MD5
-	100		1M				compact		SHA1
-	200		1M				compact		TIMS
-	200		1M				compact		MD5
-	200		1M				compact		SHA1
+	10		48k				single		TIMS	
+	10		48k				single		MD5		
+	10		48k				single		SHA1	
+	10		644k			single		TIMS	
+	10		644k			single		MD5		
+	10		644k			single		SHA1	
+	20 		1M				single	 	TIMS	
+	20 		1M				single	 	MD5		
+	20		1M				single		SHA1 	
+	50		1M				single		TIMS	
+	50		1M				single		MD5 	
+	50		1M				single		SHA1 	
+	100		1M				single		TIMS 	
+	100		1M				single		MD5 	
+	100		1M				single		SHA1 	
+	200		1M				single		TIMS 	
+	200		1M				single		MD5 	
+	200		1M				single		SHA1 	
+	10		48k				compact		TIMS	0.0016
+	10		48k				compact		MD5		0.0144
+	10		48k				compact		SHA1 	0.0195
+	10		644k			compact		TIMS	0.0269
+	10		644k			compact		MD5		0.2021
+	10		644k			compact		SHA1	0.1898
+	20 		1M				compact	 	TIMS	0.0595
+	20 		1M				compact	 	MD5		0.3631
+	20		1M				compact		SHA1 	0.4118
+	50		1M				compact		TIMS 	0.2481
+	50		1M				compact		MD5 	0.2486
+	50		1M				compact		SHA1 	0.2574
+	100		1M				compact		TIMS 	0.2548
+	100		1M				compact		MD5 	0.3577
+	100		1M				compact		SHA1 	0.3315
+	200		1M				compact		TIMS 	0.3413
+	200		1M				compact		MD5 	0.6430
+	200		1M				compact		SHA1 	0.4992
 
 Postotak lažno pozitivnih elemenata:
 	k 		broj 		broj 			tablica 	hash 	false positives (%)
 			unesenih	nepostojecih
 			k-mera		k-mera
-	10		48k			5k 				single		TIMS	0
-	10		48k			5k 				single		MD5		0
-	10		48k			5k 				single		SHA1	0
-	10		644k		397k			single		TIMS	0
-	10		644k		397k			single		MD5		0
-	10		644k		397k			single		SHA1	0
-	20		1M			500k			single		TIMS 	0
-	20		1M			500k			single		MD5 	0
-	20		1M			500k			single		SHA1 	0
-	50		1M			500k			single		TIMS	0.000400117
-	50		1M			500k			single		MD5		0
-	50		1M			500k			single		SHA1	0	
-	100		1M			500k			single		TIMS	0.000200059
-	100		1M			500k			single		MD5		0
-	100		1M			500k			single		SHA1	0	
-	200		1M			500k			single		TIMS	0.000200054
-	200		1M			500k			single		MD5		0
-	200		1M			500k			single		SHA1	0	
-	10		1M			500k			compact		TIMS	
-	10		1M			500k			compact		MD5		
-	10		1M			500k			compact		SHA1	
-	20		1M			500k			compact		TIMS 	
-	20		1M			500k			compact		MD5 	
-	20		1M			500k			compact		SHA1 	
-	50		1M			500k			compact		TIMS	
-	50		1M			500k			compact		MD5		
-	50		1M			500k			compact		SHA1		
-	100		1M			500k			compact		TIMS	
-	100		1M			500k			compact		MD5		
-	100		1M			500k			compact		SHA1		
-	200		1M			500k			compact		TIMS	
-	200		1M			500k			compact		MD5		
-	200		1M			500k			compact		SHA1		
+	10		48k			5k 				single		TIMS	
+	10		48k			5k 				single		MD5		
+	10		48k			5k 				single		SHA1	
+	10		644k		397k			single		TIMS	
+	10		644k		397k			single		MD5		
+	10		644k		397k			single		SHA1	
+	20		1M			500k			single		TIMS 	
+	20		1M			500k			single		MD5 	
+	20		1M			500k			single		SHA1 	
+	50		1M			500k			single		TIMS	
+	50		1M			500k			single		MD5		
+	50		1M			500k			single		SHA1	
+	100		1M			500k			single		TIMS	
+	100		1M			500k			single		MD5		
+	100		1M			500k			single		SHA1	
+	200		1M			500k			single		TIMS	
+	200		1M			500k			single		MD5		
+	200		1M			500k			single		SHA1	
+	10		48k			500k			compact		TIMS	0.02102
+	10		48k			500k			compact		MD5		0.02102
+	10		48k			500k			compact		SHA1 	0.04204
+	10		644k		500k			compact		TIMS	0.2332
+	10		644k		500k			compact		MD5		0.4782
+	10		644k		500k			compact		SHA1	0.4782
+	20		1M			500k			compact		TIMS 	0.7310
+	20		1M			500k			compact		MD5 	0.7606
+	20		1M			500k			compact		SHA1 	0.7659
+	50		1M			500k			compact		TIMS	0.7566
+	50		1M			500k			compact		MD5		0.7330
+	50		1M			500k			compact		SHA1	0.7476
+	100		1M			500k			compact		TIMS	0.7522
+	100		1M			500k			compact		MD5		0.7384
+	100		1M			500k			compact		SHA1	0.7464
+	200		1M			500k			compact		TIMS	0.7218
+	200		1M			500k			compact		MD5		0.7366
+	200		1M			500k			compact		SHA1	0.7359
 
-Razlog malog broja false positives je taj što se tablica proširuje u ovisnosti o broju
+Razlog malog broja false positives kod tablice SingleTable je taj što se ona proširuje u ovisnosti o broju
 unešenih elemenata.
 
 Brisanje svih elemenata iz tablice:
 	k 		broj k-mera 	tablica 	hash 	vrijeme (sec)
-	10		48k				single		TIMS	0.0071
-	10		48k				single		MD5		0.0176
-	10		48k				single		SHA1	0.0223
-	10		644k			single		TIMS	0.189
-	10		644k			single		MD5		0.323
-	10		644k			single		SHA1	0.322
-	20		1M				single		TIMS 	0.329
-	20		1M				single		MD5 	0.586
-	20		1M				single		SHA1 	0.578
-	50		1M				single		TIMS	0.504
-	50		1M				single		MD5 	0.476
-	50		1M				single		SHA1 	0.479
-	100		1M				single		TIMS	0.480
-	100		1M				single		MD5 	0.556
-	100		1M				single		SHA1 	0.536
-	200		1M				single		TIMS	0.582
-	200		1M				single		MD5 	0.772
-	200		1M				single		SHA1 	0.698
-	10		1M				compact		TIMS	
-	10		1M				compact		MD5		
-	10		1M				compact		SHA1	
-	20		1M				compact		TIMS 	
-	20		1M				compact		MD5 	
-	20		1M				compact		SHA1 	
-	50		1M				compact		TIMS
-	50		1M				compact		MD5
-	50		1M				compact		SHA1
-	100		1M				compact		TIMS
-	100		1M				compact		MD5
-	100		1M				compact		SHA1
-	200		1M				compact		TIMS
-	200		1M				compact		MD5
-	200		1M				compact		SHA1
+	10		48k				single		TIMS	
+	10		48k				single		MD5		
+	10		48k				single		SHA1	
+	10		644k			single		TIMS	
+	10		644k			single		MD5		
+	10		644k			single		SHA1	
+	20		1M				single		TIMS 	
+	20		1M				single		MD5 	
+	20		1M				single		SHA1 	
+	50		1M				single		TIMS	
+	50		1M				single		MD5 	
+	50		1M				single		SHA1 	
+	100		1M				single		TIMS	
+	100		1M				single		MD5 	
+	100		1M				single		SHA1 	
+	200		1M				single		TIMS	
+	200		1M				single		MD5 	
+	200		1M				single		SHA1 	
+	10		48k				compact		TIMS	0.00305
+	10		48k				compact		MD5		0.01462
+	10		48k				compact		SHA1	0.01434
+	10		644k			compact		TIMS	0.04864
+	10		644k			compact		MD5		0.2037
+	10		644k			compact		SHA1	0.1904
+	20		1M				compact		TIMS 	0.07315
+	20		1M				compact		MD5 	0.3782
+	20		1M				compact		SHA1 	0.3697
+	50		1M				compact		TIMS 	0.2418
+	50		1M				compact		MD5 	0.2401
+	50		1M				compact		SHA1 	0.2658
+	100		1M				compact		TIMS 	0.2479
+	100		1M				compact		MD5 	0.3486
+	100		1M				compact		SHA1 	0.4634
+	200		1M				compact		TIMS 	0.3281
+	200		1M				compact		MD5 	0.5878
+	200		1M				compact		SHA1 	0.5139
 
 
 
