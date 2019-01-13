@@ -4,6 +4,7 @@
 
 #pragma once
 #include <iostream>
+#include <iomanip>
 #include "Table.h"
 #include <assert.h>
 
@@ -11,7 +12,7 @@
 template <class T>
 void print(std::list<T> v) {
     for (auto val : v) {
-        std::cout << val << " ";
+        std::cout << std::setw(6) << val;
     }
 }
 
@@ -20,7 +21,7 @@ void Table::Print() {
     std::cout << "Table:\n";
     for (auto val : table_) {
         if (val.second.size() > 0) {
-            std::cout << val.first << ": ";
+            std::cout << std::setw(8) << val.first << ": ";
             filled++;
             total += val.second.size();
         } else {
@@ -29,19 +30,16 @@ void Table::Print() {
         print(val.second);
         std::cout << std::endl;
     }
-    std::cout << "filled: " << filled << " total:" << total << std::endl;
 }
 
-Table::Table(Hasher *hasher, int b_size, size_t min_num_of_buckets) {
+Table::Table(Hasher *hasher, size_t b_size, size_t num_of_buckets) {
     hasher_ = hasher;
     bucket_size_ = b_size;
-    num_of_buckets_ = pow(2, ceil(log2(min_num_of_buckets)));
-    //table_ = {};
+    num_of_buckets_ = num_of_buckets;
 }
 
 template<class T>
 bool Table::Insert(const T& element) {
-    unsigned long table_size = 8;
     uint64_t h = getHash(element);
     uint64_t i1 = (h >> 32) % num_of_buckets_;
     uint16_t f = getFingerprint(h);
@@ -50,11 +48,11 @@ bool Table::Insert(const T& element) {
     // check if (alt index of i2) == i1
     assert (i1 == ((i2 ^ getHash(f)) % num_of_buckets_));
 
-    if (table_[i1].size() < table_size) {
+    if (table_[i1].size() < bucket_size_) {
         table_[i1].push_front(f);
         return true;
     }
-    if (table_[i2].size() < table_size) {
+    if (table_[i2].size() < bucket_size_) {
         table_[i2].push_front(f);
         return true;
     }
@@ -68,7 +66,7 @@ bool Table::Insert(const T& element) {
         table_[i].push_front(f);
         f = elem;
         i = (i ^ getHash(f)) % num_of_buckets_;
-        if (table_[i].size() < table_size) {
+        if (table_[i].size() < bucket_size_) {
             table_[i].push_front(f);
             return true;
         }

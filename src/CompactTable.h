@@ -18,7 +18,7 @@
 // Uses a single large uint16_t array for storing fingerprints.
 class CompactTable {
  public:
-    CompactTable(Hasher *hasher, int bucket_size = 8, size_t min_bucket_count = 524288);
+    CompactTable(Hasher *hasher, size_t bucket_size = 8, size_t bucket_count = 524288);
 
     template<class T>
     bool Insert(const T& element);

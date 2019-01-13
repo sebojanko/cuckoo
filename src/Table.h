@@ -9,7 +9,6 @@
 #include <unordered_map>
 #include <list>
 #include <algorithm>
-#include <math.h>
 #include "Hash.h"
 #include "Hash.cpp"
 
@@ -22,7 +21,7 @@ private:
     //static const int ROWS{1000};
     //static const int COLS{1000};
     //int table_[ROWS][COLS]{};
-    int bucket_size_;
+    size_t bucket_size_;
     size_t num_of_buckets_;
     
     template<class T>
@@ -31,7 +30,7 @@ private:
     uint16_t getFingerprint(const T& element) const;
 
 public:
-    Table(Hasher *hasher, int bucket_size = 8, size_t min_num_of_buckets = 524288);//2097152);
+    Table(Hasher *hasher, size_t bucket_size = 8, size_t num_of_buckets = 524288);//2097152);
 
     template<class T>
     bool Insert(const T& element);

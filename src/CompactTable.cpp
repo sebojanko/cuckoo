@@ -5,10 +5,10 @@
 #include <assert.h>
 
 
-CompactTable::CompactTable(Hasher *hasher, int bucket_size, size_t min_bucket_count) {
+CompactTable::CompactTable(Hasher *hasher, size_t bucket_size, size_t bucket_count) {
     this->hasher_ = hasher;
-    this->bucket_size_ = bucket_size;
-    this->bucket_count_ = pow(2, ceil(log2(min_bucket_count)));
+    this->bucket_size_ = bucket_size + 1;  // first element in bucket is reserved
+    this->bucket_count_ = bucket_count;
     this->max_num_kicks_ = 500;
     uint64_t len = (bucket_size_ + 1) * bucket_count_ + 7;
     table_ = new uint16_t[len];
@@ -147,7 +147,7 @@ bool CompactTable::Contains(const T& element) const {
 void CompactTable::Print() {
     for (uint64_t i = 0; i < bucket_count_; i++) {
         if (table_[i * bucket_size_] > 0) {
-            std::cout << "Bucket " << std::setw(6) << i << ": ";
+            std::cout << "Bucket " << std::setw(7) << i << ": ";
             for (size_t j = 0; j < bucket_size_; j++) {
                 std::cout << std::setw(6) << table_[i * bucket_size_ + j] << " ";
             }

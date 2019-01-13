@@ -6,16 +6,17 @@
 #define CUCKOO_CUCKOO_H
 
 #include <iostream>
-#include "Table.h"
-#include "Table.cpp"
+#include <math.h>
+#include "CompactTable.h"
+#include "CompactTable.cpp"
 
 class Cuckoo {
 private:
-    Table table_ = NULL;
+    CompactTable table_ = NULL;
 
 public:
     Cuckoo();
-    Cuckoo(HashType h, int fprint_size, int bucket_size, int num_of_buckets);
+    Cuckoo(HashType h, int fprint_size, int bucket_size, int max_num_elements);
 
     template<class T>
     bool Insert(const T& element);
