@@ -3,10 +3,9 @@
 //
 
 #pragma once
-#include <iostream>
-#include <iomanip>
-#include "Table.h"
 #include <assert.h>
+
+#include "Table.h"
 
 // čisto za debug
 template <class T>
@@ -46,7 +45,7 @@ bool Table::Insert(const T& element) {
     uint64_t i2 = (i1 ^ getHash(f)) % num_of_buckets_;
 
     // check if (alt index of i2) == i1
-    assert (i1 == ((i2 ^ getHash(f)) % num_of_buckets_));
+    assert(i1 == ((i2 ^ getHash(f)) % num_of_buckets_));
 
     if (table_[i1].size() < bucket_size_) {
         table_[i1].push_front(f);

@@ -1,16 +1,16 @@
-#ifndef GENESEQUENCE_H
-#define GENESEQUENCE_H
+#ifndef SRC_GENESEQUENCE_H_
+#define SRC_GENESEQUENCE_H_
 
 #include <string>
 
 class GeneSequence {
-    public:
-        GeneSequence();
-        ~GeneSequence();
-        void AppendSequence(std::string sequence);
+ public:
+    GeneSequence();
+    ~GeneSequence();
+    void AppendSequence(std::string sequence);
 
-    private:
-        std::string sequence_;
+ private:
+    std::string sequence_;
 };
 
-#endif // GENESEQUENCE_H
+#endif  // SRC_GENESEQUENCE_H_

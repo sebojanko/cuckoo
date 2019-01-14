@@ -2,23 +2,20 @@
 // Created by sebo on 11/28/18.
 //
 
-#ifndef CUCKOO_CUCKOO_H
-#define CUCKOO_CUCKOO_H
+#ifndef SRC_CUCKOO_H_
+#define SRC_CUCKOO_H_
+
+#include <math.h>
 
 #include <iostream>
-#include <math.h>
+
 #include "CompactTable.h"
 #include "CompactTable.cpp"
 #include "Table.h"
 #include "Table.cpp"
 
 class Cuckoo {
-private:
-    //Table table_ = NULL;
-    CompactTable table_ = NULL;
-
-public:
-    Cuckoo();
+ public:
     Cuckoo(HashType h, int fprint_size, int bucket_size, int max_num_elements);
 
     template<class T>
@@ -32,6 +29,9 @@ public:
 
     void Print();
 
+ private:
+    // Table table_ = NULL;
+    CompactTable table_ = NULL;
 };
 
-#endif //CUCKOO_CUCKOO_H
+#endif  // SRC_CUCKOO_H_
