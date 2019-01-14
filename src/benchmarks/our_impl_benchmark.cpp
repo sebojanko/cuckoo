@@ -211,7 +211,18 @@ int main(int argc, const char* argv[]) {
         out << "Deleted intersecting strings from input file - " << nonex_str_set.size() - difference_encoding_str.size() << std::endl << std::endl;
     }
 
-    std::vector<Cuckoo> cs = { Cuckoo(HashType::TIMS, 8, 4, 1000000), Cuckoo(HashType::MD5, 8, 4, 1000000), Cuckoo(HashType::SHA1, 8, 4, 1000000) };
+    std::cout << "Size: " << size << std::endl;
+    std::cout << "What I think it is " << input_vector_enc.size() << std::endl;
+    std::vector<Cuckoo> cs;
+    if (size <= 20) {
+        cs.push_back( Cuckoo(HashType::TIMS, 8, 4, input_vector_enc.size()) );
+        cs.push_back( Cuckoo(HashType::MD5, 8, 4, input_vector_enc.size()) );
+        cs.push_back( Cuckoo(HashType::SHA1, 8, 4, input_vector_enc.size()) );
+    } else {
+        cs.push_back( Cuckoo(HashType::TIMS, 8, 4, input_vector_str.size()) );
+        cs.push_back( Cuckoo(HashType::MD5, 8, 4, input_vector_str.size()) );
+        cs.push_back( Cuckoo(HashType::SHA1, 8, 4, input_vector_str.size()) );
+    }
     std::vector<std::string> descriptions = {"Two independent multiply shift (TIMS)", "MD5 hash", "SHA1 hash" };
 
     auto it = descriptions.begin();
@@ -222,19 +233,18 @@ int main(int argc, const char* argv[]) {
 
         if (size <= 20) {
             insertElems(c, input_vector_enc, out);
-            c.Print();
             checkExistingElems(c, input_vector_enc, out);
             checkNonExistingElems(c, nonex_vector_enc, out);
             removeElems(c, input_vector_enc, out);
-            checkExistingElems(c, input_vector_enc, out);
-            checkNonExistingElems(c, nonex_vector_enc, out);
+            //checkExistingElems(c, input_vector_enc, out);
+            //checkNonExistingElems(c, nonex_vector_enc, out);
         } else {
             insertElems(c, input_vector_str, out);
             checkExistingElems(c, input_vector_str, out);
             checkNonExistingElems(c, nonex_vector_str, out);
             removeElems(c, input_vector_str, out);
-            checkExistingElems(c, input_vector_str, out);
-            checkNonExistingElems(c, nonex_vector_str, out);
+            //checkExistingElems(c, input_vector_str, out);
+            //checkNonExistingElems(c, nonex_vector_str, out);
         }
     }
 

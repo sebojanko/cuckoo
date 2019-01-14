@@ -12,7 +12,7 @@ CompactTable::CompactTable(Hasher *hasher, size_t bucket_size, size_t bucket_cou
     this->max_num_kicks_ = 500;
     uint64_t len = (bucket_size_ + 1) * bucket_count_ + 7;
     table_ = new uint16_t[len];
-    memset(table_, 0, len);
+    memset(table_, 0, len*2);
 }
 
 template<class T>
