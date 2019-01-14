@@ -15,12 +15,7 @@
 class Table {
 private:
     Hasher *hasher_;
-    // TODO trebat ce ipak ovdje ubaciti 2D polje izgleda
-    //std::map<std::string, Bucket*> table_;
     std::unordered_map<uint64_t, std::list<uint16_t>> table_;
-    //static const int ROWS{1000};
-    //static const int COLS{1000};
-    //int table_[ROWS][COLS]{};
     size_t bucket_size_;
     size_t num_of_buckets_;
     

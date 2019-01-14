@@ -211,8 +211,6 @@ int main(int argc, const char* argv[]) {
         out << "Deleted intersecting strings from input file - " << nonex_str_set.size() - difference_encoding_str.size() << std::endl << std::endl;
     }
 
-    std::cout << "Size: " << size << std::endl;
-    std::cout << "What I think it is " << input_vector_enc.size() << std::endl;
     std::vector<Cuckoo> cs;
     if (size <= 20) {
         cs.push_back( Cuckoo(HashType::TIMS, 8, 4, input_vector_enc.size()) );
