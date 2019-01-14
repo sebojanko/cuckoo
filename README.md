@@ -1,6 +1,14 @@
 # cuckoo
-Implementation of the cuckoo filter for the Bioinformatics course, Faculty of electrical engineering and computing on the University of Zagreb.
-https://www.fer.unizg.hr/en/course/bio
+An implementation of the Cuckoo filter from the paper: "Cuckoo Filter: Practically Better Than Bloom" by Bin Fan, David G. Andersen, Michael Kaminsky and Michael D. Mitzenmache. (https://www.cs.cmu.edu/~dga/papers/cuckoo-conext2014.pdf)
+
+This project is part of the Bioinformatics course of the Faculty of Electrical Engineering and Computing, University of Zagreb. (https://www.fer.unizg.hr/en/course/bio)
+
+### Quick start
+To compile, generate all files, and run the benchmarks, simply run:
+
+`bash run.sh`
+
+which will generate all the input files in the `/data` directory, and store all results in the `/results` directory.
 
 
 ### Compiling
@@ -38,3 +46,8 @@ Run `make bench` to create the benchmark program.
 The first argument is the file containing k-mers for insertion into the Cuckoo filter. One k-mer per line, lines must be separated by the newline character.
 The second argument are k-mers that are not found in the first file. These k-mers are used to check for false positives. The format of the file is the same as the first one.
 The output is written to the output file.
+
+## Authors
+* Sebastian Janko - [sebojanko](https://github.com/sebojanko)
+* David Lozić - [cizl](https://github.com/cizl)
+* Luka Markušić - [mark2185](https://github.com/mark2185)
