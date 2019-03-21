@@ -17,7 +17,7 @@ Cuckoo::Cuckoo(HashType h, int fprint_size, int bucket_size,
     }
     std::cout << "Load factor: " << load_factor << std::endl;
     std::cout << "Bucket count: " << bucket_count << std::endl;
-    Hasher *hasher = new Hasher(fprint_size, h);
+    Hasher hasher = Hasher(fprint_size, h);
     table_ = CompactTable(hasher, bucket_size, bucket_count);
     // table_ = Table(hasher, bucket_size, bucket_count);
 }

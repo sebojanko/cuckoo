@@ -4,6 +4,14 @@
 
 // Author: David (cizl)
 
+Hasher::Hasher(const Hasher& other) {
+    bits_per_item_ = other.bits_per_item_;
+    hash_function_ = other.hash_function_;
+    multiply_ = other.multiply_;
+    add_ = other.add_;
+    enc_ = other.enc_;
+}
+
 Hasher::Hasher(size_t bits_per_item) {
     this->bits_per_item_ = bits_per_item;
     this->hash_function_ = HashType::STL;
@@ -24,7 +32,7 @@ Hasher::Hasher(size_t bits_per_item, HashType hash_function) {
     }
 }
 
-uint64_t Hasher::Hash(uint64_t item) {
+uint64_t Hasher::Hash(const uint64_t item) const {
     if (this->hash_function_ == HashType::TIMS) {
         return TwoIndependentMultiplyShift(item);
     }
@@ -50,7 +58,7 @@ uint64_t Hasher::Hash(uint64_t item) {
     return item;
 }
 
-uint64_t Hasher::Hash(std::string item) {
+uint64_t Hasher::Hash(const std::string& item) const {
     if (this->hash_function_ == HashType::TIMS) {
         uint64_t enc = enc_.Encode(item);
         return TwoIndependentMultiplyShift(enc);
@@ -75,7 +83,7 @@ uint64_t Hasher::Hash(std::string item) {
     return enc_.Encode(item);
 }
 
-uint16_t Hasher::Fingerprint(uint64_t hash) {
+uint16_t Hasher::Fingerprint(uint64_t hash) const {
     // takes the last few bits of a hash by masking it
     //     hash & 000..00011111111
     hash = hash & ((1ULL << bits_per_item_) - 1);
@@ -83,7 +91,7 @@ uint16_t Hasher::Fingerprint(uint64_t hash) {
     return hash;
 }
 
-uint64_t Hasher::TwoIndependentMultiplyShift(uint64_t item) {
+uint64_t Hasher::TwoIndependentMultiplyShift(uint64_t item) const {
     return (add_ + multiply_ * static_cast<decltype(multiply_)>(item)) >> 64;
 }
 

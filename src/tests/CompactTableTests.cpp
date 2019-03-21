@@ -9,7 +9,7 @@
 
 void test_CompactTable__InsertedOneElement__FindsOneElement() {
     Hasher hasher(8);
-    CompactTable t = CompactTable(&hasher);
+    CompactTable t = CompactTable(hasher);
     t.Insert(1);
     assert(t.Contains(1));
     std::cout << "PASS test_CompactTable__InsertedOneElement__FindsOneElement" << std::endl;
@@ -17,7 +17,7 @@ void test_CompactTable__InsertedOneElement__FindsOneElement() {
 
 void test_CompactTable__InsertedOneElement__SearchForAnother() {
     Hasher hasher(8);
-    CompactTable t = CompactTable(&hasher);
+    CompactTable t = CompactTable(hasher);
     t.Insert(1);
     assert(!t.Contains(2));
     std::cout << "PASS test_CompactTable__InsertedOneElement__SearchForAnother" << std::endl;
@@ -25,7 +25,7 @@ void test_CompactTable__InsertedOneElement__SearchForAnother() {
 
 void test_CompactTable__InsertedTwoElements__FindsBoth() {
     Hasher hasher(8);
-    CompactTable t = CompactTable(&hasher);
+    CompactTable t = CompactTable(hasher);
     t.Insert(1);
     t.Insert(2);
     assert(t.Contains(1));
@@ -35,7 +35,7 @@ void test_CompactTable__InsertedTwoElements__FindsBoth() {
 
 void test_CompactTable__InsertedOneElement__DeletesOneElement() {
     Hasher hasher(8);
-    CompactTable t = CompactTable(&hasher);
+    CompactTable t = CompactTable(hasher);
     t.Insert(1);
     assert(t.Contains(1));
     assert(t.Remove(1));
@@ -45,7 +45,7 @@ void test_CompactTable__InsertedOneElement__DeletesOneElement() {
 
 void test_CompactTable__InsertedOneElement__UnsuccessfulDeletionOfNonExistingElement() {
     Hasher hasher(8);
-    CompactTable t = CompactTable(&hasher);
+    CompactTable t = CompactTable(hasher);
     t.Insert(1);
     assert(!t.Remove(2));
     assert(t.Contains(1));
@@ -54,7 +54,7 @@ void test_CompactTable__InsertedOneElement__UnsuccessfulDeletionOfNonExistingEle
 
 void test_CompactTable__InsertedTwoElements__DeletesBoth() {
     Hasher hasher(8);
-    CompactTable t = CompactTable(&hasher);
+    CompactTable t = CompactTable(hasher);
     t.Insert(1);
     t.Insert(2);
     assert(t.Contains(1));
@@ -68,7 +68,7 @@ void test_CompactTable__InsertedTwoElements__DeletesBoth() {
 
 void test_CompactTable__InsertedSameElementTwice__DeletesBoth() {
     Hasher hasher(8);
-    CompactTable t = CompactTable(&hasher);
+    CompactTable t = CompactTable(hasher);
     t.Insert(1);
     t.Insert(1);
     assert(t.Contains(1));
@@ -81,7 +81,7 @@ void test_CompactTable__InsertedSameElementTwice__DeletesBoth() {
 
 void test_CompactTable__InsertedSameElementTwice__DeletesThree() {
     Hasher hasher(8);
-    CompactTable t = CompactTable(&hasher);
+    CompactTable t = CompactTable(hasher);
     t.Insert(1);
     t.Insert(1);
     assert(t.Remove(1));
@@ -93,7 +93,7 @@ void test_CompactTable__InsertedSameElementTwice__DeletesThree() {
 
 void test_CompactTable__OverfillBucket() {
     Hasher hasher(8);
-    CompactTable t = CompactTable(&hasher);
+    CompactTable t = CompactTable(hasher);
     for (int i = 0; i < 10; i++) {
         t.Insert(1);
     }
@@ -103,7 +103,7 @@ void test_CompactTable__OverfillBucket() {
 
 void test_CompactTable__OverfillBucket__DeleteAll() {
     Hasher hasher(8);
-    CompactTable t = CompactTable(&hasher);
+    CompactTable t = CompactTable(hasher);
     for (int i = 0; i < 10; i++) {
         t.Insert(1);
     }

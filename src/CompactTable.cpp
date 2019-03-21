@@ -5,7 +5,7 @@
 #include <assert.h>
 
 
-CompactTable::CompactTable(Hasher *hasher, size_t bucket_size,
+CompactTable::CompactTable(const Hasher &hasher, size_t bucket_size,
                            size_t bucket_count) {
     this->hasher_ = hasher;
     // the first element in the bucket is reserved and is used
@@ -21,7 +21,7 @@ CompactTable::CompactTable(Hasher *hasher, size_t bucket_size,
 template<class T>
 bool CompactTable::Insert(const T& element) {
     // get hash of element
-    uint64_t h = hasher_->Hash(element);
+    uint64_t h = hasher_.Hash(element);
 
     // calculate the first index using the first 32 bits
     // of the hash and mod with number of buckets.
@@ -29,13 +29,13 @@ bool CompactTable::Insert(const T& element) {
     uint64_t i1 = (h >> 32) & (bucket_count_ - 1);
 
     // get fingerprint of hash
-    uint16_t f = hasher_->Fingerprint(h);
+    uint16_t f = hasher_.Fingerprint(h);
 
     // calculate alternate index
-    uint64_t i2 = (i1 ^ hasher_->Hash(f)) & (bucket_count_ - 1);
+    uint64_t i2 = (i1 ^ hasher_.Hash(f)) & (bucket_count_ - 1);
 
     // check if the alternate index of i2 is i1
-    assert(i1 == ((i2 ^ hasher_->Hash(f)) & (bucket_count_ - 1)));
+    assert(i1 == ((i2 ^ hasher_.Hash(f)) & (bucket_count_ - 1)));
 
     // The first element in the bucket is reserved and
     // shows the number of items currently in the bucket
@@ -62,7 +62,7 @@ bool CompactTable::Insert(const T& element) {
         std::swap(f, table_[rand_ind]);
 
         // hash and mod bucket_cout_
-        i = (i ^ hasher_->Hash(f)) & (bucket_count_ - 1);
+        i = (i ^ hasher_.Hash(f)) & (bucket_count_ - 1);
 
         n_items = table_[i * bucket_size_];
         if (n_items < bucket_size_ - 1) {
@@ -78,9 +78,9 @@ bool CompactTable::Insert(const T& element) {
 
 template<class T>
 bool CompactTable::Remove(const T& element) {
-    uint64_t h = hasher_->Hash(element);  // same as Insert
+    uint64_t h = hasher_.Hash(element);  // same as Insert
     uint64_t i1 = (h >> 32) & (bucket_count_ - 1);
-    uint16_t f = hasher_->Fingerprint(h);
+    uint16_t f = hasher_.Fingerprint(h);
 
     // check first index
     if (RemoveFingerprint(i1, f)) {
@@ -88,7 +88,7 @@ bool CompactTable::Remove(const T& element) {
     }
 
     // check alternate index
-    uint64_t i2 = (i1 ^ hasher_->Hash(f)) & (bucket_count_ - 1);
+    uint64_t i2 = (i1 ^ hasher_.Hash(f)) & (bucket_count_ - 1);
     return RemoveFingerprint(i2, f);
 }
 
@@ -119,9 +119,9 @@ bool CompactTable::RemoveFingerprint(uint64_t bucket_index, uint16_t fp) {
 
 template<class T>
 bool CompactTable::Contains(const T& element) const {
-    uint64_t h = hasher_->Hash(element);  // same as Insert
+    uint64_t h = hasher_.Hash(element);  // same as Insert
     uint64_t i1 = (h >> 32) & (bucket_count_ - 1);
-    uint16_t f = hasher_->Fingerprint(h);
+    uint16_t f = hasher_.Fingerprint(h);
 
     // check first index
     uint16_t n_items = table_[i1 * bucket_size_];
@@ -135,7 +135,7 @@ bool CompactTable::Contains(const T& element) const {
     }
 
     // check alternate index
-    uint64_t i2 = (i1 ^ hasher_->Hash(f)) & (bucket_count_ - 1);
+    uint64_t i2 = (i1 ^ hasher_.Hash(f)) & (bucket_count_ - 1);
     n_items = table_[i2 * bucket_size_];
     first_index = i2 * bucket_size_ + 1;
     last_index = i2 * bucket_size_ + n_items;

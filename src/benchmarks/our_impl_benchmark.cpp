@@ -172,9 +172,10 @@ int main(int argc, const char* argv[]) {
         nonex_str_set.insert(line);
     }
 
-     if (size <= 20) {
-        for (auto l : nonex_str_set)
+    if (size <= 20) {
+        for (auto l : nonex_str_set) {
             nonex_enc_set.insert(encoder.Encode(l));
+        }
     }
 
     out << "Number of unique nonexistent k-mers - " << nonex_str_set.size() << std::endl;
@@ -186,26 +187,26 @@ int main(int argc, const char* argv[]) {
     }
 
     std::vector<std::string> intersection;
- 
+
     std::set_intersection(input_str_set.begin(), input_str_set.end(),
-                          nonex_str_set.begin(), nonex_str_set.end(),
-                          std::back_inserter(intersection));
+            nonex_str_set.begin(), nonex_str_set.end(),
+            std::back_inserter(intersection));
     out << "Intersection from input file - " << intersection.size() << std::endl << std::endl;
-    
+
 
     if (size <= 20) {
         std::vector<uint64_t> difference_encoding_enc;
         std::set_difference(nonex_enc_set.begin(), nonex_enc_set.end(),
-                            input_enc_set.begin(), input_enc_set.end(),
-                            std::back_inserter(difference_encoding_enc));
+                input_enc_set.begin(), input_enc_set.end(),
+                std::back_inserter(difference_encoding_enc));
         nonex_vector_enc.clear();
         std::copy(difference_encoding_enc.begin(), difference_encoding_enc.end(), std::back_inserter(nonex_vector_enc));
         out << "Deleted intersecting encodings from input file - " << nonex_enc_set.size() - difference_encoding_enc.size() << std::endl << std::endl;
     } else {
         std::vector<std::string> difference_encoding_str;
         std::set_difference(nonex_str_set.begin(), nonex_str_set.end(),
-                            input_str_set.begin(), input_str_set.end(),
-                            std::back_inserter(difference_encoding_str));
+                input_str_set.begin(), input_str_set.end(),
+                std::back_inserter(difference_encoding_str));
         nonex_vector_str.clear();
         std::copy(difference_encoding_str.begin(), difference_encoding_str.end(), std::back_inserter(nonex_vector_str));
         out << "Deleted intersecting strings from input file - " << nonex_str_set.size() - difference_encoding_str.size() << std::endl << std::endl;
@@ -244,6 +245,7 @@ int main(int argc, const char* argv[]) {
             //checkExistingElems(c, input_vector_str, out);
             //checkNonExistingElems(c, nonex_vector_str, out);
         }
+        break;
     }
 
 
