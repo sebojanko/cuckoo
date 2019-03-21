@@ -245,7 +245,6 @@ int main(int argc, const char* argv[]) {
             //checkExistingElems(c, input_vector_str, out);
             //checkNonExistingElems(c, nonex_vector_str, out);
         }
-        break;
     }
 
 
