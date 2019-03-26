@@ -15,7 +15,7 @@
 //    std::string decoded = enc.decode(encoded);
 class SimpleEncoder {
  public:
-    uint64_t Encode(std::string item);
+    uint64_t Encode(const std::string& item) const;
     std::string Decode(uint64_t encoded);
 
     // same as encode

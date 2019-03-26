@@ -2,9 +2,7 @@
 // Created by sebo on 11/28/18.
 //
 
-#ifndef SRC_CUCKOO_H_
-#define SRC_CUCKOO_H_
-
+#pragma once
 #include <math.h>
 
 #include <iostream>
@@ -17,6 +15,7 @@
 class Cuckoo {
  public:
     Cuckoo(HashType h, int fprint_size, int bucket_size, int max_num_elements);
+    Cuckoo() = default;
 
     template<class T>
     bool Insert(const T& element);
@@ -31,7 +30,5 @@ class Cuckoo {
 
  private:
     // Table table_ = NULL;
-    CompactTable table_ = NULL;
+    CompactTable table_;
 };
-
-#endif  // SRC_CUCKOO_H_

@@ -2,8 +2,7 @@
 // Created by David on 12/23/18.
 //
 
-#ifndef SRC_COMPACTTABLE_H_
-#define SRC_COMPACTTABLE_H_
+#pragma once
 
 #include <cstdlib>
 #include <cstring>
@@ -18,8 +17,9 @@
 // Uses a single large uint16_t array for storing fingerprints.
 class CompactTable {
  public:
-    CompactTable(Hasher *hasher, size_t bucket_size = 8,
+    CompactTable(const Hasher& hasher, size_t bucket_size = 8,
                  size_t bucket_count = 524288);
+    CompactTable() = default;
 
     template<class T>
     bool Insert(const T& element);
@@ -33,7 +33,7 @@ class CompactTable {
     void Print();
 
  private:
-    Hasher *hasher_;
+    Hasher hasher_;
     uint16_t *table_;
     size_t bucket_size_;
     size_t bucket_count_;
@@ -42,4 +42,3 @@ class CompactTable {
     bool RemoveFingerprint(uint64_t bucket_index, uint16_t fp);
 };
 
-#endif  // SRC_COMPACTTABLE_H_

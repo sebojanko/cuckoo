@@ -2,16 +2,17 @@
 
 // created by David on 18/12/18
 
-uint64_t SimpleEncoder::Encode(std::string item) {
+uint64_t SimpleEncoder::Encode(const std::string& item) const {
     int k = (64 / bits_per_char_) - 1;
+    std::string new_item(item);
     if (item.size() > (64 / bits_per_char_) - 1) {
-        item.resize(k);
+        new_item.resize(k);
     }
 
     // set delimiter first (0..0100)
     uint64_t encoded = (1ULL << (bits_per_char_ - 1));
     uint64_t enc_c = 0ULL;
-    for (char& c : item) {
+    for (const char& c : new_item) {
         if (c == 'A') {
             enc_c = 0ULL;
         } else if (c == 'C') {
